@@ -7,12 +7,14 @@ import { useNavigation } from '@react-navigation/native';
 
 const PaymentMethodScreen = () => {
   const navigation = useNavigation();
-
+  const handleHome = () => {
+    navigation.navigate('HomeScreen');
+  };
 
   return (
     <View style={styles.container}>
       <Text>PaymentMethodScreen</Text>
-      <PrimaryButton >Pay Now</PrimaryButton>
+      <PrimaryButton onPressButton={handleHome}>Pay Now</PrimaryButton>
     </View>
   );
 };
