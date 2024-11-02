@@ -32,9 +32,13 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
+      # Crear un archivo .npmrc
+      - name: 📝 Create .npmrc
+        run: echo "legacy-peer-deps=true" > .npmrc
+
       # Instalar dependencias
       - name: 📦 Install dependencies
-        run: npm install --legacy-peer-deps
+        run: npm install
 
       # Ejecutar pruebas unitarias
       - name: 🧪 Run unit tests
@@ -42,8 +46,6 @@ jobs:
 
       # Desplegar preview en Expo
       - name: 🚀 Deploy to Expo Preview
-        env:
-          EXPO_USE_LEGACY_PEER_DEPS: true
         run: eas update --auto --non-interactive
 
       # Notificación por WhatsApp (opcional)
