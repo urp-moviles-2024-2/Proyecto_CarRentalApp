@@ -34,7 +34,7 @@ jobs:
 
       # Instalar dependencias
       - name: 📦 Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       # Ejecutar pruebas unitarias
       - name: 🧪 Run unit tests
