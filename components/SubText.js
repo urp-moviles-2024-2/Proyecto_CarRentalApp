@@ -1,8 +1,12 @@
-import { StyleSheet, View, Dimensions,Text } from "react-native";
+import { StyleSheet, View, Dimensions, Text } from "react-native";
 import React from "react";
 
 const SubText = ({ children }) => {
-  return <View style={styles.subtextContainer}>{children}</View>;
+  return (
+    <View testID="subtext-container" style={styles.subtextContainer}>
+      <Text>{children}</Text> {/* Aquí se asegura que el texto se renderice */}
+    </View>
+  );
 };
 
 export default SubText;

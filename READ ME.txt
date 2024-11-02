@@ -8,3 +8,7 @@ npm install @react-navigation/bottom-tabs
 ---------------------------------------------
 npm install --global eas-cli
 eas init --id 6f09bf28-05ec-47fd-a9ca-1c6b090dbab5
+
+------------------------------------------
+npm install --save-dev @testing-library/react-native @testing-library/jest-native --legacy-peer-deps
+
