@@ -5,3 +5,6 @@ npm install @react-navigation/native @react-navigation/stack react-native-gestur
 npm install @react-navigation/native @react-navigation/bottom-tabs react-native-screens react-native-safe-area-context
 
 npm install @react-navigation/bottom-tabs
+---------------------------------------------
+npm install --global eas-cli
+eas init --id 6f09bf28-05ec-47fd-a9ca-1c6b090dbab5

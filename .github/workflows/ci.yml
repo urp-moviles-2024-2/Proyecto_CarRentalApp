@@ -1,0 +1,69 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [LandeonPrueba1]
+
+jobs:
+  build:
+    name: Build Project
+    runs-on: ubuntu-latest
+    env: 
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      WHATSAPP_API_URL: ${{ secrets.WHATSAPP_API_URL }}
+
+    steps:
+      # Descargar el código fuente
+      - name: 🏗 Download source code
+        uses: actions/checkout@v3
+
+      # Configurar Node.js
+      - name: 🏗 Configure Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: npm
+
+      # Configura Expo
+      - name: 🏗 Configure Expo
+        uses: expo/expo-github-action@v8
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      # Instalar dependencias
+      - name: 📦 Install dependencies
+        run: npm install
+
+      # Ejecutar pruebas unitarias
+      - name: 🧪 Run unit tests
+        run: npm test
+
+      # Desplegar preview en Expo
+      - name: 🚀 Deploy to Expo Preview
+        run: eas update --auto --non-interactive
+
+      # Notificación por WhatsApp (opcional)
+      - name: 📲 Notify on WhatsApp
+        if: success()
+        env:
+          ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+        run: |
+          curl -X POST "https://api.twilio.com/2010-04-01/Accounts/${ACCOUNT_SID}/Messages.json" \
+          --data-urlencode 'From=whatsapp:+14155238886' \
+          --data-urlencode "To=whatsapp:+51951664953" \
+          --data-urlencode 'ContentSid=HXb5b62575e6e4ff6129ad7c8efe1f983e' \
+          --data-urlencode 'ContentVariables={"1":"El despliegue y las pruebas unitarias se completaron con éxito. ","2":"Chi che ñol"}' \
+          -u "${ACCOUNT_SID}:${AUTH_TOKEN}"
+
+
+
+#porsiaca
+# curl -X POST "https://api.twilio.com/2010-04-01/Accounts/${ACCOUNT_SID}/Messages.json" \
+# --data-urlencode "From=whatsapp:+14155238886" \
+# --data-urlencode "To=whatsapp:+51951664953" \
+# --data-urlencode "Body=El despliegue y las pruebas unitarias se completaron con éxito." \
+# -u "${ACCOUNT_SID}:${AUTH_TOKEN}"
+
