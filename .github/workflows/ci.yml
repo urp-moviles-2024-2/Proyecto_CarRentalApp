@@ -55,9 +55,9 @@ jobs:
           ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
           AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
         run: |
-          curl -X POST "https://api.twilio.com/2010-04-01/Accounts/${ACCOUNT_SID}/Messages.json" \
+          curl 'https://api.twilio.com/2010-04-01/Accounts/AC11c4d3a75c4468650fa267d6071e3904/Messages.json' -X POST \
+          --data-urlencode 'To=whatsapp:+51951664953' \
           --data-urlencode 'From=whatsapp:+14155238886' \
-          --data-urlencode "To=whatsapp:+51951664953" \
           --data-urlencode 'ContentSid=HXb5b62575e6e4ff6129ad7c8efe1f983e' \
           --data-urlencode 'ContentVariables={"1":"El despliegue y las pruebas unitarias se completaron con éxito. ","2":"Chi che ñol"}' \
           -u "${ACCOUNT_SID}:${AUTH_TOKEN}"
