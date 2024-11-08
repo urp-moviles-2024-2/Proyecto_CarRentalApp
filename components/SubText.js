@@ -4,7 +4,7 @@ import React from "react";
 const SubText = ({ children }) => {
   return (
     <View testID="subtext-container" style={styles.subtextContainer}>
-      <Text>{children}</Text> {/* Aquí se asegura que el texto se renderice */}
+      <Text>{children}</Text>
     </View>
   );
 };

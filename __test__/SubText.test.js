@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import SubText from '../components/SubText'; // Ajusta la ruta según la ubicación de tu componente
+import SubText from '../components/SubText'; 
 
 describe('SubText Component', () => {
   it('should render correctly with children', () => {

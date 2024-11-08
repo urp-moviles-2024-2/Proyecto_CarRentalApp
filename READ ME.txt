@@ -12,3 +12,21 @@ eas init --id 6f09bf28-05ec-47fd-a9ca-1c6b090dbab5
 ------------------------------------------
 npm install --save-dev @testing-library/react-native @testing-library/jest-native --legacy-peer-deps
 
+----------------------
+firebase:
+npm install firebase
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCjnlwy_YNVMYPtnmGnVfrsQxgG2WLLEM8",
+  authDomain: "tarealoginapp-e433e.firebaseapp.com",
+  projectId: "tarealoginapp-e433e",
+  storageBucket: "tarealoginapp-e433e.firebasestorage.app",
+  messagingSenderId: "1023843074777",
+  appId: "1:1023843074777:web:db0805164c70a12a27b4c8",
+  measurementId: "G-9Z7ZGVKV3Q"
+};
+
+--------------------
+npm install @react-native-async-storage/async-storage
+npm install @react-native-async-storage/async-storage

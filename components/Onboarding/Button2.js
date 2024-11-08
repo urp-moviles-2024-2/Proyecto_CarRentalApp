@@ -5,8 +5,8 @@ const Button2 = ({children, style}) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={[styles.button, style]}>
-        <Text>{children}</Text>
-        </TouchableOpacity>
+        <Text style={styles.text}>{children}</Text>
+      </TouchableOpacity>
     </View>
   )
 }

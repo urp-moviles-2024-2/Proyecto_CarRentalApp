@@ -3,7 +3,7 @@ import React from "react";
 
 const SocialButton=({children, onPressButton,backgroundColor,logo})=>{
   return(
-    <View style={StyleSheet.buttonContainer}>
+    <View style={styles.buttonContainer}>
       <Pressable onPress={onPressButton} style={({pressed})=>
       pressed ? [styles.buttonInnerContainer, styles.pressed, { backgroundColor }] : [styles.buttonInnerContainer, { backgroundColor }]}>
         <View style={styles.buttonContent}>
@@ -19,7 +19,7 @@ export default SocialButton;
 const styles = StyleSheet.create({
   buttonContainer: {
     marginVertical: 10,
-    width: "85%",
+    width: "48%",
     borderRadius: 9,
     overflow: "hidden",
     
