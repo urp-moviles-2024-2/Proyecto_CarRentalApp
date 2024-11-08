@@ -50,7 +50,7 @@ const FirebaseSignUpForm = ({ onEmailChange, onPasswordChange, onNameChange, onC
           secureTextEntry={!isPasswordVisible}
         />
         <TouchableOpacity onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
-          <Ionicons name={isPasswordVisible ? "eye-off" : "eye"} size={24} color="gray" />
+          <Ionicons name={isPasswordVisible ?  "eye": "eye-off"} size={24} color="gray" />
         </TouchableOpacity>
       </View>
       <View style={styles.passwordContainer}>
@@ -62,7 +62,7 @@ const FirebaseSignUpForm = ({ onEmailChange, onPasswordChange, onNameChange, onC
           secureTextEntry={!isConfirmPasswordVisible}
         />
         <TouchableOpacity onPress={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}>
-          <Ionicons name={isConfirmPasswordVisible ? "eye-off" : "eye"} size={24} color="gray" />
+          <Ionicons name={isConfirmPasswordVisible ?   "eye":"eye-off"} size={24} color="gray" />
         </TouchableOpacity>
       </View>
     </View>
