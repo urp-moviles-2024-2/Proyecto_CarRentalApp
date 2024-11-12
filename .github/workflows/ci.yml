@@ -1,22 +1,23 @@
-name: ci
+name: Continuous Integration
 
 on:
   push:
-    branches: [Firebase_PrubUnit]
+    branches: [probando]
 
 jobs:
-  update-expo-app:
-    name: ci
+  build:
+    name: Build Project
     runs-on: ubuntu-latest
     env: 
-      API_URL: ${{ vars.API_URL }}
-      API_HEADERS: ${{ vars.API_HEADERS }}
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      WHATSAPP_API_URL: ${{ secrets.WHATSAPP_API_URL }}
+
     steps:
-      # Plugin to download the source code
+      # Descargar el código fuente
       - name: 🏗 Download source code
         uses: actions/checkout@v3
 
-      # Plugin to configure Node.js
+      # Configurar Node.js
       - name: 🏗 Configure Node
         uses: actions/setup-node@v3
         with:
@@ -24,43 +25,29 @@ jobs:
           cache: npm
 
       # Configura Expo
-      - name: 🏗 Configure AES
+      - name: 🏗 Configure Expo
         uses: expo/expo-github-action@v8
         with:
           expo-version: latest
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      # Install dependencies
+      # # Crear un archivo .npmrc
+      # - name: 📝 Create .npmrc
+      #   run: echo "legacy-peer-deps=true" > .npmrc
+
+      # Instalar dependencias
       - name: 📦 Install dependencies
         run: npm install
-      
-      # Package the app and create a new version
-      - name: 🚀 Create a new version of the app
+
+      # Ejecutar pruebas unitarias
+      - name: 🧪 Run unit tests
+        run: npm test
+
+      # Desplegar preview en Expo
+      - name: 🚀 Deploy to Expo Preview
         run: eas update --auto --non-interactive
-      
-      # Communicate to QAs
-      - name: 📢 Communicate to QAs
-        id: notify-qas
-        uses: muhfaris/request-action@v1
-        with:
-          url: ${{ env.API_URL }}
-          headers: ${{ env.API_HEADERS }}
-          body: |
-            {
-              "key": "The commit ID is ${{ github.sha }}"
-            }
-          method: POST
 
-      # Buid the app for Android
-      #- name: 🚀 Create a new Android Build
-      #  run: eas build -p android --profile preview --non-interactive
-
-      # To publish artifact locally
-      # npm install --global expo-cli eas-cli
-      # npx expo whoiam
-      # npx expo login
-      # eas build -p android --profile preview --non-interactive
       # Notificación por WhatsApp (opcional)
       - name: 📲 Notify on WhatsApp
         if: success()
