@@ -1,0 +1,77 @@
+name: ci
+
+on:
+  push:
+    branches: [Firebase_PrubUnit]
+
+jobs:
+  update-expo-app:
+    name: ci
+    runs-on: ubuntu-latest
+    env: 
+      API_URL: ${{ vars.API_URL }}
+      API_HEADERS: ${{ vars.API_HEADERS }}
+    steps:
+      # Plugin to download the source code
+      - name: 🏗 Download source code
+        uses: actions/checkout@v3
+
+      # Plugin to configure Node.js
+      - name: 🏗 Configure Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: npm
+
+      # Configura Expo
+      - name: 🏗 Configure AES
+        uses: expo/expo-github-action@v8
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      # Install dependencies
+      - name: 📦 Install dependencies
+        run: npm install
+      
+      # Package the app and create a new version
+      - name: 🚀 Create a new version of the app
+        run: eas update --auto --non-interactive
+      
+      # Communicate to QAs
+      - name: 📢 Communicate to QAs
+        id: notify-qas
+        uses: muhfaris/request-action@v1
+        with:
+          url: ${{ env.API_URL }}
+          headers: ${{ env.API_HEADERS }}
+          body: |
+            {
+              "key": "The commit ID is ${{ github.sha }}"
+            }
+          method: POST
+
+      # Buid the app for Android
+      #- name: 🚀 Create a new Android Build
+      #  run: eas build -p android --profile preview --non-interactive
+
+      # To publish artifact locally
+      # npm install --global expo-cli eas-cli
+      # npx expo whoiam
+      # npx expo login
+      # eas build -p android --profile preview --non-interactive
+      # Notificación por WhatsApp (opcional)
+      - name: 📲 Notify on WhatsApp
+        if: success()
+        env:
+          ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+        run: |
+          curl 'https://api.twilio.com/2010-04-01/Accounts/AC11c4d3a75c4468650fa267d6071e3904/Messages.json' -X POST \
+          --data-urlencode 'To=whatsapp:+51951664953' \
+          --data-urlencode 'From=whatsapp:+14155238886' \
+          --data-urlencode 'ContentSid=HXb5b62575e6e4ff6129ad7c8efe1f983e' \
+          --data-urlencode 'ContentVariables={"1":"El despliegue y las pruebas unitarias se completaron con éxito. ","2":"Chi che ñol"}' \
+          -u "${ACCOUNT_SID}:${AUTH_TOKEN}"
+          

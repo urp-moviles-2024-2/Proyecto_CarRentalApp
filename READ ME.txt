@@ -5,3 +5,11 @@ npm install @react-navigation/native @react-navigation/stack react-native-gestur
 npm install @react-navigation/native @react-navigation/bottom-tabs react-native-screens react-native-safe-area-context
 
 npm install @react-navigation/bottom-tabs
+------------------------------------------------------------------------
+
+Expo Project
+npm install --global eas-cli
+eas init --id 58903286-6ed4-4ed6-93d6-bcf2350ee832
+TOKEN:
+6G7JA4HltssEgVRASCfcOuWKvJemDvFCo6BAd_nT
+-----------------------------------------------------------------------

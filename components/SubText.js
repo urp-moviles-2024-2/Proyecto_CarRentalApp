@@ -2,9 +2,8 @@ import { StyleSheet, View, Dimensions,Text } from "react-native";
 import React from "react";
 
 const SubText = ({ children }) => {
-  return <View style={styles.subtextContainer}>{children}</View>;
+  return <View style={styles.subtextContainer} testID="subtext-container">{children}</View>;
 };
-
 export default SubText;
 
 const deviceWidth = Dimensions.get("window").width;
