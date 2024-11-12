@@ -1,38 +1,51 @@
 import { StyleSheet, ScrollView, Image, Text, TouchableOpacity, View, Alert } from 'react-native';
 import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import Title from '../components/Title';
 import SubText from '../components/SubText';
+import FirebaseLoginForm from '../components/Firebase/FirebaseLoginForm';
 import PrimaryButton from '../components/PrimaryButton';
 import SocialButton from '../components/SocialButton';
-import { app } from '../firebase-config';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import FirebaseLoginForm from '../components/Firebase/FirebaseLoginForm';
+import { initializeAuth, inMemoryPersistence } from 'firebase/auth';
+
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import { firebaseConfig } from "../firebase-config";
 
 const LoginScreen = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+
+  const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  const handleSignUp = () => {
-    navigation.navigate('Signup');
-  };
-
-  const handleSignIn = () => {
-    if (email === '' || password === '') {
-      Alert.alert('Completar todos los campos faltantes!!!! ');
+  const handleLogin = () => {
+    if (email === "" || password === "") {
+      Alert.alert("Please fill all the fields");
       return;
     }
 
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        navigation.navigate('ChooseInterestScreen', { email: user.email });
+        console.log(user);
+        navigation.navigate("HomeScreen", { email: user.email });
       })
       .catch((error) => {
-        Alert.alert('Error al Iniciar la sesión', error.message);
+        console.log(error);
+        Alert.alert(error.message);
       });
+  };
+
+  const handleSignUp = () => {
+    navigation.navigate('Signup');
   };
 
   return (
@@ -48,11 +61,20 @@ const LoginScreen = () => {
         <Text style={styles.carz}>CARZ</Text>
       </SubText>
       <Text style={styles.gristext}>Log in to your account using email or social networks</Text>
-      <FirebaseLoginForm setEmail={setEmail} setPassword={setPassword} />
+      
+      <FirebaseLoginForm
+        email={email}
+        setEmail={setEmail}
+        password={password}
+        setPassword={setPassword}
+        showPassword={showPassword}
+        setShowPassword={setShowPassword}
+      />
+      
       <TouchableOpacity>
         <Text style={styles.forgot}>Forgot Password?</Text>
       </TouchableOpacity>
-      <PrimaryButton onPressButton={handleSignIn}>
+      <PrimaryButton onPressButton={handleLogin}>
         Login
       </PrimaryButton>
       <Text style={styles.gristext}>Or continue with social account</Text>
@@ -65,16 +87,14 @@ const LoginScreen = () => {
         </SocialButton>
       </View>
       <SubText>
-        <Text >Didn't have an account? </Text>
+      <Text>Didn't have an account? </Text>
         <TouchableOpacity onPress={handleSignUp}>
-          <Text style={[styles.text, { textDecorationLine: 'underline' }]}> SignUp</Text>
+          <Text style={styles.text}> SignUp</Text>
         </TouchableOpacity>
       </SubText>
     </ScrollView>
   );
 };
-
-export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -120,3 +140,5 @@ const styles = StyleSheet.create({
     color: '#9acd32',
   },
 });
+
+export default LoginScreen;

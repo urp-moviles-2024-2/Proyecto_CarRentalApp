@@ -1,20 +1,18 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import InputField from '../InputField';
 
-const FirebaseLoginForm = ({ setEmail, setPassword }) => {
-  const [showPassword, setShowPassword] = useState(false);
-
+const FirebaseLoginForm = ({ email, setEmail, password, setPassword, showPassword, setShowPassword }) => {
   return (
-    <View>
+    <View style={styles.formContainer}>
       <InputField
         placeholder="Email"
-        value={setEmail}
+        value={email}
         onChangeText={setEmail}
       />
       <InputField
         placeholder="Password"
-        value={setPassword}
+        value={password}
         onChangeText={setPassword}
         secureTextEntry={!showPassword}
         toggleSecureTextEntry={() => setShowPassword(!showPassword)}
@@ -22,5 +20,12 @@ const FirebaseLoginForm = ({ setEmail, setPassword }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  formContainer: {
+    width: '100%',
+    alignItems: 'center',
+  },
+});
 
 export default FirebaseLoginForm;
