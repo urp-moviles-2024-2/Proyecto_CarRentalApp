@@ -48,8 +48,8 @@ jobs:
       - name: 🚀 Deploy to Expo Preview
         run: eas update --auto --non-interactive
 
-      # Notificación por WhatsApp (opcional)
-      - name: 📲 Notify on WhatsApp
+      # Notificación por WhatsApp (opcional) 
+      - name: 📲 Notify on WhatsApp           #en este caso se esta usando twilio ,cambiarlo si usar ultrasmg o solo cambiar al curl de tu twilio
         if: success()
         env:
           ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
@@ -59,5 +59,5 @@ jobs:
           --data-urlencode 'To=whatsapp:+51951664953' \
           --data-urlencode 'From=whatsapp:+14155238886' \
           --data-urlencode 'ContentSid=HXb5b62575e6e4ff6129ad7c8efe1f983e' \
-          --data-urlencode 'ContentVariables={"1":"El despliegue y las pruebas unitarias se completaron con éxito. ","2":"Chi che ñol"}' \
+          --data-urlencode 'ContentVariables={"1":"El despliegue y las pruebas unitarias se completaron con éxito. ","2":"Felicidades!!!!"}' \
           -u "${ACCOUNT_SID}:${AUTH_TOKEN}"
