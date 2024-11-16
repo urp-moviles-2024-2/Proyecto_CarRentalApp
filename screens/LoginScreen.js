@@ -36,7 +36,7 @@ const LoginScreen = () => {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
-        navigation.navigate("HomeScreen", { email: user.email });
+        navigation.navigate("ChooseInterestScreen", { email: user.email });
       })
       .catch((error) => {
         console.log(error);
