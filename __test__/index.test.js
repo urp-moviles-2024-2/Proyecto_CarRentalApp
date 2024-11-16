@@ -1,4 +1,4 @@
-const fizz_buzz = require('../index');
+const fizz_buzz = require('../components/__test__/index');
 
 describe("FizzBuzz", () => {
     test('[3] should result in "fizz"', () => {

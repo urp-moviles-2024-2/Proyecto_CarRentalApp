@@ -1,8 +1,8 @@
-name: Continuous Integration
+name: ci
 
 on:
   push:
-    branches: [LandeonPrueba1]
+    branches: [newLandeon]
 
 jobs:
   build:
@@ -32,13 +32,13 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      # Crear un archivo .npmrc
-      - name: 📝 Create .npmrc
-        run: echo "legacy-peer-deps=true" > .npmrc
+      # # Crear un archivo .npmrc
+      # - name: 📝 Create .npmrc
+      #   run: echo "legacy-peer-deps=true" > .npmrc
 
       # Instalar dependencias
       - name: 📦 Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       # Ejecutar pruebas unitarias
       - name: 🧪 Run unit tests
@@ -59,5 +59,6 @@ jobs:
           --data-urlencode 'To=whatsapp:+51951664953' \
           --data-urlencode 'From=whatsapp:+14155238886' \
           --data-urlencode 'ContentSid=HXb5b62575e6e4ff6129ad7c8efe1f983e' \
-          --data-urlencode 'ContentVariables={"1":"El despliegue y las pruebas unitarias se completaron con éxito. ","2":"felicidades!!"}' \
+          --data-urlencode 'ContentVariables={"1":"El despliegue y las pruebas unitarias se completaron con éxito. ","2":"Chi che ñol"}' \
           -u "${ACCOUNT_SID}:${AUTH_TOKEN}"
+          

@@ -1,19 +1,25 @@
 import React from 'react';
-import { render } from '@testing-library/react-native';
-import SubText from '../components/SubText'; 
+import {render} from '@testing-library/react-native';
+import {Text} from 'react-native';
+import SubText from '../components/SubText';
 
-describe('SubText Component', () => {
-  it('should render correctly with children', () => {
-    const { getByText } = render(<SubText>Este es un texto de prueba</SubText>);
-    const renderedText = getByText('Este es un texto de prueba');
-    expect(renderedText).toBeTruthy();
+describe('Subtext Component', () => {
+  test('debe renderizar los hijos que pasan por aca', () => {
+    const {getByText} = render(
+      <SubText>
+        <Text>Hola mundirijillo</Text>
+      </SubText>,
+    );
+    expect(getByText('Hola mundirijillo')).toBeTruthy();
   });
-  it('should have the correct style', () => {
-    const { getByTestId } = render(<SubText>Texto</SubText>);
-    const subTextContainer = getByTestId('subtext-container');
-    expect(subTextContainer).toHaveStyle({
-      justifyContent: 'center',
-      flexDirection: 'row',
-    });
+
+  it('aplica los estilos correspondientes al container', () => {
+    const { getByTestId } = render(
+      <SubText>
+        <Text>Probando texto</Text>
+      </SubText>
+    );
+    const container = getByTestId('subtext-container');
+    expect(container).toHaveStyle({ justifyContent: 'center' });
   });
 });

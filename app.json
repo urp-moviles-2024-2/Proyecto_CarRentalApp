@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "app-template",
-    "slug": "carapplandeon",
+    "slug": "pruebasunitarias",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,16 +19,22 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package":"com.landeonprueba.CarAppLandeon"
+      "package":"com.amalgama.pruebasunitarias"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "6f09bf28-05ec-47fd-a9ca-1c6b090dbab5"
+        "projectId": "58903286-6ed4-4ed6-93d6-bcf2350ee832"
       }
     },
-    "owner": "landeon09"
+    "owner": "landeon09",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/58903286-6ed4-4ed6-93d6-bcf2350ee832"
+    }
   }
 }
