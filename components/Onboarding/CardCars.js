@@ -1,19 +1,46 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image, FlatList } from 'react-native'
-import React, { useState } from 'react'
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  FlatList,
+} from 'react-native';
+import React, {useState} from 'react';
 
 const CardCars = () => {
   const [isPressed, setIsPressed] = useState([]);
 
   const cardsData = [
-    { id: '1', name: 'Tesla', image: require('../../assets/imgMarcas/tesla.jpg') },
-    { id: '2', name: 'Mercedes', image: require('../../assets/imgMarcas/mercedes.png') },
-    { id: '3', name: 'Ferrari', image: require('../../assets/imgMarcas/ferrari.png') },
-    { id: '4', name: 'Bugatti', image: require('../../assets/imgMarcas/bugatti.png') },
-    { id: '5', name: 'BMW', image: require('../../assets/imgMarcas/bmw.png') },
-    { id: '6', name: 'Lamborghini', image: require('../../assets/imgMarcas/lamborghini.png') },
+    {
+      id: '1',
+      name: 'Tesla',
+      image: require('../../assets/imgMarcas/tesla.jpg'),
+    },
+    {
+      id: '2',
+      name: 'Mercedes',
+      image: require('../../assets/imgMarcas/mercedes.png'),
+    },
+    {
+      id: '3',
+      name: 'Ferrari',
+      image: require('../../assets/imgMarcas/ferrari.png'),
+    },
+    {
+      id: '4',
+      name: 'Bugatti',
+      image: require('../../assets/imgMarcas/bugatti.png'),
+    },
+    {id: '5', name: 'BMW', image: require('../../assets/imgMarcas/bmw.png')},
+    {
+      id: '6',
+      name: 'Lamborghini',
+      image: require('../../assets/imgMarcas/lamborghini.png'),
+    },
   ];
 
-  const ButtonHandler = (index) => {
+  const ButtonHandler = index => {
     if (isPressed.includes(index)) {
       setIsPressed(isPressed.filter(i => i !== index));
     } else {
@@ -21,13 +48,17 @@ const CardCars = () => {
     }
   };
 
-  const renderItem = ({ item, index }) => (
+  const renderItem = ({item, index}) => (
     <TouchableOpacity
       style={[styles.button, isPressed.includes(index) && styles.buttonPressed]}
       onPress={() => ButtonHandler(index)}
     >
       <Image source={item.image} style={styles.image} />
-      <Text style={[styles.text, isPressed.includes(index) && styles.textPressed]}>{item.name}</Text>
+      <Text
+        style={[styles.text, isPressed.includes(index) && styles.textPressed]}
+      >
+        {item.name}
+      </Text>
     </TouchableOpacity>
   );
 
@@ -36,20 +67,20 @@ const CardCars = () => {
       <FlatList
         data={cardsData}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         numColumns={2}
         scrollEnabled={false}
       />
     </View>
-  )
-}
+  );
+};
 
-export default CardCars
+export default CardCars;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   button: {
     backgroundColor: '#fff',
@@ -61,7 +92,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 160,
-    width: 185
+    width: 185,
   },
   buttonPressed: {
     borderColor: '#9acd32',
@@ -69,12 +100,12 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 80,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
   text: {
     color: '#000',
   },
   textPressed: {
     color: '#9acd32',
-  }
+  },
 });
