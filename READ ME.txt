@@ -1,6 +1,7 @@
 correr
 npm install --legacy-peer-deps
-
+npx expo install --check
+npx expo-doctor
 
 ----------------------------------------------------------------------------------------------
 
