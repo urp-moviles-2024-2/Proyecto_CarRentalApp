@@ -17,6 +17,9 @@ const SearchAllScreen = () => {
   const handleAllCarsScreen = () => {
     navigation.navigate('AllCarsScreen');
   };
+  const handlerHome = () => {
+    navigation.navigate('HomeScreen');
+  };
 
   const cardsData = [
     {
@@ -49,9 +52,13 @@ const SearchAllScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
-        <Ionicons name="arrow-back" size={24} color="black" />
+        <Ionicons
+          name="arrow-back"
+          size={24}
+          color="black"
+          onPress={handlerHome}
+        />
         <Text style={styles.headerText}>All Brands</Text>
       </View>
 

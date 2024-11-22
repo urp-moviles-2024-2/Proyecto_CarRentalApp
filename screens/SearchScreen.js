@@ -9,12 +9,17 @@ import {
 import React from 'react';
 import PrimaryButton from '../components/PrimaryButton';
 import {useNavigation} from '@react-navigation/native';
+import {Ionicons} from '@expo/vector-icons';
 
 const SearchScreen = () => {
   const categories = [
     {id: '1', name: 'Coffee', places: '150 places', color: '#a9d46f'},
     {id: '2', name: 'Cinema', places: '8 places', color: '#f45a5a'},
   ];
+
+  const handlerHome = () => {
+    navigation.navigate('HomeScreen');
+  };
 
   const favorites = [
     {
@@ -44,6 +49,16 @@ const SearchScreen = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <Ionicons
+          name="arrow-back"
+          size={24}
+          color="black"
+          onPress={handlerHome}
+        />
+        <Text style={styles.headerText}>All Brands</Text>
+      </View>
+
       <TextInput style={styles.searchInput} placeholder="Search" />
 
       {categories.map(category => (
