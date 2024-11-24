@@ -1,3 +1,4 @@
+//Screen de buscar Location
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import PrimaryButton from '../components/PrimaryButton'
@@ -11,7 +12,7 @@ const SearchScreen = () => {
   };
   return (
     <View style={styles.container}>
-      <Text>SearchScreen</Text>
+      <Text>SearchScreen Locations</Text>
       <PrimaryButton onPressButton={handleSearchScreen}>Click Me</PrimaryButton>
     </View>
   );

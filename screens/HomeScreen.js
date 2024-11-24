@@ -1,21 +1,39 @@
-import { StyleSheet, Text, View, TextInput } from 'react-native';
-import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
 import PrimaryButton from '../components/PrimaryButton';
 import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const [searchQuery, setSearchQuery] = useState('');
 
-  const handleSearchScreen = () => {
+  const handleSearchAllScreen = () => {
+    navigation.navigate('SearchAllScreen');
+  };
+
+  const handleViewAllCars = () => {
+    navigation.navigate('AllCarsScreen');
+  };
+
+  const handleLocationScreen = () => {
     navigation.navigate('SearchScreen');
   };
 
-
   return (
     <View style={styles.container}>
-      <Text>HomeScreen</Text>
-      <PrimaryButton onPressButton={handleSearchScreen}>Click Me</PrimaryButton>
+      <PrimaryButton onPressButton={handleLocationScreen}>
+        <Text>Location</Text>
+      </PrimaryButton>
+
+      <Text style={styles.screenTitle}>HomeScreen</Text>
+
+      <View style={styles.headerContainer}>
+        <Text style={styles.All} onPress={handleSearchAllScreen}>
+          View All
+        </Text>
+        <Text style={styles.All} onPress={handleViewAllCars}>
+          View All
+        </Text>
+      </View>
     </View>
   );
 };
@@ -26,15 +44,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    backgroundColor: '#ffff',
   },
-  searchInput: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginVertical: 20,
-    width: '90%',
+  screenTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  headerContainer: {
+    width: '100%', // Usa todo el ancho del contenedor
+    alignItems: 'flex-end', // Alinea los elementos al lado derecho
+    paddingHorizontal: 20, // Margen interno a los lados
+    marginTop: 20,
+  },
+  All: {
+    fontSize: 14,
+    marginBottom: 60, // Espaciado entre los textos "View All" 
   },
 });
 

@@ -40,7 +40,7 @@ const MessageScreen = () => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent:'center', backgroundColor: '#fff', padding: 16 },
-  header: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
+  header: { fontSize: 24, fontWeight: 'bold', marginBottom: 10 ,marginTop:50},
   searchContainer: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#f0f0f0', borderRadius: 10, padding: 10, marginBottom: 20 },
   searchInput: { marginLeft: 10, fontSize: 16, flex: 1 },
   messageContainer: { flexDirection: 'row', alignItems: 'center', paddingVertical: 15, borderBottomWidth: 1, borderBottomColor: '#f0f0f0' },

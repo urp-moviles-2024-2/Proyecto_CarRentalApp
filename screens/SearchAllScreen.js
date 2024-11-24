@@ -1,3 +1,4 @@
+//Screen de Buscar Marcas
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import PrimaryButton from '../components/PrimaryButton'
