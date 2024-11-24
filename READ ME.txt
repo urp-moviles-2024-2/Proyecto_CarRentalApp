@@ -2,6 +2,10 @@ correr
 npm install --legacy-peer-deps
 npx expo install --check
 npx expo-doctor
+npm install @react-native-community/slider
+npm install react-native-slider
+npm install react-native-paper
+
 
 ----------------------------------------------------------------------------------------------
 
