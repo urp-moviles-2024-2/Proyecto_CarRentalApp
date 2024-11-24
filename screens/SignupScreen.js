@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Title from "../components/Title";
 import PrimaryButton from "../components/PrimaryButton";
-import SocialButton from "../components/SocialButton";
+import SocialButton from "../components/Buttons/SocialButton";
 import { app } from "../firebase-config";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import FirebaseSignUpForm from "../components/Firebase/FirebaseSignUpForm";

@@ -5,7 +5,7 @@ import Title from '../components/Title';
 import SubText from '../components/SubText';
 import FirebaseLoginForm from '../components/Firebase/FirebaseLoginForm';
 import PrimaryButton from '../components/PrimaryButton';
-import SocialButton from '../components/SocialButton';
+import SocialButton from '../components/Buttons/SocialButton';
 import { initializeAuth, inMemoryPersistence } from 'firebase/auth';
 
 

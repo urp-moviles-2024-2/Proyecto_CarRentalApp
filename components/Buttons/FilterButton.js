@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import React from "react";
+import Icon from "react-native-vector-icons/Ionicons";
 
-const PrimaryButton = ({ children, onPressButton }) => {
+const FilterButton = ({ children, onPressButton }) => {
   return (
     <View style={styles.buttonContainer}>
       <Pressable
@@ -11,31 +12,38 @@ const PrimaryButton = ({ children, onPressButton }) => {
             ? [styles.buttonInnerContainer, styles.pressed]
             : [styles.buttonInnerContainer]
         }
-        testID="primary-button" // para la prueba unitaria
       >
+        <Icon name="options" size={20} color="#000" style={styles.icon} />
         <Text style={styles.buttonText}>{children}</Text>
       </Pressable>
     </View>
   );
 };
 
-export default PrimaryButton;
+export default FilterButton;
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    margin: 4,
+    marginBottom:10,
+    margin: 1,
     overflow: "hidden",
   },
   buttonInnerContainer: {
-    paddingVertical: 15,
-    paddingHorizontal: 150,
+    paddingVertical: 10,
+    paddingHorizontal: 5,
     elevation: 2,
-    marginTop: 20,
+    marginTop: "50%",
     backgroundColor: "#9acd32",
     borderBottomLeftRadius: 10,
     borderTopLeftRadius: 10,
-    borderBottomRightRadius:10,
-    borderTopRightRadius:10,
+    borderBottomRightRadius: 10,
+    borderTopRightRadius: 10,
+    flexDirection: "row", // Para alinear el ícono y el texto en una fila
+    justifyContent: "center",
+    alignItems: "center", // Centra tanto el ícono como el texto
+  },
+  icon: {
+    marginRight: 5, // Espacio entre el ícono y el texto
   },
   buttonText: {
     color: "#000",
