@@ -28,10 +28,7 @@ const MyProfileScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
         <Text>My Profile</Text>
-        <Image
-          source={require('../assets/perfil.png')}
-          style={styles.image}
-        />
+        <Icon name="person-circle-outline" size={100} color="#007AFF" style={styles.profileIcon} />
         <Text style={styles.text}>Wade Warren</Text>
         <PrimaryButton>Edit Profile</PrimaryButton>
       
@@ -67,6 +64,12 @@ const styles = StyleSheet.create({
     height: '20%',
     borderRadius: 20,
   },
+
+  profileIcon: {
+    alignSelf: 'center',
+    marginBottom: 20,
+  },
+
   //cards
   cardsContainer: {
     flexDirection: 'row',

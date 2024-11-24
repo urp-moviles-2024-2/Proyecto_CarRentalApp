@@ -16,6 +16,7 @@ import {
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "../firebase-config";
+import Description from '../components/Description';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
@@ -60,7 +61,7 @@ const LoginScreen = () => {
         <Text style={styles.subtext}>to </Text>
         <Text style={styles.carz}>CARZ</Text>
       </SubText>
-      <Text style={styles.gristext}>Log in to your account using email or social networks</Text>
+      <Description>Log in to your account using email or social networks</Description>
       
       <FirebaseLoginForm
         email={email}
@@ -117,13 +118,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: 150,
     height: 110,
-  },
-  gristext: {
-    color: '#d3d3d3',
-    fontSize: 15,
-    width: '85%',
-    textAlign: 'center',
-    marginBottom: 10,
   },
   forgot: {
     color: '#9acd32',
