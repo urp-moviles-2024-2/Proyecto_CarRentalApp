@@ -10,7 +10,7 @@ const MessageScreen = () => {
 
   const renderItem = ({ item }) => (
     <View style={styles.messageContainer}>
-      <Image source={{ uri: item.image }} style={styles.avatar} />
+      <Icon name={item.iconName} size={40} color="#007AFF" style={styles.icon} />
       <View style={styles.textContainer}>
         <Text style={styles.name}>{item.name}</Text>
         <Text style={styles.message}>{item.message}</Text>

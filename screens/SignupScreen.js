@@ -8,6 +8,7 @@ import { app } from "../firebase-config";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import FirebaseSignUpForm from "../components/Firebase/FirebaseSignUpForm";
 import SubText from "../components/SubText";
+import Description from "../components/Description";
 
 const SignUpScreen = () => {
   const navigation = useNavigation();
@@ -56,9 +57,9 @@ const SignUpScreen = () => {
       <Text style={styles.subtext}>to </Text>
       <Text style={styles.carz}>CARZ</Text>
       </SubText>
-      <Text style={styles.gristext}>
+      <Description>
         Log in to your account using email or social networks
-      </Text>
+      </Description>
       <FirebaseSignUpForm
         onEmailChange={setEmail}
         onPasswordChange={setPassword}
@@ -111,13 +112,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: 150,
     height: 110,
-  },
-  gristext: {
-    color: "#d3d3d3",
-    fontSize: 15,
-    width: "85%",
-    textAlign: "center",
-    marginBottom: 10,
   },
   forgot: {
     color: "#9acd32",
