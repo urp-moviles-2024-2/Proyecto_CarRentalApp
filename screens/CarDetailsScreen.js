@@ -1,90 +1,59 @@
-import { StyleSheet, Text, View, Modal, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import PrimaryButton from '../components/PrimaryButton';
+import ReturnButton from '../components/Buttons/ReturnButton';
+import DateTime from '../components/DateAndTime/DateTime';
 import { useNavigation } from '@react-navigation/native';
-import ReturntButton from '../components/Buttons/ReturnButton';
-
+import TitleScreen from '../components/TitleScreen';
 
 const CarDetailsScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [selectedData, setSelectedData] = useState(null);
   const navigation = useNavigation();
-
   const handleAllCars = () => {
     navigation.navigate('AllCarsScreen');
   };
-  const handleSelectAdressScreen = () => {
+  const handleSelectAddressScreen = () => {
     navigation.navigate('SelectAdressScreen');
   };
   const handleOpenModalDate = () => {
     setModalVisible(true);
   };
-
   const handleCloseModalDate = () => {
     setModalVisible(false);
   };
-
+  const handleConfirmDateTime = (data) => {
+    setSelectedData(data); // Guardar fecha y hora seleccionada
+    console.log('Fecha y Hora Seleccionada:', data); // Muestra en consola (provisional)
+  };
   return (
     <View style={styles.container}>
-      <ReturntButton
-        onPressButton={handleAllCars}/>
-      <PrimaryButton onPressButton={handleSelectAdressScreen}>Select Adress</PrimaryButton>
-      <PrimaryButton onPressButton={handleOpenModalDate}>Book Now</PrimaryButton>
-      
-      <Modal
-        animationType="slide"
-        transparent={true}
+      <TitleScreen style={styles.title}>CarDetailsScreen</TitleScreen>
+      <ReturnButton onPressButton={handleAllCars} />
+      <PrimaryButton onPressButton={handleSelectAddressScreen}>
+        Select Address
+      </PrimaryButton>
+      <PrimaryButton onPressButton={handleOpenModalDate}>
+        Book Now
+      </PrimaryButton>
+      <DateTime
         visible={modalVisible}
-        onRequestClose={handleCloseModalDate}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContainer}>
-            <View style={styles.emptySpace} />
-            <TouchableOpacity style={styles.applyButton} onPress={handleCloseModalDate}>
-              <Text style={styles.applyButtonText}>Confirm</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        onClose={handleCloseModalDate}
+        onConfirm={handleConfirmDateTime}
+      />
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContainer: {
-    backgroundColor: 'white',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    padding: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  emptySpace: {
-    height: 200,
-  },
-  applyButton: {
-    backgroundColor: '#c0ffb3',
-    paddingVertical: 12,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  applyButtonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: 'black',
+  title: {
+    position:'absolute',
+    color: 'black', 
+    marginTop: '5%', 
   },
 });
-
 export default CarDetailsScreen;

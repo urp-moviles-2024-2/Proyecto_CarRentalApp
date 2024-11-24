@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import React from "react";
-import Icon from "react-native-vector-icons/Ionicons"; // Importamos el ícono
+import Icon from "react-native-vector-icons/Ionicons";
 
 const FilterButton = ({ children, onPressButton }) => {
   return (

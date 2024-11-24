@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native';
 
 const FiltersModal = ({ visible, onClose, filters, onFilterChange, clearAllFilters }) => {
-  const [modalPosition] = useState(new Animated.Value(1000)); // Inicia el modal fuera de la pantalla (debajo)
+  const [modalPosition] = useState(new Animated.Value(1000)); // Inicia el modal por debajo de la pantalla
 
   useEffect(() => {
     if (visible) {
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   selectedOption: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#9acd32',
   },
   buttonsContainer: {
     flexDirection: 'row',
