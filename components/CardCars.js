@@ -13,13 +13,17 @@ const CardCars = () => {
     }
   };
 
-  const renderItem = ({ item, index }) => (
+  const renderItem = ({item, index}) => (
     <TouchableOpacity
       style={[styles.button, isPressed.includes(index) && styles.buttonPressed]}
       onPress={() => ButtonHandler(index)}
     >
       <Image source={item.image} style={styles.image} />
-      <Text style={[styles.text, isPressed.includes(index) && styles.textPressed]}>{item.name}</Text>
+      <Text
+        style={[styles.text, isPressed.includes(index) && styles.textPressed]}
+      >
+        {item.name}
+      </Text>
     </TouchableOpacity>
   );
 
@@ -28,20 +32,20 @@ const CardCars = () => {
       <FlatList
         data={cardsData}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         numColumns={2}
         scrollEnabled={false}
       />
     </View>
-  )
-}
+  );
+};
 
-export default CardCars
+export default CardCars;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   button: {
     backgroundColor: '#fff',
@@ -53,7 +57,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 160,
-    width: 185
+    width: 185,
   },
   buttonPressed: {
     borderColor: '#9acd32',
@@ -61,12 +65,12 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 80,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
   text: {
     color: '#000',
   },
   textPressed: {
     color: '#9acd32',
-  }
+  },
 });

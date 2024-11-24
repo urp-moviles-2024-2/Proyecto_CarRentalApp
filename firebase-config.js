@@ -1,5 +1,5 @@
-import { initializeApp } from "firebase/app";
-import { initializeAuth, inMemoryPersistence } from "firebase/auth";
+import {initializeApp} from 'firebase/app';
+import {initializeAuth, inMemoryPersistence} from 'firebase/auth';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDsFGpcnrvzAJRUMs-sJcMliCxDUIlMXEk",
@@ -12,5 +12,5 @@ export const firebaseConfig = {
 };
 export const app = initializeApp(firebaseConfig);
 export const auth = initializeAuth(app, {
-  persistence: inMemoryPersistence
+  persistence: inMemoryPersistence,
 });
