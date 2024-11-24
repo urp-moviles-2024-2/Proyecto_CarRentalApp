@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { rentalCars } from '../data/rentalCars';
 import Icon from 'react-native-vector-icons/Ionicons';
 import TitleScreen from '../components/TitleScreen';
-import FiltersModal from '../components/Buttons/FilterModal'; // Importamos el modal de filtros
+import FiltersModal from '../components/Buttons/FilterModal';
 
 const AllCarsScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -89,7 +89,6 @@ const AllCarsScreen = () => {
     <View style={styles.container}>
       <ReturntButton
         onPressButton={handleHomeScreen}
-        imageUrl="https://img.icons8.com/?size=100&id=60636&format=png&color=000000"
       />
       <TitleScreen>All Cars</TitleScreen>
       <View style={styles.header}>
@@ -112,8 +111,6 @@ const AllCarsScreen = () => {
         contentInsetAdjustmentBehavior="automatic" // Mejora el comportamiento en iOS
         showsVerticalScrollIndicator={false} // Oculta barra de scroll
       />
-
-      {/* Modal de filtros */}
       <FiltersModal
         visible={modalVisible}
         onClose={handleCloseModal}

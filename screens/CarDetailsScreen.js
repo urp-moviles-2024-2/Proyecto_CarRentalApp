@@ -2,11 +2,16 @@ import { StyleSheet, Text, View, Modal, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import PrimaryButton from '../components/PrimaryButton';
 import { useNavigation } from '@react-navigation/native';
+import ReturntButton from '../components/Buttons/ReturnButton';
 
 
 const CarDetailsScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
+
+  const handleAllCars = () => {
+    navigation.navigate('AllCarsScreen');
+  };
   const handleSelectAdressScreen = () => {
     navigation.navigate('SelectAdressScreen');
   };
@@ -20,9 +25,11 @@ const CarDetailsScreen = () => {
 
   return (
     <View style={styles.container}>
+      <ReturntButton
+        onPressButton={handleAllCars}/>
       <PrimaryButton onPressButton={handleSelectAdressScreen}>Select Adress</PrimaryButton>
-      <PrimaryButton onPressButton={handleOpenModalDate}>Select Date & Time</PrimaryButton>
-
+      <PrimaryButton onPressButton={handleOpenModalDate}>Book Now</PrimaryButton>
+      
       <Modal
         animationType="slide"
         transparent={true}

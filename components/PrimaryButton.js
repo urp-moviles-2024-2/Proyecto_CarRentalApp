@@ -11,6 +11,7 @@ const PrimaryButton = ({ children, onPressButton }) => {
             ? [styles.buttonInnerContainer, styles.pressed]
             : [styles.buttonInnerContainer]
         }
+        testID="primary-button" // para la prueba unitaria
       >
         <Text style={styles.buttonText}>{children}</Text>
       </Pressable>
@@ -35,7 +36,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderBottomRightRadius:10,
     borderTopRightRadius:10,
-
   },
   buttonText: {
     color: "#000",

@@ -1,11 +1,20 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'; // Importa los íconos
+import { useNavigation } from '@react-navigation/native'; // Importa el hook de navegación
 
 const CarItem = ({ car }) => {
+  const navigation = useNavigation();
+
+  const handleCarDetailsScreen = () => {
+    navigation.navigate('CarDetailsScreen', { car });
+  };
+
   return (
     <View style={styles.carContainer}>
-      <Image source={{ uri: car.image }} style={styles.carImage} />
+      <TouchableOpacity onPress={handleCarDetailsScreen}>
+        <Image source={{ uri: car.image }} style={styles.carImage} />
+      </TouchableOpacity>
       <View style={styles.carNameContainer}>
         <Text style={styles.carName}>{car.name}</Text>
         <View style={styles.ratingContainer}>
@@ -21,7 +30,6 @@ const CarItem = ({ car }) => {
           <Text>{car.type}</Text>
           <Text style={styles.carPrice}>{car.price}</Text>
         </View>
-        
       </View>
     </View>
   );
