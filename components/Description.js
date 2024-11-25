@@ -15,6 +15,8 @@ const styles = StyleSheet.create({
   text:{
     fontSize: 18,
     fontWeight: 'thin',
-    color: '#d3d3d3'
+    color: '#d3d3d3',
+    marginTop:'2%',
+    marginBottom:'2%',
   }
 })

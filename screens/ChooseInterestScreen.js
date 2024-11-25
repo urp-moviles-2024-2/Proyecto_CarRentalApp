@@ -19,12 +19,12 @@ const ChooseInterestScreen = () => {
           <TouchableOpacity style={styles.button} onPress={handleHome}>
             <Text style={styles.text}>Skip</Text>
           </TouchableOpacity>
-          <Title>Which brand of car do you prefer?</Title>
+          <Title style={styles.tittle}>Which brand of car do you prefer?</Title>
           <Description>Login to your account using email or social networks</Description>
           <View style={styles.container2}>
             <CardCars />
           </View>
-          <PrimaryButton onPress={handleHome} >Finish</PrimaryButton>
+          <PrimaryButton onPressButton={handleHome} >Finish</PrimaryButton>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -52,6 +52,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingVertical: 10,
   },
+  tittle:{
+    textAlign:'left',
+  },
   text:{
     color: '#000'
   },
@@ -59,7 +62,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#9acd32',
     padding: 12,
     paddingHorizontal: 15,
-    borderRadius: 10
+    borderRadius: 10,
+    width:'15%',
+    marginLeft:'86%',
   }
 });
 

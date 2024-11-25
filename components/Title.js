@@ -1,8 +1,8 @@
 import { StyleSheet, Text, Dimensions,Platform} from "react-native";
 import React from "react";
 
-const Title = ({ children }) => {
-  return <Text style={styles.title}>{children}</Text>;
+const Title = ({ children ,style}) => {
+  return <Text style={[styles.title , style]}>{children}</Text>;
 };
 
 export default Title;
