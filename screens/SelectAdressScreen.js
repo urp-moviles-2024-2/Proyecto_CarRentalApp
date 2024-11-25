@@ -16,8 +16,8 @@ const AddressSelector = () => {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [searchText, setSearchText] = useState('');
   const navigation = useNavigation();
-  const handleHome = () => {
-    navigation.navigate('');
+  const handlePaymentMethodScreen = () => {
+    navigation.navigate('PaymentMethodScreen');
   };
   const addresses = [
     {
@@ -65,10 +65,7 @@ const AddressSelector = () => {
           />
         )}
       />
-      <TouchableOpacity style={styles.confirmButton}>
-        <Text style={styles.confirmButtonText}>retornar</Text>
-      </TouchableOpacity>
-      <PrimaryButton onPress={handleHome}>Confirm Address</PrimaryButton>
+      <PrimaryButton onPressButton={handlePaymentMethodScreen}>Confirm Address</PrimaryButton>
     </View>
   );
 };
