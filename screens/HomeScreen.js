@@ -12,6 +12,7 @@ import {useNavigation} from '@react-navigation/native';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
+  const [searchQuery, setSearchQuery] = useState('');
 
   const brandsHandler = () => {
     navigation.navigate('SearchAllScreen');
@@ -72,7 +73,7 @@ const HomeScreen = () => {
         />
         <Text style={styles.locationText}>Ahmedabad, INDIA</Text>
         <TouchableOpacity style={styles.dropdownIcon} onPress={searchHandler}>
-          <Text>▼</Text>{' '}
+          <Text>▼</Text>
         </TouchableOpacity>
       </View>
 
