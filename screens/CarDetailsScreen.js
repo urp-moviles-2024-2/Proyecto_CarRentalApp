@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,8 +7,24 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import PrimaryButton from '../components/PrimaryButton';
+import DateTime from '../components/DateAndTime/DateTime';
 
 const CarDetailScreen = () => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedData, setSelectedData] = useState(null);
+  const navigation = useNavigation();
+  const handleOpenModalDate = () => {
+    setModalVisible(true);
+  };
+  const handleCloseModalDate = () => {
+    setModalVisible(false);
+  };
+  const handleConfirmDateTime = data => {
+    setSelectedData(data); // Guardar fecha y hora seleccionada
+    console.log('Fecha y Hora Seleccionada:', data); // Muestra en consola (provisional)
+  };
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* Header */}
@@ -18,7 +34,6 @@ const CarDetailScreen = () => {
         source={require('../assets/porsche.jpg')} // Imagen de ejemplo
         style={styles.carImage}
       />
-
 
       {/* Specifications Section */}
       <View style={styles.specsContainer}>
@@ -65,9 +80,14 @@ const CarDetailScreen = () => {
           <Text style={styles.totalPriceText}>Total Price</Text>
           <Text style={styles.totalPrice}>$90,000</Text>
         </View>
-        <TouchableOpacity style={styles.bookButton}>
-          <Text style={styles.bookButtonText}>Book Now</Text>
-        </TouchableOpacity>
+        <PrimaryButton onPressButton={handleOpenModalDate}>
+          Book Now
+        </PrimaryButton>
+        <DateTime
+          visible={modalVisible}
+          onClose={handleCloseModalDate}
+          onConfirm={handleConfirmDateTime}
+        />
       </View>
     </ScrollView>
   );
