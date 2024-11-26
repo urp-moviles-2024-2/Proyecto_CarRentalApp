@@ -7,79 +7,85 @@ import {
   StyleSheet,
   FlatList,
 } from 'react-native';
-import EditCard from '../components/Payment';
+import SavedCard from '../components/CardPayment';
 
-const PaymentMethods = ({navigation}) => {
-  const [savedCards, setSavedCards] = useState([
-    {
-      id: '1',
-      number: '2541 0039 8567 9850',
-      type: 'Mastercard',
-      holder: 'Dirghayu Joshi',
-    },
-    {
-      id: '2',
-      number: '8968 7052 9366 4001',
-      type: 'Visa',
-      holder: 'Dirghayu Joshi',
-    },
-  ]);
-
+const PaymentMethodScreen = () => {
   const [newCard, setNewCard] = useState({
-    number: '',
-    holder: '',
-    expiry: '',
+    cardNumber: '',
+    cardHolderName: '',
+    expiryDate: '',
     cvv: '',
   });
 
-  const handleCardPress = card => {
-    navigation.navigate('Payment', {card, savedCards, setSavedCards});
+  const savedCards = [
+    {
+      id: '1',
+      cardNumber: '2541 0039 8567 9850',
+      cardHolderName: 'Dirghayu Joshi',
+      cardType: 'Mastercard',
+    },
+    {
+      id: '2',
+      cardNumber: '8968 7052 9366 4001',
+      cardHolderName: 'Dirghayu Joshi',
+      cardType: 'Visa',
+    },
+  ];
+
+  const handleInputChange = (field, value) => {
+    setNewCard({...newCard, [field]: value});
   };
+
+  const renderSavedCard = ({item}) => (
+    <SavedCard
+      cardNumber={item.cardNumber}
+      cardHolderName={item.cardHolderName}
+      cardType={item.cardType}
+      onPress={() => console.log(`Selected card: ${item.cardNumber}`)}
+    />
+  );
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Payment Method</Text>
-
-      {/* Lista de tarjetas guardadas */}
+      <View style={styles.header}>
+        <Text style={styles.title}>Payment Method</Text>
+        <TouchableOpacity
+          style={styles.changeButton}
+          onPress={() => console.log('Change button pressed')}
+        >
+          <Text style={styles.changeText}>Change</Text>
+        </TouchableOpacity>
+      </View>
       <FlatList
         data={savedCards}
-        renderItem={({item}) => (
-          <TouchableOpacity
-            style={styles.card}
-            onPress={() => handleCardPress(item)}
-          >
-            <Text style={styles.cardNumber}>{item.number}</Text>
-            <Text style={styles.cardHolder}>{item.holder}</Text>
-          </TouchableOpacity>
-        )}
+        renderItem={renderSavedCard}
         keyExtractor={item => item.id}
+        style={styles.savedCardsList}
       />
-
-      {/* Formulario para agregar nueva tarjeta */}
-      <View style={styles.addCardContainer}>
+      <View style={styles.addCardSection}>
         <TextInput
+          style={styles.input}
           placeholder="Card Number"
-          style={styles.input}
-          value={newCard.number}
-          onChangeText={text => setNewCard({...newCard, number: text})}
+          value={newCard.cardNumber}
+          onChangeText={value => handleInputChange('cardNumber', value)}
         />
         <TextInput
+          style={styles.input}
           placeholder="Card Holder Name"
-          style={styles.input}
-          value={newCard.holder}
-          onChangeText={text => setNewCard({...newCard, holder: text})}
+          value={newCard.cardHolderName}
+          onChangeText={value => handleInputChange('cardHolderName', value)}
         />
         <TextInput
+          style={styles.input}
           placeholder="Expiry Date"
-          style={styles.input}
-          value={newCard.expiry}
-          onChangeText={text => setNewCard({...newCard, expiry: text})}
+          value={newCard.expiryDate}
+          onChangeText={value => handleInputChange('expiryDate', value)}
         />
         <TextInput
-          placeholder="CVV"
           style={styles.input}
+          placeholder="CVV"
           value={newCard.cvv}
-          onChangeText={text => setNewCard({...newCard, cvv: text})}
+          onChangeText={value => handleInputChange('cvv', value)}
         />
         <TouchableOpacity style={styles.payNowButton}>
           <Text style={styles.payNowText}>Pay Now</Text>
@@ -90,26 +96,54 @@ const PaymentMethods = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {flex: 1, padding: 20, backgroundColor: '#f5f5f5'},
-  title: {fontSize: 20, fontWeight: 'bold', marginBottom: 20},
-  card: {
-    padding: 15,
-    backgroundColor: '#c3e54b',
-    marginBottom: 10,
-    borderRadius: 8,
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#fff',
   },
-  cardNumber: {fontSize: 16, fontWeight: 'bold'},
-  cardHolder: {fontSize: 14, color: '#555'},
-  addCardContainer: {marginTop: 20},
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  changeButton: {
+    backgroundColor: 'transparent',
+    padding: 10,
+  },
+  changeText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#68c400',
+  },
+  savedCardsList: {
+    marginBottom: 20,
+  },
+  addCardSection: {
+    marginTop: 20,
+  },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#ddd',
+    borderRadius: 10,
     padding: 10,
-    marginBottom: 10,
-    borderRadius: 8,
+    marginBottom: 15,
   },
-  payNowButton: {backgroundColor: '#c3e54b', padding: 15, borderRadius: 8},
-  payNowText: {textAlign: 'center', color: '#fff', fontWeight: 'bold'},
+  payNowButton: {
+    backgroundColor: '#c3e54b',
+    borderRadius: 10,
+    padding: 15,
+    alignItems: 'center',
+  },
+  payNowText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+  },
 });
 
-export default PaymentMethods;
+export default PaymentMethodScreen;

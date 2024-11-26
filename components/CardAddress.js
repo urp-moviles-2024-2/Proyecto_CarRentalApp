@@ -1,8 +1,8 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { RadioButton } from "react-native-paper";
+import React from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {RadioButton} from 'react-native-paper';
 
-const AddressCard = ({ title, address, selected, onPress }) => {
+const AddressCard = ({title, address, selected, onPress}) => {
   return (
     <TouchableOpacity
       style={[styles.card, selected && styles.selectedCard]}
@@ -20,7 +20,7 @@ const AddressCard = ({ title, address, selected, onPress }) => {
       </View>
       <RadioButton
         value={title}
-        status={selected ? "checked" : "unchecked"}
+        status={selected ? 'checked' : 'unchecked'}
         onPress={onPress}
         color="#b6e142" // Color del botón seleccionado
       />
@@ -30,18 +30,18 @@ const AddressCard = ({ title, address, selected, onPress }) => {
 
 const styles = StyleSheet.create({
   card: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 12,
     marginBottom: 16,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: '#f9f9f9',
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: "#eaeaea",
+    borderColor: '#eaeaea',
   },
   selectedCard: {
-    borderColor: "#b6e142",
-    backgroundColor: "#f1f9e7",
+    borderColor: '#b6e142',
+    backgroundColor: '#f1f9e7',
   },
   imageContainer: {
     marginRight: 12,
@@ -56,12 +56,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 4,
   },
   address: {
     fontSize: 14,
-    color: "#555",
+    color: '#555',
   },
 });
 
