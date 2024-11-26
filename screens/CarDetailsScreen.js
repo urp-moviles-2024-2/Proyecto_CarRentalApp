@@ -84,8 +84,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 16,
   },
-
-
   iconCircle: {
     width: 48,
     height: 48,
@@ -129,6 +127,10 @@ const styles = StyleSheet.create({
   descriptionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  carImage: {
+    alignSelf: 'center', // Centra la imagen horizontalmente sin cambiar el tamaño
+    marginBottom: 16, // Agrega espacio debajo de la imagen
   },
   descriptionText: {
     fontSize: 14,
