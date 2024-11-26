@@ -1,95 +1,28 @@
-import { StyleSheet, Text, View, Modal, TouchableOpacity, FlatList, TextInput } from 'react-native';
+import { StyleSheet, View, FlatList, TextInput } from 'react-native';
 import React, { useState } from 'react';
 import ReturntButton from '../components/Buttons/ReturnButton';
 import FilterButton from '../components/Buttons/FilterButton';
 import CarItem from '../components/Cars/CarItem';
-import { useNavigation } from '@react-navigation/native';
-import { rentalCars } from '../data/rentalCars';
 import Icon from 'react-native-vector-icons/Ionicons';
 import TitleScreen from '../components/TitleScreen';
 import FiltersModal from '../components/Buttons/FilterModal';
+import useCars from '../components/Cars/useCars';
+import { useNavigation } from '@react-navigation/native';
 
 const AllCarsScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filters, setFilters] = useState({
-    priceRange: [500, 2000],
-    vehicleTypes: [
-      { id: 'automatic', name: 'Automatic', selected: false },
-      { id: 'manual', name: 'Manual', selected: false },
-    ],
-    characteristics: [
-      { id: 'airConditioning', name: 'Air Conditioning', selected: false },
-      { id: 'sunroof', name: 'Sunroof', selected: false },
-    ],
-  });
-
   const navigation = useNavigation();
+  const { cars, filters,searchQuery,setSearchQuery,handleFilterChange, handleClearFilters,} = useCars();
+  const handleOpenModal = () => {setModalVisible(true); };
+  const handleCloseModal = () => {setModalVisible(false);};
 
   const handleHomeScreen = () => {
-    navigation.navigate('HomeScreen');
+    navigation.navigate('HomeScreen'); 
   };
-
-  const handleOpenModal = () => {
-    setModalVisible(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalVisible(false);
-  };
-
-  const handleFilterChange = (type, value) => {
-    setFilters((prevFilters) => {
-      if (type === 'vehicleTypes') {
-        return {
-          ...prevFilters,
-          vehicleTypes: prevFilters.vehicleTypes.map((item) =>
-            item.id === value ? { ...item, selected: !item.selected } : item
-          ),
-        };
-      }
-      if (type === 'characteristics') {
-        return {
-          ...prevFilters,
-          characteristics: prevFilters.characteristics.map((item) =>
-            item.id === value ? { ...item, selected: !item.selected } : item
-          ),
-        };
-      }
-      return prevFilters;
-    });
-  };
-
-  const clearAllFilters = () => {
-    const resetFilters = {
-      priceRange: [500, 2000],
-      vehicleTypes: [
-        { id: 'automatic', name: 'Automatic', selected: false },
-        { id: 'manual', name: 'Manual', selected: false },
-      ],
-      characteristics: [
-        { id: 'airConditioning', name: 'Air Conditioning', selected: false },
-        { id: 'sunroof', name: 'Sunroof', selected: false },
-      ],
-    };
-    setFilters(resetFilters); // Restablecer los filtros
-  };
-
-  const renderItem = ({ item }) => <CarItem car={item} />;
-
-  const filteredCars = rentalCars.filter((car) =>
-    car.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-    // Filtra por el tipo de vehículo
-    (filters.vehicleTypes.some((vt) => vt.selected && car.type === vt.id) || filters.vehicleTypes.every((vt) => !vt.selected)) &&
-    // Filtra por las características seleccionadas
-    (filters.characteristics.some((ch) => ch.selected && car.char.includes(ch.id)) || filters.characteristics.every((ch) => !ch.selected))
-  );
 
   return (
     <View style={styles.container}>
-      <ReturntButton
-        onPressButton={handleHomeScreen}
-      />
+      <ReturntButton onPressButton={handleHomeScreen} />
       <TitleScreen>All Cars</TitleScreen>
       <View style={styles.header}>
         <View style={styles.searchContainer}>
@@ -104,19 +37,19 @@ const AllCarsScreen = () => {
         <FilterButton onPressButton={handleOpenModal}>Filter</FilterButton>
       </View>
       <FlatList
-        data={filteredCars}
-        renderItem={renderItem}
+        data={cars}
+        renderItem={({ item }) => <CarItem car={item} />}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.carList}
-        contentInsetAdjustmentBehavior="automatic" // Mejora el comportamiento en iOS
-        showsVerticalScrollIndicator={false} // Oculta barra de scroll
+        contentInsetAdjustmentBehavior="automatic"
+        showsVerticalScrollIndicator={false}
       />
       <FiltersModal
         visible={modalVisible}
         onClose={handleCloseModal}
         filters={filters}
         onFilterChange={handleFilterChange}
-        clearAllFilters={clearAllFilters} // Pasar la función para limpiar filtros
+        clearAllFilters={handleClearFilters}
       />
     </View>
   );
@@ -148,7 +81,7 @@ const styles = StyleSheet.create({
     height: 50,
     paddingLeft: 15,
     marginRight: 10,
-    top:12,
+    top: 12,
   },
   searchIcon: {
     position: 'absolute',

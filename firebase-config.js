@@ -1,5 +1,6 @@
 import {initializeApp} from 'firebase/app';
 import {initializeAuth, inMemoryPersistence} from 'firebase/auth';
+import { getDatabase } from 'firebase/database';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDsFGpcnrvzAJRUMs-sJcMliCxDUIlMXEk",
@@ -14,3 +15,5 @@ export const app = initializeApp(firebaseConfig);
 export const auth = initializeAuth(app, {
   persistence: inMemoryPersistence,
 });
+const database=getDatabase(app);
+export {database};
