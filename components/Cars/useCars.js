@@ -6,7 +6,6 @@ import { database } from '../../firebase-config';
 const useCars = () => {
   const [cars, setCars] = useState([]);
   const [filters, setFilters] = useState({
-    priceRange: [500, 2000],
     vehicleTypes: [
       { id: 'automatic', name: 'Automatic', selected: false },
       { id: 'manual', name: 'Manual', selected: false },

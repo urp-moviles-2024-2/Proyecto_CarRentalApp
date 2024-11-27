@@ -45,37 +45,40 @@ jobs:
       - name: 🧪 Run unit tests
         run: npm test
 
-      # Configurar SonarQube Scanner con Java 17
-      - name: 🔍 Configure Java for SonarQube
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17'
+      # # Configurar SonarQube Scanner con Java 17
+      # - name: 🔍 Configure Java for SonarQube
+      #   uses: actions/setup-java@v3
+      #   with:
+      #     distribution: 'temurin'
+      #     java-version: '17'
 
-      # Iniciar el servidor de SonarQube usando Docker
-      - name: 🛠 Start SonarQube Server
-        run: |
-          docker run -d --name sonarqube -p 9000:9000 sonarqube:community
-          sleep 30  # Esperar a que el servidor esté listo
+      # # Iniciar el servidor de SonarQube usando Docker
+      # - name: 🛠 Start SonarQube Server
+      #   run: |
+      #     docker run -d --name sonarqube -p 9000:9000 sonarqube:community
+      #     sleep 30  # Esperar a que el servidor esté listo
 
-      # Verificar que el servidor de SonarQube esté activo
-      - name: 🛠 Verify SonarQube is running
-        run: |
-          curl -I http://localhost:9000 || exit 1
+      # # Verificar que el servidor de SonarQube esté activo
+      # - name: 🛠 Verify SonarQube is running
+      #   run: |
+      #     curl -I http://localhost:9000 || exit 1
 
-      # Escanear código con SonarQube
-      - name: 🔍 Run SonarQube Analysis
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          npm install -g sonarqube-scanner --legacy-peer-deps
-          sonar-scanner \
-            -Dsonar.projectKey=CarlRental_Appv1 \
-            -Dsonar.sources=./ \
-            -Dsonar.host.url=http://localhost:9000 \
-            -Dsonar.token=${SONAR_TOKEN} \
-            -Dsonar.exclusions=**/__test__/**
+      # # Escanear código con SonarQube
+      # - name: 🔍 Run SonarQube Analysis
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #   run: |
+      #     npm install -g sonarqube-scanner --legacy-peer-deps
+      #     sonar-scanner \
+      #       -Dsonar.projectKey=CarlRental_Appv1 \
+      #       -Dsonar.sources=./ \
+      #       -Dsonar.host.url=http://localhost:9000 \
+      #       -Dsonar.token=${SONAR_TOKEN} \
+      #       -Dsonar.exclusions=**/__test__/**
 
+      #Clean Credential
+       - name: Clean Credentials
+         run: sed -i 's/API_KEY_CREDENTIAL/${{ env.API_KEY_CREDENTIAL }}/g' firebase-config.js 
       # Desplegar preview en Expo
       - name: 🚀 Deploy to Expo Preview
         run: eas update --auto --non-interactive

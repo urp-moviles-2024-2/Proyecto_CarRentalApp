@@ -1,0 +1,1 @@
+sed -i 's/API_KEY_CREDENTIAL/${API_KEY_CREDENTIAL}/g' firebase-config.js
