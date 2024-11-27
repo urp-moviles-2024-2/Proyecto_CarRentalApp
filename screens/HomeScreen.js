@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import { GLOBAL_STYLES } from '../constants/styles';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -142,7 +143,7 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: GLOBAL_STYLES.colors.colorblanco,
     paddingHorizontal: 20,
   },
   topBar: {

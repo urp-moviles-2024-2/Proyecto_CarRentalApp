@@ -25,6 +25,7 @@ import {
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "../firebase-config";
 import Description from '../components/Description';
+import { GLOBAL_STYLES } from '../constants/styles';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -113,18 +114,18 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: GLOBAL_STYLES.colors.colorblanco,
     padding: 20,
   },
   subtext: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: '#000',
+    color: GLOBAL_STYLES.colors.colornegro,
   },
   carz: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: '#9acd32',
+    color: GLOBAL_STYLES.colors.colorverdeprincipal,
   },
   logo: {
     marginTop: 20,
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
     height: 110,
   },
   forgot: {
-    color: '#9acd32',
+    color: GLOBAL_STYLES.colors.colorverdeprincipal,
     alignSelf: 'flex-end',
     marginLeft: '50%',
   },
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   text: {
-    color: '#9acd32',
+    color: GLOBAL_STYLES.colors.colorverdeprincipal,
   },
 });
 
