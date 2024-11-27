@@ -11,6 +11,7 @@ jobs:
     env: 
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
       WHATSAPP_API_URL: ${{ secrets.WHATSAPP_API_URL }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     steps:
       # Descargar el código fuente
@@ -44,12 +45,32 @@ jobs:
       - name: 🧪 Run unit tests
         run: npm test
 
+      # Configurar SonarQube Scanner con Java 17
+      - name: 🔍 Configure Java for SonarQube
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # Escanear código con SonarQube
+      - name: 🔍 Run SonarQube Analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          npm install -g sonarqube-scanner
+          sonar-scanner \
+            -Dsonar.projectKey=my_project_key \
+            -Dsonar.organization=my_organization \
+            -Dsonar.sources=./ \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=${SONAR_TOKEN}
+
       # Desplegar preview en Expo
       - name: 🚀 Deploy to Expo Preview
         run: eas update --auto --non-interactive
 
       # Notificación por WhatsApp (opcional) 
-      - name: 📲 Notify on WhatsApp           #en este caso se esta usando twilio ,cambiarlo si usar ultrasmg o solo cambiar al curl de tu twilio
+      - name: 📲 Notify on WhatsApp
         if: success()
         env:
           ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
