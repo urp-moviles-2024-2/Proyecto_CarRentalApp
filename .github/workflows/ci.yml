@@ -57,13 +57,13 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          npm install -g sonarqube-scanner
+          npm install -g sonarqube-scanner  --legacy-peer-deps
           sonar-scanner \
             -Dsonar.projectKey=CarlRental_Appv1 \
-            -Dsonar.organization=my_organization \
             -Dsonar.sources=./ \
             -Dsonar.host.url=http://localhost:9000 \
-            -Dsonar.login=${SONAR_TOKEN}
+            -Dsonar.login=${SONAR_TOKEN} \
+            -Dsonar.exclusions=**/__test__/**
 
       # Desplegar preview en Expo
       - name: 🚀 Deploy to Expo Preview
