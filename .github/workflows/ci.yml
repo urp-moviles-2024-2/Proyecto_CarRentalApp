@@ -52,12 +52,18 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      # Iniciar el servidor de SonarQube usando Docker
+      - name: 🛠 Start SonarQube Server
+        run: |
+          docker run -d --name sonarqube -p 9000:9000 sonarqube:community
+          sleep 30  # Esperar a que el servidor esté listo
+
       # Escanear código con SonarQube
       - name: 🔍 Run SonarQube Analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          npm install -g sonarqube-scanner  --legacy-peer-deps
+          npm install -g sonarqube-scanner --legacy-peer-deps
           sonar-scanner \
             -Dsonar.projectKey=CarlRental_Appv1 \
             -Dsonar.sources=./ \
