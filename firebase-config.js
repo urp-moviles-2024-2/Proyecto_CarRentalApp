@@ -4,7 +4,7 @@ import { getDatabase } from 'firebase/database';
 
 export const firebaseConfig = {
   apiKey: "API_KEY_CREDENTIAL",
-  authDomain: "APP_ID_CREDENTIAL",
+  authDomain: "AUTH_DOMAIN_CREDENTIAL ",
   projectId: "PROJECT_ID_CREDENTIAL",
   storageBucket: "STORAGE_BUCKET_CREDENTIAL",
   messagingSenderId: "MESSAGING_SENDER_ID_CREDENTIAL",
