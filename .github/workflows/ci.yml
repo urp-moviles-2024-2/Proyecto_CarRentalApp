@@ -67,10 +67,9 @@ jobs:
           sonar-scanner \
             -Dsonar.projectKey=CarlRental_Appv1 \
             -Dsonar.sources=./ \
-            -Dsonar.host.url=http://localhost:9000 \
-            -Dsonar.login=${SONAR_TOKEN} \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.token=${SONAR_TOKEN} \
             -Dsonar.exclusions=**/__test__/**
-
       # Desplegar preview en Expo
       - name: 🚀 Deploy to Expo Preview
         run: eas update --auto --non-interactive
