@@ -58,6 +58,11 @@ jobs:
           docker run -d --name sonarqube -p 9000:9000 sonarqube:community
           sleep 30  # Esperar a que el servidor esté listo
 
+      # Verificar que el servidor de SonarQube esté activo
+      - name: 🛠 Verify SonarQube is running
+        run: |
+          curl -I http://localhost:9000 || exit 1
+
       # Escanear código con SonarQube
       - name: 🔍 Run SonarQube Analysis
         env:
@@ -67,9 +72,10 @@ jobs:
           sonar-scanner \
             -Dsonar.projectKey=CarlRental_Appv1 \
             -Dsonar.sources=./ \
-            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.host.url=http://localhost:9000 \
             -Dsonar.token=${SONAR_TOKEN} \
             -Dsonar.exclusions=**/__test__/**
+
       # Desplegar preview en Expo
       - name: 🚀 Deploy to Expo Preview
         run: eas update --auto --non-interactive
