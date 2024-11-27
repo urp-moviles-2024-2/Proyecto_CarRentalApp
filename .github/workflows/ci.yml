@@ -11,8 +11,7 @@ jobs:
     env: 
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
       WHATSAPP_API_URL: ${{ secrets.WHATSAPP_API_URL }}
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
+      FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
     steps:
       # Descargar el código fuente
       - name: 🏗 Download source code
@@ -45,46 +44,12 @@ jobs:
       - name: 🧪 Run unit tests
         run: npm test
 
-      # # Configurar SonarQube Scanner con Java 17
-      # - name: 🔍 Configure Java for SonarQube
-      #   uses: actions/setup-java@v3
-      #   with:
-      #     distribution: 'temurin'
-      #     java-version: '17'
-
-      # # Iniciar el servidor de SonarQube usando Docker
-      # - name: 🛠 Start SonarQube Server
-      #   run: |
-      #     docker run -d --name sonarqube -p 9000:9000 sonarqube:community
-      #     sleep 30  # Esperar a que el servidor esté listo
-
-      # # Verificar que el servidor de SonarQube esté activo
-      # - name: 🛠 Verify SonarQube is running
-      #   run: |
-      #     curl -I http://localhost:9000 || exit 1
-
-      # # Escanear código con SonarQube
-      # - name: 🔍 Run SonarQube Analysis
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #   run: |
-      #     npm install -g sonarqube-scanner --legacy-peer-deps
-      #     sonar-scanner \
-      #       -Dsonar.projectKey=CarlRental_Appv1 \
-      #       -Dsonar.sources=./ \
-      #       -Dsonar.host.url=http://localhost:9000 \
-      #       -Dsonar.token=${SONAR_TOKEN} \
-      #       -Dsonar.exclusions=**/__test__/**
-
-      #Clean Credential
-       - name: Clean Credentials
-         run: sed -i 's/API_KEY_CREDENTIAL/${{ env.API_KEY_CREDENTIAL }}/g' firebase-config.js 
       # Desplegar preview en Expo
       - name: 🚀 Deploy to Expo Preview
         run: eas update --auto --non-interactive
 
       # Notificación por WhatsApp (opcional) 
-      - name: 📲 Notify on WhatsApp
+      - name: 📲 Notify on WhatsApp           #en este caso se esta usando twilio ,cambiarlo si usar ultrasmg o solo cambiar al curl de tu twilio
         if: success()
         env:
           ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
@@ -96,3 +61,23 @@ jobs:
           --data-urlencode 'ContentSid=HXb5b62575e6e4ff6129ad7c8efe1f983e' \
           --data-urlencode 'ContentVariables={"1":"El despliegue y las pruebas unitarias se completaron con éxito. ","2":"Felicidades!!!!"}' \
           -u "${ACCOUNT_SID}:${AUTH_TOKEN}"
+
+
+      #Credentials   
+      - name: Download repository
+        uses: actions/checkout@v2
+
+      - name: Print Firebase Config
+        run: cat firebase-config.js
+
+      - name: Clean Credentials
+        run: sed -i 's/API_KEY_CREDENTIAL/${{ env.API_KEY_CREDENTIAL }}/g' firebase-config.js 
+      
+      - name: Print Firebase Config Secured
+        run: cat firebase-config.js
+
+      - name: Versioning the component
+        uses: actions/upload-artifact@v4        # es lo mismo que run: git clone https://github.com/urp-moviles-2024-2/login-firebase-demo.git
+        with:
+          name: PROYECTO_CARRENTALAPP
+          path: ./
