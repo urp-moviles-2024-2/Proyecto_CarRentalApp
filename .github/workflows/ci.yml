@@ -2,7 +2,7 @@ name: ci
 
 on:
   push:
-    branches: [rivas_prueba_cred] # Nombre de la rama
+    branches: [rivas_prueba_cred] # nombre de la rama
 
 jobs:
   build:
