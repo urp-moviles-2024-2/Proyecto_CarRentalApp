@@ -2,7 +2,7 @@ name: ci
 
 on:
   push:
-    branches: [landeon_screens] # Nombre de la rama
+    branches: [landeon2_screens] # Nombre de la rama
 
 jobs:
   build:
@@ -11,13 +11,20 @@ jobs:
     env: 
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
       WHATSAPP_API_URL: ${{ secrets.WHATSAPP_API_URL }}
+      FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+      AUTH_DOMAIN_CREDENTIAL: ${{ secrets.AUTH_DOMAIN_CREDENTIAL }}
+      PROJECT_ID_CREDENTIAL: ${{ secrets.PROJECT_ID_CREDENTIAL }}
+      STORAGE_BUCKET_CREDENTIAL: ${{ secrets.STORAGE_BUCKET_CREDENTIAL }}
+      MESSAGING_SENDER_ID_CREDENTIAL: ${{ secrets.MESSAGING_SENDER_ID_CREDENTIAL }}
+      APP_ID_CREDENTIAL: ${{ secrets.APP_ID_CREDENTIAL }}
+      MEASUREMENT_ID_CREDENTIAL: ${{ secrets.MEASUREMENT_ID_CREDENTIAL }}
 
     steps:
       # Descargar el código fuente
       - name: 🏗 Download source code
         uses: actions/checkout@v3
 
-      # Configurar Node.js
+      # Configurar Node.js 
       - name: 🏗 Configure Node
         uses: actions/setup-node@v3
         with:
@@ -61,3 +68,29 @@ jobs:
           --data-urlencode 'ContentSid=HXb5b62575e6e4ff6129ad7c8efe1f983e' \
           --data-urlencode 'ContentVariables={"1":"El despliegue y las pruebas unitarias se completaron con éxito. ","2":"Felicidades!!!!"}' \
           -u "${ACCOUNT_SID}:${AUTH_TOKEN}"
+
+
+      #Credentials   
+      - name: Download repository
+        uses: actions/checkout@v2
+
+      - name: Print Firebase Config
+        run: cat firebase-config.js
+
+      - name: Clean Credentials
+        run: |
+             sed -i 's/API_KEY_CREDENTIAL/${{ env.API_KEY_CREDENTIAL }}/g' firebase-config.js 
+             sed -i 's/AUTH_DOMAIN_CREDENTIAL/${AUTH_DOMAIN_CREDENTIAL}/g' firebase-config.js
+             sed -i 's/PROJECT_ID_CREDENTIAL/${PROJECT_ID_CREDENTIAL}/g' firebase-config.js
+             sed -i 's/STORAGE_BUCKET_CREDENTIAL/${STORAGE_BUCKET_CREDENTIAL}/g' firebase-config.js
+             sed -i 's/MESSAGING_SENDER_ID_CREDENTIAL/${MESSAGING_SENDER_ID_CREDENTIAL}/g' firebase-config.js
+             sed -i 's/MEASUREMENT_ID_CREDENTIAL/${MEASUREMENT_ID_CREDENTIAL}/g' firebase-config.js
+             sed -i 's/APP_ID_CREDENTIAL/${APP_ID_CREDENTIAL}/g' firebase-config.js
+      - name: Print Firebase Config Secured
+        run: cat firebase-config.js
+
+      - name: Versioning the component
+        uses: actions/upload-artifact@v4        # es lo mismo que run: git clone https://github.com/urp-moviles-2024-2/login-firebase-demo.git
+        with:
+          name: PROYECTO_CARRENTALAPP
+          path: ./
