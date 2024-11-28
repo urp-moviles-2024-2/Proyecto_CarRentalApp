@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, FlatList, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { GLOBAL_STYLES } from '../constants/styles';
 import useCars from '../components/Cars/useCars';
 import CarItem from '../components/Cars/CarItem';
 
@@ -87,7 +88,7 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: GLOBAL_STYLES.colors.colorblanco,
     paddingHorizontal: 20,
   },
   topBar: {

@@ -47,3 +47,8 @@ npm install -g expo-cli
 expo install @react-native-async-storage/async-storage
 npx expo install @react-native-async-storage/async-storage
 
+
+nuevo john
+npm install react-native-paper
+
+
