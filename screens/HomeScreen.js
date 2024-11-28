@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { GLOBAL_STYLES } from '../constants/styles';
 import useCars from '../components/Cars/useCars';
 import CarItem from '../components/Cars/CarItem';
+import { cardsData } from '../data/cardsData';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -16,13 +17,6 @@ const HomeScreen = () => {
   const brandsHandler = () => {navigation.navigate('SearchAllScreen');};
   const carsHandler = () => {navigation.navigate('AllCarsScreen');};
   const searchHandler = () => {navigation.navigate('SearchScreen');};
-  const trendingBrands = [
-    { id: 1, name: 'Tesla', logo: 'https://via.placeholder.com/40' },
-    { id: 2, name: 'Mercedes', logo: 'https://via.placeholder.com/40' },
-    { id: 3, name: 'Ferrari', logo: 'https://via.placeholder.com/40' },
-    { id: 4, name: 'Bugatti', logo: 'https://via.placeholder.com/40' },
-    { id: 5, name: 'BMW', logo: 'https://via.placeholder.com/40' },
-  ];
 
 
   return (
@@ -55,7 +49,7 @@ const HomeScreen = () => {
           </TouchableOpacity>
         </View>
         <FlatList
-          data={trendingBrands}
+          data={cardsData}
           horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={item => item.id.toString()}

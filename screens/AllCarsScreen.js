@@ -8,6 +8,7 @@ import TitleScreen from '../components/TitleScreen';
 import FiltersModal from '../components/Buttons/FilterModal';
 import useCars from '../components/Cars/useCars';
 import { useNavigation } from '@react-navigation/native';
+//import CarContext from '../store/context/CarContext';
 
 const AllCarsScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -19,6 +20,8 @@ const AllCarsScreen = () => {
   const handleHomeScreen = () => {
     navigation.navigate('HomeScreen'); 
   };
+
+  //const carsCtx = useContext(CarContext);
 
   return (
     <View style={styles.container}>

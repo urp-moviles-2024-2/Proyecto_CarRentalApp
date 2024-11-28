@@ -5,10 +5,14 @@ import Title from "../components/Title";
 import PrimaryButton from "../components/PrimaryButton";
 import SocialButton from "../components/Buttons/SocialButton";
 import { app } from "../firebase-config";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import FirebaseSignUpForm from "../components/Firebase/FirebaseSignUpForm";
 import SubText from "../components/SubText";
 import Description from "../components/Description";
+
+
+//import { getDatabase, ref, set } from "firebase/database";
+
 
 const SignUpScreen = () => {
   const navigation = useNavigation();
@@ -29,14 +33,15 @@ const SignUpScreen = () => {
     }
 
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        Alert.alert("Felicidades, te registraste con éxito!!");
-        navigation.navigate("Login");
-      })
-      .catch((error) => {
-        Alert.alert("Error en el registro.", error.message);
-      });
+    .then(async (userCredential) => {
+      const user = userCredential.user;
+
+      Alert.alert("Felicidades, te registraste con éxito!!");
+      navigation.navigate("Login");
+    })
+    .catch((error) => {
+      Alert.alert("Error en el registro.", error.message);
+    });
   };
 
   const handleGoogleSignIn = () => {
