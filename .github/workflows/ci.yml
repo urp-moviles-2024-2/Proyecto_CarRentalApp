@@ -2,7 +2,7 @@ name: ci
 
 on:
   push:
-    branches: [landeon2_screens] # Nombre de la rama
+    branches: [main2] # Nombre de la rama
 
 jobs:
   build:

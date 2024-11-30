@@ -3,17 +3,6 @@ import { initializeAuth, inMemoryPersistence } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
 import { API_KEY_CREDENTIAL, AUTH_DOMAIN_CREDENTIAL, DATABASE_URL_CREDENTIAL, PROJECT_ID_CREDENTIAL, STORAGE_BUCKET_CREDENTIAL, MESSAGING_SENDER_ID_CREDENTIAL, APP_ID_CREDENTIAL, MEASUREMENT_ID_CREDENTIAL } from '@env';
 
-// export const firebaseConfig = {
-//   apiKey: "AIzaSyDsFGpcnrvzAJRUMs-sJcMliCxDUIlMXEk",
-//   authDomain: "loginappcar.firebaseapp.com",
-//   databaseURL: "https://loginappcar-default-rtdb.firebaseio.com",
-//   projectId: "loginappcar",
-//   storageBucket: "loginappcar.firebasestorage.app",
-//   messagingSenderId: "499695849448",
-//   appId: "1:499695849448:web:26762d96ffce761c1dde5d",
-//   measurementId: "G-XQ6BX87H8E"
-// };
-
 export const firebaseConfig = {
   apiKey: API_KEY_CREDENTIAL,
   authDomain: AUTH_DOMAIN_CREDENTIAL,
