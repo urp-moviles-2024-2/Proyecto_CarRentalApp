@@ -1,4 +1,4 @@
-name: ci # Nombre del workflowwww
+name: ci # Nombre del workflow
 
 on:
   push:
@@ -19,13 +19,15 @@ jobs:
       MESSAGING_SENDER_ID_CREDENTIAL: ${{ secrets.MESSAGING_SENDER_ID_CREDENTIAL }}
       APP_ID_CREDENTIAL: ${{ secrets.APP_ID_CREDENTIAL }}
       MEASUREMENT_ID_CREDENTIAL: ${{ secrets.MEASUREMENT_ID_CREDENTIAL }}
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Token para SonarQube
-      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}  # URL del servidor SonarQube
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
     steps:
       # 1. Descargar el código fuente
       - name: 🏗 Download source code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Para un análisis más relevante de SonarQube
 
       # 2. Configurar Node.js
       - name: 🏗 Configure Node
@@ -54,11 +56,27 @@ jobs:
       - name: 🧪 Run unit tests
         run: npm test
 
-      # 7. Desplegar preview en Expo
+      # 7. Ejecutar análisis de SonarQube
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        with:
+          projectBaseDir: ./ # Directorio raíz de tu proyecto
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      # 8. (Opcional) Falla el pipeline si la Quality Gate no pasa
+      - name: SonarQube Quality Gate
+        if: always()
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      
+      # 9. Desplegar preview en Expo
       - name: 🚀 Deploy to Expo Preview
         run: eas update --auto --non-interactive
 
-      # 8. Configurar credenciales
+      # 10. Configurar credenciales
       - name: Print Firebase Config
         run: cat firebase-config.js
 
@@ -76,13 +94,7 @@ jobs:
       - name: Print Firebase Config Secured
         run: cat firebase-config.js
 
-      # 9. Ejecutar análisis de SonarQube
-      - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@master
-        with:
-          projectBaseDir: ./
-
-      # 10. Notificación por WhatsApp
+      # 11. Notificación por WhatsApp
       - name: 📲 Notify on WhatsApp
         if: success()
         env:
