@@ -59,7 +59,7 @@ const LoginScreen = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
       <Image
         source={require('../assets/logo.png')}
         style={styles.logo}
@@ -84,7 +84,9 @@ const LoginScreen = () => {
       <TouchableOpacity>
         <Text style={styles.forgot}>Forgot Password?</Text>
       </TouchableOpacity>
-      <PrimaryButton onPressButton={handleLogin}>Login</PrimaryButton>
+      <View style={styles.fullButtonContainer}>
+        <PrimaryButton onPressButton={handleLogin}>Login</PrimaryButton>
+      </View>
       <Text style={styles.gristext}>Or continue with social account</Text>
       <View style={styles.socialButtonsContainer}>
         <SocialButton
@@ -106,16 +108,20 @@ const LoginScreen = () => {
           <Text style={styles.text}> SignUp</Text>
         </TouchableOpacity>
       </SubText>
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    flex: 1,
+    paddingTop: 50,
     alignItems: 'center',
     backgroundColor: GLOBAL_STYLES.colors.colorblanco,
-    padding: 20,
+    paddingHorizontal: 15,
+  },
+  fullButtonContainer: {
+    width: '100%',
   },
   subtext: {
     fontSize: 30,

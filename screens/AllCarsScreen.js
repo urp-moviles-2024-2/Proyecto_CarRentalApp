@@ -22,8 +22,12 @@ const AllCarsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <ReturntButton onPressButton={handleHomeScreen} />
-      <TitleScreen>All Cars</TitleScreen>
+
+      <View style={styles.container2}>
+        <ReturntButton onPressButton={handleHomeScreen} />
+        <TitleScreen>All Cars</TitleScreen>
+      </View>
+      
       <View style={styles.header}>
         <View style={styles.searchContainer}>
           <Icon name="search" size={20} color="#888" style={styles.searchIcon} />
@@ -58,10 +62,14 @@ const AllCarsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingTop: 20,
+    paddingTop: 50,
     backgroundColor: '#f5f5f5',
+  },
+  container2: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start'
   },
   header: {
     flexDirection: 'row',
@@ -70,7 +78,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     width: '100%',
     justifyContent: 'space-between',
-    marginTop: 30,
   },
   searchContainer: {
     flexDirection: 'row',

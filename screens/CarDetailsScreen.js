@@ -6,10 +6,13 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  FlatList
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import PrimaryButton from '../components/PrimaryButton';
 import DateTime from '../components/DateAndTime/DateTime';
+import ReturnButton from '../components/Buttons/ReturnButton';
+import TitleScreen from '../components/TitleScreen';
 
 const CarDetailScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -23,37 +26,50 @@ const CarDetailScreen = () => {
   };
   const handleConfirmDateTime = data => {
     setSelectedData(data); // Guardar fecha y hora seleccionada
-    console.log('Fecha y Hora Seleccionada:', data); // Muestra en consola (provisional)
   };
+  const handlerHome = () => {
+    navigation.navigate('HomeScreen');
+  };
+
+  const specsData = [
+    { id: '1', title: 'Engine', value: '1600 hp' },
+    { id: '2', title: 'Transmission', value: 'Automatic' },
+    { id: '3', title: 'Fuel Type', value: 'Petrol' },
+  ];
+
+  const renderItem = ({ item }) => (
+    <View style={styles.card}>
+      <Text style={styles.specTitle}>{item.title}</Text>
+      <Text style={styles.specValue}>{item.value}</Text>
+    </View>
+  );
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {/* Header */}
-      <Text style={styles.title}>Porches Panamera</Text>
-
-      <Image
-        source={require('../assets/porsche.jpg')} // Imagen de ejemplo
-        style={styles.carImage}
-      />
-
-      {/* Specifications Section */}
-      <View style={styles.specsContainer}>
-        <View style={styles.card}>
-          <Text style={styles.specTitle}>Engine</Text>
-          <Text style={styles.specValue}>1600 hp</Text>
-        </View>
-        <View style={styles.card}>
-          <Text style={styles.specTitle}>Transmission</Text>
-          <Text style={styles.specValue}>Automatic</Text>
-        </View>
-        <View style={styles.card}>
-          <Text style={styles.specTitle}>Fuel Type</Text>
-          <Text style={styles.specValue}>Petrol</Text>
-        </View>
+    <View style={styles.container}>
+      <View style={styles.container2}>
+        <ReturnButton onPressButton={handlerHome} />
+        <TitleScreen>Porsche Panemera</TitleScreen>
       </View>
 
-      {/* Description */}
+      <View style={styles.container3}>
+        <Image
+          source={require('../assets/porsche.jpg')}
+          style={styles.carImage}
+        />
+      </View>
+      
+
+      <View style={styles.specsContainer}>
+        <FlatList
+          data={specsData}
+          keyExtractor={item => item.id}
+          renderItem={renderItem} 
+          horizontal={true} 
+        />
+      </View>
+
       <View style={styles.descriptionContainer}>
-        <Text style={styles.descriptionTitle}>Descriptions</Text>
+        <Text style={styles.titleSection}>Descriptions</Text>
         <Text style={styles.descriptionText}>
           Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
           sint. Velit officia consequat duis enim velit mollit. Exercitation
@@ -61,9 +77,9 @@ const CarDetailScreen = () => {
         </Text>
       </View>
 
-      {/* Best Features */}
+{/*
       <View style={styles.featuresContainer}>
-        <Text style={styles.featuresTitle}>Best Features</Text>
+        <Text style={styles.titleSection}>Best Features</Text>
         <View style={styles.featureItem}>
           <Text style={styles.featureName}>Bluetooth Connectivity</Text>
           <Text style={styles.featureValue}>Yes</Text>
@@ -73,36 +89,45 @@ const CarDetailScreen = () => {
           <Text style={styles.featureValue}>Yes</Text>
         </View>
       </View>
-
-      {/* Footer */}
+*/}
+      
       <View style={styles.footer}>
         <View style={styles.priceContainer}>
           <Text style={styles.totalPriceText}>Total Price</Text>
           <Text style={styles.totalPrice}>$90,000</Text>
         </View>
-        <PrimaryButton onPressButton={handleOpenModalDate}>
-          Book Now
-        </PrimaryButton>
+        <View style={styles.fullButtonContainer}>
+          <PrimaryButton onPressButton={handleOpenModalDate}>
+            Book Now
+          </PrimaryButton>
+        </View>
+        
         <DateTime
           visible={modalVisible}
           onClose={handleCloseModalDate}
           onConfirm={handleConfirmDateTime}
         />
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
+    flex: 1,
+    paddingHorizontal: 15,
+    paddingTop: 50,
     backgroundColor: '#fff',
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 16,
+  container2: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  container3: {
+    marginTop: 10
+  },
+  fullButtonContainer: {
+    width: '100%',
   },
   iconCircle: {
     width: 48,
@@ -118,15 +143,14 @@ const styles = StyleSheet.create({
     color: '#4caf50',
   },
   specsContainer: {
-    flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     marginVertical: 16,
   },
   card: {
-    flex: 1,
     backgroundColor: '#f9f9f9',
-    padding: 16,
-    marginHorizontal: 4,
+    padding: 20,
+    marginHorizontal: 5,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#ddd',
@@ -144,26 +168,46 @@ const styles = StyleSheet.create({
   descriptionContainer: {
     marginVertical: 16,
   },
-  descriptionTitle: {
+  titleSection: {
     fontSize: 18,
     fontWeight: 'bold',
   },
   carImage: {
-    alignSelf: 'center', // Centra la imagen horizontalmente sin cambiar el tamaño
-    marginBottom: 16, // Agrega espacio debajo de la imagen
+    alignSelf: 'center', 
+    marginBottom: 15,
+    width: '100%'
   },
   descriptionText: {
     fontSize: 14,
     color: '#666',
     marginTop: 8,
+  },  
+  footer: {
+    marginTop: 15,
+    alignItems: 'center',
+    paddingHorizontal: 15,
   },
-  featuresContainer: {
-    marginVertical: 16,
+  priceContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
   },
-  featuresTitle: {
-    fontSize: 18,
+  totalPriceText: {
+    fontSize: 16,
+    color: '#666',
+  },
+  totalPrice: {
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 8,
+    color: '#4caf50',
+  },
+});
+
+export default CarDetailScreen;
+
+
+{/*
+    featuresContainer: {
+    marginVertical: 16,
   },
   featureItem: {
     flexDirection: 'row',
@@ -178,38 +222,4 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
   },
-  footer: {
-    marginTop: 16,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-  },
-  priceContainer: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-  },
-  totalPriceText: {
-    fontSize: 16,
-    color: '#666',
-  },
-  totalPrice: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#4caf50',
-  },
-  bookButton: {
-    backgroundColor: '#9df900',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  bookButtonText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
-});
-
-export default CarDetailScreen;
+  */}

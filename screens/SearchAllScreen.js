@@ -10,111 +10,104 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import {Ionicons} from '@expo/vector-icons';
+import { cardsData } from '../data/cardsData';
+import ReturnButton from '../components/Buttons/ReturnButton';
+import TitleScreen from '../components/TitleScreen';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const SearchAllScreen = () => {
   const navigation = useNavigation();
-  const handleAllCarsScreen = () => {
-    navigation.navigate('AllCarsScreen');
-  };
   const handlerHome = () => {
     navigation.navigate('HomeScreen');
   };
 
-  const cardsData = [
-    {
-      id: '1',
-      name: 'Tesla',
-      image: require('../assets/imgMarcas/tesla.jpg'),
-    },
-    {
-      id: '2',
-      name: 'Mercedes',
-      image: require('../assets/imgMarcas/mercedes.png'),
-    },
-    {
-      id: '3',
-      name: 'Ferrari',
-      image: require('../assets/imgMarcas/ferrari.png'),
-    },
-    {
-      id: '4',
-      name: 'Bugatti',
-      image: require('../assets/imgMarcas/bugatti.png'),
-    },
-    {id: '5', name: 'BMW', image: require('../assets/imgMarcas/bmw.png')},
-    {
-      id: '6',
-      name: 'Lamborghini',
-      image: require('../assets/imgMarcas/lamborghini.png'),
-    },
-  ];
+  const renderItem = ({item, index}) => (
+    <View>
+      <TouchableOpacity style={styles.brandItem}>
+        <Image source={item.image} style={styles.logo}/>
+        <Text style={styles.brandName}>
+          {item.name}
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Ionicons
-          name="arrow-back"
-          size={24}
-          color="black"
-          onPress={handlerHome}
-        />
-        <Text style={styles.headerText}>All Brands</Text>
+    <View style={styles.container1}>
+      <View style={styles.container2}>
+        <ReturnButton onPressButton={handlerHome} />
+        <TitleScreen>All Brands</TitleScreen>
       </View>
 
-      {/* Search Bar */}
-      <TextInput style={styles.searchInput} placeholder="Search" />
+      <View style={styles.header}>
+        <View style={styles.searchContainer}>
+          <Icon name="search" size={20} color="#888" style={styles.searchIcon} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search"
+          />
+        </View>
+      </View>
 
-      {/* List Title */}
-      <Text style={styles.listTitle}>All Brands</Text>
+      <View>
+          <Text style={styles.listTitle}>All Brands</Text>
 
-      {/* Brands List */}
-      <FlatList
-        data={cardsData}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => (
-          <TouchableOpacity style={styles.brandItem}>
-            <Image source={{uri: item.logo}} style={styles.logo} />
-            <View style={styles.brandInfo}>
-              <Text style={styles.brandName}>{item.name}</Text>
-              <Text style={styles.carsAvailable}>{item.cars}</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={20} color="#ccc" />
-          </TouchableOpacity>
-        )}
-      />
+          <FlatList
+            data={cardsData}
+            keyExtractor={item => item.id}
+            renderItem={renderItem}
+          />
+      </View>
+      
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  container1: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingHorizontal: 15,
+    paddingTop: 50
+  },
+  container2: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 20,
+    width: '100%',
+    marginTop: 40
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#d3d3d3',
+    borderRadius: 25,
+    width: '100%',
+    height: 50,
+  },
+  searchIcon: {
+    position: 'absolute',
+    marginLeft: 15,
+  },
+  searchInput: {
+    backgroundColor: 'transparent',
+    color: '#333',
+    paddingLeft: 45,
+    fontSize: 16,
   },
   headerText: {
     fontSize: 18,
     fontWeight: 'bold',
     marginLeft: 8,
   },
-  searchInput: {
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    marginBottom: 16,
-  },
   listTitle: {
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 10,
+    textAlign: 'left'
   },
   brandItem: {
     flexDirection: 'row',
@@ -141,11 +134,7 @@ const styles = StyleSheet.create({
   brandName: {
     fontSize: 16,
     fontWeight: 'bold',
-  },
-  carsAvailable: {
-    fontSize: 14,
-    color: '#666',
-  },
+  }
 });
 
 export default SearchAllScreen;

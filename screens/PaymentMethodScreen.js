@@ -8,8 +8,15 @@ import {
   FlatList,
 } from 'react-native';
 import SavedCard from '../components/CardPayment';
+import PrimaryButton from '../components/PrimaryButton';
+import ReturnButton from '../components/Buttons/ReturnButton';
+import TitleScreen from '../components/TitleScreen';
+import { useNavigation } from '@react-navigation/native';
+
 
 const PaymentMethodScreen = () => {
+  const navigation = useNavigation();
+  
   const [newCard, setNewCard] = useState({
     cardNumber: '',
     cardHolderName: '',
@@ -36,6 +43,10 @@ const PaymentMethodScreen = () => {
     setNewCard({...newCard, [field]: value});
   };
 
+  const handleHome = () => {
+    navigation.navigate('HomeScreen');
+  };
+
   const renderSavedCard = ({item}) => (
     <SavedCard
       cardNumber={item.cardNumber}
@@ -45,10 +56,18 @@ const PaymentMethodScreen = () => {
     />
   );
 
+  const handleAddress = () => {
+    navigation.navigate('AddressSelector');
+  };
+
   return (
     <View style={styles.container}>
+      <View style={styles.container2}>
+        <ReturnButton onPressButton={handleAddress} />
+        <TitleScreen>Address</TitleScreen>
+      </View>
+
       <View style={styles.header}>
-        <Text style={styles.title}>Payment Method</Text>
         <TouchableOpacity
           style={styles.changeButton}
           onPress={() => console.log('Change button pressed')}
@@ -87,9 +106,7 @@ const PaymentMethodScreen = () => {
           value={newCard.cvv}
           onChangeText={value => handleInputChange('cvv', value)}
         />
-        <TouchableOpacity style={styles.payNowButton}>
-          <Text style={styles.payNowText}>Pay Now</Text>
-        </TouchableOpacity>
+        <PrimaryButton onPressButton={handleHome}>Pay Now</PrimaryButton>
       </View>
     </View>
   );
@@ -98,22 +115,23 @@ const PaymentMethodScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 15,
+    paddingTop: 50,
     backgroundColor: '#fff',
+    paddingBottom:40
+  },
+  container2: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: 'flex-end',
     marginBottom: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    marginTop: 20
   },
   changeButton: {
     backgroundColor: 'transparent',
-    padding: 10,
   },
   changeText: {
     fontSize: 16,
@@ -132,18 +150,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     marginBottom: 15,
-  },
-  payNowButton: {
-    backgroundColor: '#c3e54b',
-    borderRadius: 10,
-    padding: 15,
-    alignItems: 'center',
-  },
-  payNowText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-  },
+  }
 });
 
 export default PaymentMethodScreen;

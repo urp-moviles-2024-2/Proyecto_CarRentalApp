@@ -47,13 +47,13 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     padding: 10,
-    width: '99%',  
+    width: '100%',  
     alignSelf: 'center', 
   },
   carImage: {
-    width: 380,
+    width: '100%',
     height: 180, 
-    borderRadius: 8,
+    borderRadius: 8
   },
   carNameContainer: {
     marginTop: 10,

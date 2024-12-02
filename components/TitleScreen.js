@@ -10,12 +10,9 @@ export default TitleScreen;
 
 const styles = StyleSheet.create({
   title: {
-    position:'relative',
-    top:40,
     fontSize: 15,
     fontWeight: "bold",
     textAlign: 'center',
-    width: 200,
-    marginBottom:2,
+    width: '100%',
   },
 });

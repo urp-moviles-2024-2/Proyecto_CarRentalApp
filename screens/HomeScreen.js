@@ -4,6 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import { GLOBAL_STYLES } from '../constants/styles';
 import useCars from '../components/Cars/useCars';
 import CarItem from '../components/Cars/CarItem';
+import { cardsData } from '../data/cardsData';
+import Description from '../components/Description';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -16,22 +18,19 @@ const HomeScreen = () => {
   const brandsHandler = () => {navigation.navigate('SearchAllScreen');};
   const carsHandler = () => {navigation.navigate('AllCarsScreen');};
   const searchHandler = () => {navigation.navigate('SearchScreen');};
-  const trendingBrands = [
-    { id: 1, name: 'Tesla', logo: 'https://via.placeholder.com/40' },
-    { id: 2, name: 'Mercedes', logo: 'https://via.placeholder.com/40' },
-    { id: 3, name: 'Ferrari', logo: 'https://via.placeholder.com/40' },
-    { id: 4, name: 'Bugatti', logo: 'https://via.placeholder.com/40' },
-    { id: 5, name: 'BMW', logo: 'https://via.placeholder.com/40' },
-  ];
-
+  
+  const renderItem = ({item, index}) => (
+    <View style={styles.brandItem}>
+      <Image source={item.image} style={styles.brandLogo}/>
+      <Text style={styles.brandName}>
+        {item.name}
+      </Text>
+    </View>
+  );
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.topBar}>
-        <Image
-          source={{ uri: 'https://via.placeholder.com/20' }}
-          style={styles.locationIcon}
-        />
         <Text style={styles.locationText}>Ahmedabad, INDIA</Text>
         <TouchableOpacity style={styles.dropdownIcon} onPress={searchHandler}>
           <Text>▼</Text>
@@ -39,7 +38,7 @@ const HomeScreen = () => {
       </View>
       <View style={styles.header}>
         <Text style={styles.greeting}>Hello Johnson 👋</Text>
-        <Text style={styles.subtitle}>Let’s find your favourite car here</Text>
+        <Description style={styles.subtitle}>Let’s find your favourite car here</Description>
       </View>
       <TextInput
         style={styles.searchInput}
@@ -49,25 +48,21 @@ const HomeScreen = () => {
       />
       <View>
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Trending Brands</Text>
-          <TouchableOpacity onPress={brandsHandler}>
-            <Text style={styles.viewAll}>View All</Text>
-          </TouchableOpacity>
-        </View>
-        <FlatList
-          data={trendingBrands}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={item => item.id.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.brandItem}>
-              <Image source={{ uri: item.logo }} style={styles.brandLogo} />
-              <Text style={styles.brandName}>{item.name}</Text>
-            </View>
-          )}
-        />
+            <Text style={styles.sectionTitle}>Trending Brands</Text>
+            <TouchableOpacity onPress={brandsHandler}>
+              <Text style={styles.viewAll}>View All</Text>
+            </TouchableOpacity>
+          </View>
+          <FlatList
+            data={cardsData}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={item => item.id}
+            renderItem={renderItem}
+            scrollEnabled={false}
+          />
       </View>
-      <View>
+        
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Popular Cars</Text>
           <TouchableOpacity onPress={carsHandler}>
@@ -78,10 +73,8 @@ const HomeScreen = () => {
           data={highRatedCars}
           keyExtractor={item => item.id.toString()}
           renderItem={({ item }) => <CarItem car={item} />}
-          scrollEnabled={false} // Evitar desplazamiento interno
         />
-      </View>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -90,11 +83,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: GLOBAL_STYLES.colors.colorblanco,
     paddingHorizontal: 20,
+    scrollEnabled: true,
+    paddingTop: 50
   },
   topBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 40,
     marginBottom: '1%',
   },
   locationIcon: {
@@ -118,15 +112,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   subtitle: {
-    fontSize: 16,
-    color: '#666',
-    marginTop: 5,
+    
   },
   searchInput: {
     backgroundColor: '#E9E9E9',
     borderRadius: 10,
-    padding: 10,
-    marginVertical: 20,
+    padding: 10
   },
   sectionHeader: {
     flexDirection: 'row',

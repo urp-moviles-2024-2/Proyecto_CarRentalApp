@@ -1,16 +1,16 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   FlatList,
-  TouchableOpacity,
   TextInput,
 } from 'react-native';
 import AddressCard from '../components/CardAddress';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import PrimaryButton from '../components/PrimaryButton';
 import Icon from 'react-native-vector-icons/Ionicons';
+import ReturnButton from '../components/Buttons/ReturnButton';
+import TitleScreen from '../components/TitleScreen';
 
 const AddressSelector = () => {
   const [selectedAddress, setSelectedAddress] = useState(null);
@@ -18,6 +18,9 @@ const AddressSelector = () => {
   const navigation = useNavigation();
   const handlePaymentMethodScreen = () => {
     navigation.navigate('PaymentMethodScreen');
+  };
+  const handleCarDetails = () => {
+    navigation.navigate('CarDetailScreen');
   };
   const addresses = [
     {
@@ -45,18 +48,25 @@ const AddressSelector = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Address</Text>
+      <View style={styles.container2}>
+        <ReturnButton onPressButton={handleCarDetails} />
+        <TitleScreen>Address</TitleScreen>
+      </View>
 
-      <TextInput
-        style={styles.searchInput}
-        placeholder="Search"
-        value={searchText}
-        onChangeText={setSearchText}
-      />
+      <View style={styles.header}>
+        <View style={styles.searchContainer}>
+          <Icon name="search" size={20} color="#888" style={styles.searchIcon} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search"
+          />
+        </View>
+      </View>
+
       <FlatList
         data={filteredAddresses}
         keyExtractor={item => item.id}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <AddressCard
             title={item.title}
             address={item.address}
@@ -71,7 +81,6 @@ const AddressSelector = () => {
 };
 
 const styles = StyleSheet.create({
-  header: {fontSize: 24, fontWeight: 'bold', marginBottom: 10, marginTop: 50},
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -82,29 +91,40 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 16,
+    paddingHorizontal: 15,
+    paddingTop: 50,
     backgroundColor: '#fff',
+    paddingBottom:40
+  },
+  container2: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+    width: '100%',
+    marginTop: 40
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#d3d3d3',
+    borderRadius: 25,
+    width: '100%',
+    height: 50,
+  },
+  searchIcon: {
+    position: 'absolute',
+    marginLeft: 15,
   },
   searchInput: {
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    marginBottom: 16,
-    paddingHorizontal: 12,
-  },
-  confirmButton: {
-    backgroundColor: '##c3e54b',
-    paddingVertical: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  confirmButtonText: {
+    backgroundColor: 'transparent',
+    color: '#333',
+    paddingLeft: 45,
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
+  }
 });
 
 export default AddressSelector;

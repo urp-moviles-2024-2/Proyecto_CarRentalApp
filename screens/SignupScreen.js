@@ -9,6 +9,7 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import FirebaseSignUpForm from "../components/Firebase/FirebaseSignUpForm";
 import SubText from "../components/SubText";
 import Description from "../components/Description";
+import { GLOBAL_STYLES } from "../constants/styles";
 
 const SignUpScreen = () => {
   const navigation = useNavigation();
@@ -50,7 +51,7 @@ const SignUpScreen = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
       <Image source={require("../assets/logo.png")} style={styles.logo} resizeMode="contain" />
       <Title>Welcome Back 👋</Title>
       <SubText>
@@ -69,7 +70,11 @@ const SignUpScreen = () => {
       <TouchableOpacity>
         <Text style={styles.forgot}>Forgot Password?</Text>
       </TouchableOpacity>
-      <PrimaryButton onPressButton={handleSignUp}>SignUp</PrimaryButton>
+
+      <View style={styles.fullButtonContainer}>
+        <PrimaryButton onPressButton={handleSignUp}>SignUp</PrimaryButton>
+      </View>
+
       <Text style={styles.gristext}>Or continue with social account</Text>
       <View style={styles.socialButtonsContainer}>
         <SocialButton onPressButton={handleGoogleSignIn} backgroundColor="#fff" logo={require("../assets/google-logo.png")}>
@@ -85,7 +90,7 @@ const SignUpScreen = () => {
           <Text style={styles.text}>Login</Text>
         </TouchableOpacity>
       </SubText>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -93,10 +98,14 @@ export default SignUpScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    alignItems: "center",
-    backgroundColor: "#fff",
-    padding: 20,
+    flex: 1,
+    paddingTop: 50,
+    alignItems: 'center',
+    backgroundColor: GLOBAL_STYLES.colors.colorblanco,
+    paddingHorizontal: 15
+  },
+  fullButtonContainer: {
+    width: '100%',
   },
   subtext: {
     fontSize: 30,
@@ -123,7 +132,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "90%",
     marginTop: 10,
-    marginBottom: 20, // Aumentado el margen
+    marginBottom: 20,
   },
   text: {
     color: "#9acd32",
