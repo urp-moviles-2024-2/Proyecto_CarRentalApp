@@ -1,8 +1,8 @@
-name: ci #linea pra enviar cambios xd
+name: ci # Nombre del workflow
 
 on:
   push:
-    branches: [sonar] # Nombre de la rama
+    branches: [sonar] # Rama en la que se ejecutará este workflow
 
 jobs:
   build:
@@ -13,28 +13,28 @@ jobs:
       WHATSAPP_API_URL: ${{ secrets.WHATSAPP_API_URL }}
       API_KEY_CREDENTIAL: ${{ secrets.API_KEY_CREDENTIAL }}
       AUTH_DOMAIN_CREDENTIAL: ${{ secrets.AUTH_DOMAIN_CREDENTIAL }}
-      DATABASE_URL_CREDENTIAL: ${{secrets.DATABASE_URL_CREDENTIAL}}
+      DATABASE_URL_CREDENTIAL: ${{ secrets.DATABASE_URL_CREDENTIAL }}
       PROJECT_ID_CREDENTIAL: ${{ secrets.PROJECT_ID_CREDENTIAL }}
       STORAGE_BUCKET_CREDENTIAL: ${{ secrets.STORAGE_BUCKET_CREDENTIAL }}
       MESSAGING_SENDER_ID_CREDENTIAL: ${{ secrets.MESSAGING_SENDER_ID_CREDENTIAL }}
       APP_ID_CREDENTIAL: ${{ secrets.APP_ID_CREDENTIAL }}
       MEASUREMENT_ID_CREDENTIAL: ${{ secrets.MEASUREMENT_ID_CREDENTIAL }}
-      #SONAR
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # analysis token associated to your project
-      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Token para SonarQube
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}  # URL del servidor SonarQube
+
     steps:
-      # Descargar el código fuente
+      # 1. Descargar el código fuente
       - name: 🏗 Download source code
         uses: actions/checkout@v4
 
-      # Configurar Node.js 
+      # 2. Configurar Node.js
       - name: 🏗 Configure Node
         uses: actions/setup-node@v4
         with:
           node-version: 18.x
           cache: npm
 
-      # Configurar Expo
+      # 3. Configurar Expo
       - name: 🏗 Configure Expo
         uses: expo/expo-github-action@v8
         with:
@@ -42,64 +42,56 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      # Crear un archivo .npmrc para forzar legacy-peer-deps
+      # 4. Configurar npm para legacy-peer-deps
       - name: 📝 Configure npm
         run: echo "legacy-peer-deps=true" >> ~/.npmrc
 
-      # Instalar dependencias
+      # 5. Instalar dependencias
       - name: 📦 Install dependencies
         run: npm install
 
-      # Ejecutar pruebas unitarias
+      # 6. Ejecutar pruebas unitarias
       - name: 🧪 Run unit tests
         run: npm test
 
-      # Desplegar preview en Expo
+      # 7. Desplegar preview en Expo
       - name: 🚀 Deploy to Expo Preview
         run: eas update --auto --non-interactive
 
-      #Credentials   
-      - name: Download repository
-        uses: actions/checkout@v2
-
+      # 8. Configurar credenciales
       - name: Print Firebase Config
         run: cat firebase-config.js
 
       - name: Clean Credentials
         run: |
-             sed -i 's/API_KEY_CREDENTIAL/${{ env.API_KEY_CREDENTIAL }}/g' firebase-config.js 
-             sed -i 's/AUTH_DOMAIN_CREDENTIAL/${AUTH_DOMAIN_CREDENTIAL}/g' firebase-config.js
-             sed -i 's/DATABASE_URL_CREDENTIAL/${DATABASE_URL_CREDENTIAL}/g' firebase-config.js
-             sed -i 's/PROJECT_ID_CREDENTIAL/${PROJECT_ID_CREDENTIAL}/g' firebase-config.js
-             sed -i 's/STORAGE_BUCKET_CREDENTIAL/${STORAGE_BUCKET_CREDENTIAL}/g' firebase-config.js
-             sed -i 's/MESSAGING_SENDER_ID_CREDENTIAL/${MESSAGING_SENDER_ID_CREDENTIAL}/g' firebase-config.js
-             sed -i 's/MEASUREMENT_ID_CREDENTIAL/${MEASUREMENT_ID_CREDENTIAL}/g' firebase-config.js
-             sed -i 's/APP_ID_CREDENTIAL/${APP_ID_CREDENTIAL}/g' firebase-config.js
+          sed -i 's/API_KEY_CREDENTIAL/${{ env.API_KEY_CREDENTIAL }}/g' firebase-config.js 
+          sed -i 's/AUTH_DOMAIN_CREDENTIAL/${{ env.AUTH_DOMAIN_CREDENTIAL }}/g' firebase-config.js
+          sed -i 's/DATABASE_URL_CREDENTIAL/${{ env.DATABASE_URL_CREDENTIAL }}/g' firebase-config.js
+          sed -i 's/PROJECT_ID_CREDENTIAL/${{ env.PROJECT_ID_CREDENTIAL }}/g' firebase-config.js
+          sed -i 's/STORAGE_BUCKET_CREDENTIAL/${{ env.STORAGE_BUCKET_CREDENTIAL }}/g' firebase-config.js
+          sed -i 's/MESSAGING_SENDER_ID_CREDENTIAL/${{ env.MESSAGING_SENDER_ID_CREDENTIAL }}/g' firebase-config.js
+          sed -i 's/MEASUREMENT_ID_CREDENTIAL/${{ env.MEASUREMENT_ID_CREDENTIAL }}/g' firebase-config.js
+          sed -i 's/APP_ID_CREDENTIAL/${{ env.APP_ID_CREDENTIAL }}/g' firebase-config.js
+
       - name: Print Firebase Config Secured
         run: cat firebase-config.js
 
-      - name: Versioning the component
-        uses: actions/upload-artifact@v4        # es lo mismo que run: git clone https://github.com/urp-moviles-2024-2/login-firebase-demo.git
-        with:
-          name: PROYECTO_CARRENTALAPP
-          path: ./
-
-     #SONAR SCANER
+      # 9. Ejecutar análisis de SonarQube
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         with:
-          name: PROYECTO_CARRENTALAPP
-          path: ./
-      # Notificación por WhatsApp (opcional) 
-      - name: 📲 Notify on WhatsApp           #en este caso se esta usando twilio ,cambiarlo si usar ultrasmg o solo cambiar al curl de tu twilio
+          projectBaseDir: ./
+
+      # 10. Notificación por WhatsApp
+      - name: 📲 Notify on WhatsApp
         if: success()
         env:
           ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
           AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
         run: |
-          curl 'https://api.twilio.com/2010-04-01/Accounts/AC11c4d3a75c4468650fa267d6071e3904/Messages.json' -X POST \
+          curl 'https://api.twilio.com/2010-04-01/Accounts/${{ secrets.TWILIO_ACCOUNT_SID }}/Messages.json' -X POST \
           --data-urlencode 'To=whatsapp:+51951664953' \
           --data-urlencode 'From=whatsapp:+14155238886' \
           --data-urlencode 'ContentSid=HXb5b62575e6e4ff6129ad7c8efe1f983e' \
-          --data-urlencode 'ContentVariables={"1":"El despliegue y las pruebas unitarias se completaron con éxito. ","2":"Felicidades!!!!"}' \
-          -u "${ACCOUNT_SID}:${AUTH_TOKEN}"
+          --data-urlencode 'ContentVariables={"1":"El despliegue y las pruebas unitarias se completaron con éxito.","2":"¡Felicidades!"}' \
+          -u "${{ secrets.TWILIO_ACCOUNT_SID }}:${{ secrets.TWILIO_AUTH_TOKEN }}"
