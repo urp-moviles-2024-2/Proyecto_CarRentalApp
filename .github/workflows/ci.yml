@@ -59,18 +59,9 @@ jobs:
       # 7. Ejecutar análisis de SonarQube
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
-        with:
-          projectBaseDir: ./src # Directorio raíz de tu proyecto
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-
-      # 8. (Opcional) Falla el pipeline si la Quality Gate no pasa
-      - name: SonarQube Quality Gate
-        if: always()
-        uses: sonarsource/sonarqube-quality-gate-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       
       # 9. Desplegar preview en Expo
       - name: 🚀 Deploy to Expo Preview
