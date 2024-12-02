@@ -1,22 +1,14 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  FlatList,
-} from 'react-native';
+import React, { useState } from 'react';
+import {View,Text,TextInput,TouchableOpacity,StyleSheet, FlatList, Alert,} from 'react-native';
 import SavedCard from '../components/CardPayment';
 import PrimaryButton from '../components/PrimaryButton';
 import ReturnButton from '../components/Buttons/ReturnButton';
 import TitleScreen from '../components/TitleScreen';
 import { useNavigation } from '@react-navigation/native';
 
-
 const PaymentMethodScreen = () => {
   const navigation = useNavigation();
-  
+
   const [newCard, setNewCard] = useState({
     cardNumber: '',
     cardHolderName: '',
@@ -40,14 +32,33 @@ const PaymentMethodScreen = () => {
   ];
 
   const handleInputChange = (field, value) => {
-    setNewCard({...newCard, [field]: value});
+    setNewCard({ ...newCard, [field]: value });
   };
 
-  const handleHome = () => {
-    navigation.navigate('HomeScreen');
+  const handlePayNow = () => {
+    // Mostrar confirmación antes del pago
+    Alert.alert(
+      'Confirm Payment',
+      'Are you sure you want to proceed with the payment?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Confirm',
+          onPress: () => {
+            // Navegar al HomeScreen con un mensaje de éxito
+            navigation.navigate('HomeScreen', {
+              successMessage: 'Payment completed successfully!',
+            });
+          },
+        },
+      ]
+    );
   };
 
-  const renderSavedCard = ({item}) => (
+  const renderSavedCard = ({ item }) => (
     <SavedCard
       cardNumber={item.cardNumber}
       cardHolderName={item.cardHolderName}
@@ -78,7 +89,7 @@ const PaymentMethodScreen = () => {
       <FlatList
         data={savedCards}
         renderItem={renderSavedCard}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
         style={styles.savedCardsList}
       />
       <View style={styles.addCardSection}>
@@ -86,27 +97,27 @@ const PaymentMethodScreen = () => {
           style={styles.input}
           placeholder="Card Number"
           value={newCard.cardNumber}
-          onChangeText={value => handleInputChange('cardNumber', value)}
+          onChangeText={(value) => handleInputChange('cardNumber', value)}
         />
         <TextInput
           style={styles.input}
           placeholder="Card Holder Name"
           value={newCard.cardHolderName}
-          onChangeText={value => handleInputChange('cardHolderName', value)}
+          onChangeText={(value) => handleInputChange('cardHolderName', value)}
         />
         <TextInput
           style={styles.input}
           placeholder="Expiry Date"
           value={newCard.expiryDate}
-          onChangeText={value => handleInputChange('expiryDate', value)}
+          onChangeText={(value) => handleInputChange('expiryDate', value)}
         />
         <TextInput
           style={styles.input}
           placeholder="CVV"
           value={newCard.cvv}
-          onChangeText={value => handleInputChange('cvv', value)}
+          onChangeText={(value) => handleInputChange('cvv', value)}
         />
-        <PrimaryButton onPressButton={handleHome}>Pay Now</PrimaryButton>
+        <PrimaryButton onPressButton={handlePayNow}>Pay Now</PrimaryButton>
       </View>
     </View>
   );
@@ -118,7 +129,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingTop: 50,
     backgroundColor: '#fff',
-    paddingBottom:40
+    paddingBottom: 40,
   },
   container2: {
     flexDirection: 'row',
@@ -128,7 +139,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     marginBottom: 20,
-    marginTop: 20
+    marginTop: 20,
   },
   changeButton: {
     backgroundColor: 'transparent',
@@ -150,7 +161,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     marginBottom: 15,
-  }
+  },
 });
 
 export default PaymentMethodScreen;

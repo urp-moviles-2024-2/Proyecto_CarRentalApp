@@ -12,7 +12,6 @@ const CarDetailScreen = () => {
   const navigation = useNavigation();
   const { car } = route.params; // Datos del auto seleccionado desde la BD
   const [modalVisible, setModalVisible] = useState(false);
-
   const handleOpenModalDate = () => setModalVisible(true);
   const handleCloseModalDate = () => setModalVisible(false);
 
@@ -21,13 +20,14 @@ const CarDetailScreen = () => {
     { id: '2', title: 'Transmission', value: car.type },
     { id: '3', title: 'Features', value: car.char },
   ];
-
   const renderItem = ({ item }) => (
     <View style={styles.card}>
       <Text style={styles.specTitle}>{item.title}</Text>
       <Text style={styles.specValue}>{item.value}</Text>
     </View>
   );
+
+
 
   return (
     <View style={styles.container}>
@@ -48,12 +48,10 @@ const CarDetailScreen = () => {
           horizontal={true}
         />
       </View>
-
       <View style={styles.descriptionContainer}>
         <Text style={styles.titleSection}>Description</Text>
         <Text style={styles.descriptionText}>{car.description}</Text>
       </View>
-
       <View style={styles.footer}>
         <View style={styles.priceContainer}>
           <Text style={styles.totalPriceText}>Total Price</Text>
@@ -62,11 +60,11 @@ const CarDetailScreen = () => {
         <View style={styles.fullButtonContainer}>
           <PrimaryButton onPressButton={handleOpenModalDate}>Book Now</PrimaryButton>
         </View>
-
         <DateTime
           visible={modalVisible}
           onClose={handleCloseModalDate}
           onConfirm={(data) => console.log('Date selected:', data)}
+          car={car} // Aquí pasamos el objeto `car`
         />
       </View>
     </View>
@@ -141,7 +139,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 200,
     resizeMode: 'cover',
-    borderRadius: 50, // Bordes más redondeados
+    borderRadius: 50,
   },
   descriptionText: {
     fontSize: 14,
@@ -167,6 +165,4 @@ const styles = StyleSheet.create({
     color: '#4caf50',
   },
 });
-
-
 export default CarDetailScreen;

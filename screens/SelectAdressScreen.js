@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
-import {
-  View,
-  StyleSheet,
-  FlatList,
-  TextInput,
-} from 'react-native';
+import {View,StyleSheet,FlatList,TextInput,} from 'react-native';
+import { useRoute } from '@react-navigation/native'; //Hook
 import AddressCard from '../components/CardAddress';
 import { useNavigation } from '@react-navigation/native';
 import PrimaryButton from '../components/PrimaryButton';
@@ -16,12 +12,16 @@ const AddressSelector = () => {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [searchText, setSearchText] = useState('');
   const navigation = useNavigation();
+  const route = useRoute(); // Para acceder a los parámetros de navegación
+  const car = route.params?.car; // Obtener el objeto `car`
   const handlePaymentMethodScreen = () => {
-    navigation.navigate('PaymentMethodScreen');
+    navigation.navigate('PaymentMethodScreen', { car });
   };
+
   const handleCarDetails = () => {
-    navigation.navigate('CarDetailsScreen');
+    navigation.navigate('CarDetailsScreen', { car });
   };
+
   const addresses = [
     {
       id: '1',
@@ -59,6 +59,8 @@ const AddressSelector = () => {
           <TextInput
             style={styles.searchInput}
             placeholder="Search"
+            value={searchText}
+            onChangeText={setSearchText}
           />
         </View>
       </View>
@@ -79,7 +81,6 @@ const AddressSelector = () => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',

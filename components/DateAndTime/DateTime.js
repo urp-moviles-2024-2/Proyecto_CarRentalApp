@@ -3,14 +3,16 @@ import { StyleSheet, Text, View, Modal, TouchableOpacity, FlatList } from 'react
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 
-const DateTime = ({ visible, onClose, onConfirm }) => {
+
+const DateTime = ({ visible, onClose, onConfirm, car }) => {
   const navigation = useNavigation();
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState('07:00 AM');
 
-  const times = ['07:00 AM', '09:00 AM', '11:00 AM', '12:00 PM','14:00 PM'];
+  const times = ['07:00 AM', '09:00 AM', '11:00 AM', '12:00 PM', '14:00 PM'];
 
   const handleDateChange = (event, date) => {
     if (date) {
@@ -20,16 +22,17 @@ const DateTime = ({ visible, onClose, onConfirm }) => {
   };
 
   const handleSelectAdressScreen = () => {
-    navigation.navigate('SelectAdressScreen'); 
+    if (car) {
+      navigation.navigate('SelectAdressScreen', { car }); // Pasar `car` a la siguiente pantalla
+    } else {
+      console.error('El objeto car no está definido');
+    }
   };
 
   const handleConfirm = () => {
     onConfirm({ date: selectedDate, time: selectedTime });
+    handleSelectAdressScreen(); // Navegar a la pantalla de selección de dirección
     onClose();
-  };
-  const handleButtonPress = () => {  //Doble funcion de handlers
-    handleConfirm();
-    handleSelectAdressScreen();
   };
 
   return (
@@ -79,7 +82,7 @@ const DateTime = ({ visible, onClose, onConfirm }) => {
             <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
               <Text style={styles.cancelButtonText}>Cancel</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.confirmButton} onPress={handleButtonPress}>
+            <TouchableOpacity style={styles.confirmButton} onPress={handleConfirm}>
               <Text style={styles.confirmButtonText}>Confirm</Text>
             </TouchableOpacity>
           </View>

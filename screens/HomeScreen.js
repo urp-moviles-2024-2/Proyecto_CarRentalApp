@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
-import { StyleSheet, Text, View, TextInput, FlatList, Image, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, useContext, useEffect } from 'react';
+import { StyleSheet, Text, View, TextInput, FlatList,Image,TouchableOpacity,} from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { GLOBAL_STYLES } from '../constants/styles';
 import { CarsContext } from '../data/context/CarsContext';
 import CarItem from '../components/Cars/CarItem';
@@ -9,7 +9,19 @@ import Description from '../components/Description';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
+  const route = useRoute();
   const { cars, searchQuery, setSearchQuery } = useContext(CarsContext);
+
+  // Verifica si hay un mensaje de éxito
+  const [successMessage, setSuccessMessage] = useState(null);
+
+  useEffect(() => {
+    if (route.params?.successMessage) {
+      setSuccessMessage(route.params.successMessage);
+      // Limpia el parámetro después de mostrar el mensaje
+      navigation.setParams({ successMessage: null });
+    }
+  }, [route.params?.successMessage]);
 
   const highRatedCars = cars.filter(
     (car) =>
@@ -30,6 +42,12 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
+      {/* Muestra el mensaje de éxito si existe */}
+      {successMessage && (
+        <View style={styles.successMessageContainer}>
+          <Text style={styles.successMessageText}>{successMessage}</Text>
+        </View>
+      )}
       <View style={styles.topBar}>
         <Text style={styles.locationText}>Ahmedabad, INDIA</Text>
         <TouchableOpacity style={styles.dropdownIcon} onPress={searchHandler}>
@@ -38,7 +56,9 @@ const HomeScreen = () => {
       </View>
       <View style={styles.header}>
         <Text style={styles.greeting}>Hello Johnson 👋</Text>
-        <Description style={styles.subtitle}>Let’s find your favourite car here</Description>
+        <Description style={styles.subtitle}>
+          Let’s find your favourite car here
+        </Description>
       </View>
       <TextInput
         style={styles.searchInput}
@@ -83,17 +103,23 @@ const styles = StyleSheet.create({
     backgroundColor: GLOBAL_STYLES.colors.colorblanco,
     paddingHorizontal: 20,
     scrollEnabled: true,
-    paddingTop: 50
+    paddingTop: 50,
+  },
+  successMessageContainer: {
+    backgroundColor: '#D4EDDA',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  successMessageText: {
+    color: '#155724',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   topBar: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: '1%',
-  },
-  locationIcon: {
-    width: 20,
-    height: 20,
-    marginRight: 10,
   },
   locationText: {
     fontSize: 16,
@@ -110,13 +136,10 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
   },
-  subtitle: {
-    
-  },
   searchInput: {
     backgroundColor: '#E9E9E9',
     borderRadius: 10,
-    padding: 10
+    padding: 10,
   },
   sectionHeader: {
     flexDirection: 'row',
