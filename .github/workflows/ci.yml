@@ -85,12 +85,11 @@ jobs:
           path: ./
 
      #SONAR SCANER
-     - name: SonarQube Scan
-       uses: sonarsource/sonarqube-scan-action@master
-       with:
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        with:
           name: PROYECTO_CARRENTALAPP
           path: ./
-          
       # Notificación por WhatsApp (opcional) 
       - name: 📲 Notify on WhatsApp           #en este caso se esta usando twilio ,cambiarlo si usar ultrasmg o solo cambiar al curl de tu twilio
         if: success()
