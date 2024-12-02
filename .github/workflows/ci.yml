@@ -67,7 +67,7 @@ jobs:
             -Dsonar.projectKey=github
             -Dsonar.projectName=github
             -Dsonar.projectVersion=1.0
-            -Dsonar.sources=src
+            -Dsonar.sources=.
             -Dsonar.language=js
             -Dsonar.sourceEncoding=UTF-8 
       # 9. Desplegar preview en Expo
