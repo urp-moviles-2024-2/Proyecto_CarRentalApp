@@ -1,33 +1,42 @@
-import { StyleSheet, View, FlatList, TextInput } from 'react-native';
-import React, { useState } from 'react';
-import ReturntButton from '../components/Buttons/ReturnButton';
+import React, { useContext, useState } from 'react';
+import { StyleSheet, View, TextInput, Text } from 'react-native';
+import { CarsContext } from '../data/context/CarsContext';
+import ReturnButton from '../components/Buttons/ReturnButton';
+import CarList from '../components/Cars/CarList';
 import FilterButton from '../components/Buttons/FilterButton';
-import CarItem from '../components/Cars/CarItem';
 import Icon from 'react-native-vector-icons/Ionicons';
 import TitleScreen from '../components/TitleScreen';
+import { GLOBAL_STYLES } from '../constants/styles';
 import FiltersModal from '../components/Buttons/FilterModal';
-import useCars from '../components/Cars/useCars';
 import { useNavigation } from '@react-navigation/native';
 
+
 const AllCarsScreen = () => {
+  const { cars, filters, handleFilterChange, handleClearFilters, searchQuery, setSearchQuery } = useContext(CarsContext);
   const [modalVisible, setModalVisible] = useState(false);
+
   const navigation = useNavigation();
-  const { cars, filters,searchQuery,setSearchQuery,handleFilterChange, handleClearFilters,} = useCars();
-  const handleOpenModal = () => {setModalVisible(true); };
-  const handleCloseModal = () => {setModalVisible(false);};
 
   const handleHomeScreen = () => {
-    navigation.navigate('HomeScreen'); 
+    navigation.navigate('HomeScreen');
   };
 
+  const handleOpenModal = () => setModalVisible(true);
+  const handleCloseModal = () => setModalVisible(false);
+
+  const handleCarPress = (car) => {
+    navigation.navigate('CarDetailScreen', { car }); // Navega con los datos del carro
+  };
+
+
+
+  
   return (
     <View style={styles.container}>
-
       <View style={styles.container2}>
-        <ReturntButton onPressButton={handleHomeScreen} />
+        <ReturnButton onPressButton={handleHomeScreen} />
         <TitleScreen>All Cars</TitleScreen>
       </View>
-      
       <View style={styles.header}>
         <View style={styles.searchContainer}>
           <Icon name="search" size={20} color="#888" style={styles.searchIcon} />
@@ -39,15 +48,9 @@ const AllCarsScreen = () => {
           />
         </View>
         <FilterButton onPressButton={handleOpenModal}>Filter</FilterButton>
+        
       </View>
-      <FlatList
-        data={cars}
-        renderItem={({ item }) => <CarItem car={item} />}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.carList}
-        contentInsetAdjustmentBehavior="automatic"
-        showsVerticalScrollIndicator={false}
-      />
+      <CarList cars={cars} onCarPress={handleCarPress} />
       <FiltersModal
         visible={modalVisible}
         onClose={handleCloseModal}
@@ -64,12 +67,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingTop: 50,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: GLOBAL_STYLES.colors.colorblanco,
   },
   container2: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
   },
   header: {
     flexDirection: 'row',
@@ -104,10 +107,5 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     fontSize: 16,
   },
-  carList: {
-    paddingTop: 10,
-    paddingBottom: 20,
-  },
 });
-
 export default AllCarsScreen;

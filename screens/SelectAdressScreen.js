@@ -20,7 +20,7 @@ const AddressSelector = () => {
     navigation.navigate('PaymentMethodScreen');
   };
   const handleCarDetails = () => {
-    navigation.navigate('CarDetailScreen');
+    navigation.navigate('CarDetailsScreen');
   };
   const addresses = [
     {

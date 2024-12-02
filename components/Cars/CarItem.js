@@ -3,32 +3,32 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 
-const CarItem = ({ car }) => {
+const CarItem = ({ cars }) => {
   const navigation = useNavigation();
 
   const handleCarDetailsScreen = () => {
-    navigation.navigate('CarDetailsScreen', { car });
+    navigation.navigate('CarDetailsScreen', { car: cars });
   };
 
   return (
     <View style={styles.carContainer}>
       <TouchableOpacity onPress={handleCarDetailsScreen}>
-        <Image source={{ uri: car.image }} style={styles.carImage} />
+        <Image source={{ uri: cars.image }} style={styles.carImage} />
       </TouchableOpacity>
       <View style={styles.carNameContainer}>
-        <Text style={styles.carName}>{car.name}</Text>
+        <Text style={styles.carName}>{cars.name}</Text>
         <View style={styles.ratingContainer}>
-          <Text style={styles.carRating}>{car.starts}</Text>
+          <Text style={styles.carRating}>{cars.starts}</Text>
           <Icon name="star" size={16} color="#FFD700" style={styles.starIcon} />
         </View>
       </View>
       <View style={styles.carDetails}>
         <View style={styles.carInfo}>
           <Icon name="speedometer" size={16} color="#d3d3d3" style={styles.speedIcon} />
-          <Text>{car.hpower} hp</Text>
+          <Text>{cars.hpower} hp</Text>
           <Icon name="car" size={16} color="#d3d3d3" style={styles.speedIcon} />
-          <Text>{car.type}</Text>
-          <Text style={styles.carPrice}>{car.price}</Text>
+          <Text>{cars.type}</Text>
+          <Text style={styles.carPrice}>{cars.price}</Text>
         </View>
       </View>
     </View>
@@ -37,7 +37,7 @@ const CarItem = ({ car }) => {
 
 const styles = StyleSheet.create({
   carContainer: {
-    flexDirection: 'column',  // Coloca la imagen arriba y la información abajo
+    flexDirection: 'column',
     marginBottom: 20,
     borderRadius: 10,
     backgroundColor: 'white',
@@ -47,29 +47,29 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     padding: 10,
-    width: '100%',  
-    alignSelf: 'center', 
+    width: '100%',
+    alignSelf: 'center',
   },
   carImage: {
     width: '100%',
-    height: 180, 
-    borderRadius: 8
+    height: 180,
+    borderRadius: 8,
   },
   carNameContainer: {
     marginTop: 10,
-    alignItems: 'center',  
-    flexDirection: 'row',  // Coloca nombre y rating en una fila
-    justifyContent: 'space-between',  // Espacio entre el nombre y el rating
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     width: '90%',
   },
   carName: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginLeft: 40,  // Espacio entre el nombre y las estrellas
+    marginLeft: 40,
   },
   ratingContainer: {
-    flexDirection: 'row',  // Alinea las estrellas con el rating
-    justifyContent: 'center',  // Centra las estrellas
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   starIcon: {
@@ -83,14 +83,14 @@ const styles = StyleSheet.create({
   carDetails: {
     marginTop: 10,
     width: '100%',
-    alignItems: 'center', // Centra la información debajo de la imagen
+    alignItems: 'center',
   },
   carInfo: {
     flexDirection: 'row',
     justifyContent: 'center',
     marginVertical: 5,
     width: '90%',
-    justifyContent: 'space-between', 
+    justifyContent: 'space-between',
   },
   speedIcon: {
     marginLeft: 15,
@@ -100,8 +100,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 15,
     color: 'black',
-    bottom:1,
-    fontWeight:'bold',
+    fontWeight: 'bold',
   },
 });
 

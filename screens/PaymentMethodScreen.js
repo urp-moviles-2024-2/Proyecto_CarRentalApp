@@ -57,7 +57,7 @@ const PaymentMethodScreen = () => {
   );
 
   const handleAddress = () => {
-    navigation.navigate('AddressSelector');
+    navigation.navigate('SelectAdressScreen');
   };
 
   return (

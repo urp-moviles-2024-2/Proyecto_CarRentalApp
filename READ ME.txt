@@ -9,8 +9,8 @@ npm install react-native-paper
 npm install @react-native-firebase/app @react-native-firebase/database
 npm install @react-native-firebase/app @react-native-firebase/database
 
-
-
+npm install @reduxjs/toolkit react-redux
+npm install axios
 ----------------------------------------------------------------------------------------------
 
 npm install @react-navigation/stack

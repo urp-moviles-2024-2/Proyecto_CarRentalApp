@@ -1,40 +1,25 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  FlatList
-} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import { View, Text, Image, StyleSheet, FlatList } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import PrimaryButton from '../components/PrimaryButton';
 import DateTime from '../components/DateAndTime/DateTime';
 import ReturnButton from '../components/Buttons/ReturnButton';
+import { GLOBAL_STYLES } from '../constants/styles';
 import TitleScreen from '../components/TitleScreen';
 
 const CarDetailScreen = () => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedData, setSelectedData] = useState(null);
+  const route = useRoute();
   const navigation = useNavigation();
-  const handleOpenModalDate = () => {
-    setModalVisible(true);
-  };
-  const handleCloseModalDate = () => {
-    setModalVisible(false);
-  };
-  const handleConfirmDateTime = data => {
-    setSelectedData(data); // Guardar fecha y hora seleccionada
-  };
-  const handlerHome = () => {
-    navigation.navigate('HomeScreen');
-  };
+  const { car } = route.params; // Datos del auto seleccionado desde la BD
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleOpenModalDate = () => setModalVisible(true);
+  const handleCloseModalDate = () => setModalVisible(false);
 
   const specsData = [
-    { id: '1', title: 'Engine', value: '1600 hp' },
-    { id: '2', title: 'Transmission', value: 'Automatic' },
-    { id: '3', title: 'Fuel Type', value: 'Petrol' },
+    { id: '1', title: 'Horsepower', value: `${car.hpower} hp` },
+    { id: '2', title: 'Transmission', value: car.type },
+    { id: '3', title: 'Features', value: car.char },
   ];
 
   const renderItem = ({ item }) => (
@@ -47,65 +32,41 @@ const CarDetailScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.container2}>
-        <ReturnButton onPressButton={handlerHome} />
-        <TitleScreen>Porsche Panemera</TitleScreen>
+        <ReturnButton onPressButton={() => navigation.navigate('HomeScreen')} />
+        <TitleScreen>{car.name}</TitleScreen>
       </View>
 
       <View style={styles.container3}>
-        <Image
-          source={require('../assets/porsche.jpg')}
-          style={styles.carImage}
-        />
+        <Image source={{ uri: car.image }} style={styles.carImage} />
       </View>
-      
 
       <View style={styles.specsContainer}>
         <FlatList
           data={specsData}
-          keyExtractor={item => item.id}
-          renderItem={renderItem} 
-          horizontal={true} 
+          keyExtractor={(item) => item.id}
+          renderItem={renderItem}
+          horizontal={true}
         />
       </View>
 
       <View style={styles.descriptionContainer}>
-        <Text style={styles.titleSection}>Descriptions</Text>
-        <Text style={styles.descriptionText}>
-          Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
-          sint. Velit officia consequat duis enim velit mollit. Exercitation
-          veniam consequat sunt nostrud amet.
-        </Text>
+        <Text style={styles.titleSection}>Description</Text>
+        <Text style={styles.descriptionText}>{car.description}</Text>
       </View>
 
-{/*
-      <View style={styles.featuresContainer}>
-        <Text style={styles.titleSection}>Best Features</Text>
-        <View style={styles.featureItem}>
-          <Text style={styles.featureName}>Bluetooth Connectivity</Text>
-          <Text style={styles.featureValue}>Yes</Text>
-        </View>
-        <View style={styles.featureItem}>
-          <Text style={styles.featureName}>Automatic Climate Control</Text>
-          <Text style={styles.featureValue}>Yes</Text>
-        </View>
-      </View>
-*/}
-      
       <View style={styles.footer}>
         <View style={styles.priceContainer}>
           <Text style={styles.totalPriceText}>Total Price</Text>
-          <Text style={styles.totalPrice}>$90,000</Text>
+          <Text style={styles.totalPrice}>{car.price}</Text>
         </View>
         <View style={styles.fullButtonContainer}>
-          <PrimaryButton onPressButton={handleOpenModalDate}>
-            Book Now
-          </PrimaryButton>
+          <PrimaryButton onPressButton={handleOpenModalDate}>Book Now</PrimaryButton>
         </View>
-        
+
         <DateTime
           visible={modalVisible}
           onClose={handleCloseModalDate}
-          onConfirm={handleConfirmDateTime}
+          onConfirm={(data) => console.log('Date selected:', data)}
         />
       </View>
     </View>
@@ -117,14 +78,15 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 15,
     paddingTop: 50,
-    backgroundColor: '#fff',
+    backgroundColor: GLOBAL_STYLES.colors.colorblanco,
   },
   container2: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
+    marginRight: 20,
   },
   container3: {
-    marginTop: 10
+    marginTop: 10,
   },
   fullButtonContainer: {
     width: '100%',
@@ -173,15 +135,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   carImage: {
-    alignSelf: 'center', 
+    alignSelf: 'center',
     marginBottom: 15,
-    width: '100%'
+    marginTop: 15,
+    width: '100%',
+    height: 200,
+    resizeMode: 'cover',
+    borderRadius: 50, // Bordes más redondeados
   },
   descriptionText: {
     fontSize: 14,
     color: '#666',
     marginTop: 8,
-  },  
+  },
   footer: {
     marginTop: 15,
     alignItems: 'center',
@@ -202,24 +168,5 @@ const styles = StyleSheet.create({
   },
 });
 
+
 export default CarDetailScreen;
-
-
-{/*
-    featuresContainer: {
-    marginVertical: 16,
-  },
-  featureItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 8,
-  },
-  featureName: {
-    fontSize: 14,
-    color: '#666',
-  },
-  featureValue: {
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-  */}
