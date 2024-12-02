@@ -3,6 +3,7 @@ import React from 'react'
 import PrimaryButton from '../components/PrimaryButton'
 import { useNavigation } from '@react-navigation/native';
 import TitleScreen from '../components/TitleScreen';
+import { GLOBAL_STYLES } from '../constants/styles';
 
 
 const FavoriteScreen = () => {

@@ -4,7 +4,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
-
+import { GLOBAL_STYLES } from '../../constants/styles';
 
 const DateTime = ({ visible, onClose, onConfirm, car }) => {
   const navigation = useNavigation();
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 16,
-    shadowColor: '#000',
+    shadowColor: GLOBAL_STYLES.colors.colornegro,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   dateButton: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: GLOBAL_STYLES.colors.colorgristransparente,
     padding: 12,
     borderRadius: 8,
     marginBottom: 20,
@@ -143,13 +143,13 @@ const styles = StyleSheet.create({
     marginLeft: '30%',
   },
   timeButton: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: GLOBAL_STYLES.colors.colorgristransparente,
     padding: 12,
     marginHorizontal: 5,
     borderRadius: 8,
   },
   selectedTimeButton: {
-    backgroundColor: '#9acd32',
+    backgroundColor: GLOBAL_STYLES.colors.colorverdeprincipal,
   },
   timeButtonText: {
     fontSize: 16,
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     flex: 1,
-    backgroundColor: '#d3d3d3',
+    backgroundColor: GLOBAL_STYLES.colors.colorgristransparente,
     paddingVertical: 12,
     borderRadius: 8,
     alignItems: 'center',
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   },
   confirmButton: {
     flex: 1,
-    backgroundColor: '#9acd32',
+    backgroundColor: GLOBAL_STYLES.colors.colorverdeprincipal,
     paddingVertical: 12,
     borderRadius: 8,
     alignItems: 'center',

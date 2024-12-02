@@ -13,6 +13,7 @@ import {useNavigation} from '@react-navigation/native';
 import {optionsData} from '../data/optionProfile';
 import TitleScreen from '../components/TitleScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { GLOBAL_STYLES } from '../constants/styles';
 
 const MyProfileScreen = () => {
   const navigation = useNavigation();
@@ -29,7 +30,7 @@ const MyProfileScreen = () => {
 
   const renderCard = (label, iconName) => (
     <View style={styles.card}>
-      <Icon name={iconName} size={40} color="#9FDE55" />
+      <Icon name={iconName} size={40} color="GLOBAL_STYLES.colors.colorverdeprincipal" />
       <Text style={styles.cardLabel}>{label}</Text>
     </View>
   );

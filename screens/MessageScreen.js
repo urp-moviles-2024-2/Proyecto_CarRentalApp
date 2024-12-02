@@ -3,7 +3,7 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {messages} from '../data/messages';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import { GLOBAL_STYLES } from '../constants/styles';
 import TitleScreen from '../components/TitleScreen';
 
 const MessageScreen = () => {
@@ -76,17 +76,18 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#d3d3d3',
+    backgroundColor: GLOBAL_STYLES.colors.colorgristransparente,
     borderRadius: 25,
     width: '100%',
     height: 50,
+    borderColor: GLOBAL_STYLES.colors.colorgrisletrasybordes,
+    borderWidth: 0.5
   },
   searchIcon: {
     position: 'absolute',
     marginLeft: 15,
   },
   searchInput: {
-    backgroundColor: 'transparent',
     color: '#333',
     paddingLeft: 45,
     fontSize: 16,
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
   infoContainer: {alignItems: 'flex-end'},
   time: {fontSize: 12, color: '#aaa'},
   unreadBadge: {
-    backgroundColor: '#0f0',
+    backgroundColor: GLOBAL_STYLES.colors.colorverdeprincipal,
     borderRadius: 12,
     padding: 4,
     minWidth: 24,

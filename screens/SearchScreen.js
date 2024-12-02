@@ -10,7 +10,8 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import ReturnButton from '../components/Buttons/ReturnButton';
 import TitleScreen from '../components/TitleScreen';
-import { Icon } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { GLOBAL_STYLES } from '../constants/styles';
 
 const SearchScreen = () => {
   const categories = [
@@ -96,7 +97,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 15,
-    paddingTop: 50
+    paddingTop: 50,
+    backgroundColor: GLOBAL_STYLES.colors.colorblanco
   },
   container2: {
     flexDirection: 'row',
@@ -112,10 +114,12 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#d3d3d3',
+    backgroundColor: GLOBAL_STYLES.colors.colorgristransparente,
     borderRadius: 25,
     width: '100%',
     height: 50,
+    borderColor: GLOBAL_STYLES.colors.colorgrisletrasybordes,
+    borderWidth: 0.5
   },
   searchIcon: {
     position: 'absolute',

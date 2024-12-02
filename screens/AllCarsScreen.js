@@ -85,13 +85,15 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#d3d3d3',
+    backgroundColor: GLOBAL_STYLES.colors.colorgristransparente,
     borderRadius: 25,
     flex: 1,
     height: 50,
     paddingLeft: 15,
     marginRight: 10,
     top: 12,
+    borderColor: GLOBAL_STYLES.colors.colorgrisletrasybordes,
+    borderWidth: 0.5
   },
   searchIcon: {
     position: 'absolute',
@@ -100,7 +102,6 @@ const styles = StyleSheet.create({
   searchInput: {
     height: 50,
     flex: 1,
-    backgroundColor: 'transparent',
     color: '#333',
     paddingLeft: 35,
     paddingRight: 15,

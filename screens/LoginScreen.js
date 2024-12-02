@@ -15,8 +15,7 @@ import FirebaseLoginForm from '../components/Firebase/FirebaseLoginForm';
 import PrimaryButton from '../components/PrimaryButton';
 import SocialButton from '../components/Buttons/SocialButton';
 import { initializeAuth, inMemoryPersistence } from 'firebase/auth';
-
-
+import { GLOBAL_STYLES } from '../constants/styles';
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -25,7 +24,6 @@ import {
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "../firebase-config";
 import Description from '../components/Description';
-import { GLOBAL_STYLES } from '../constants/styles';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -105,7 +103,7 @@ const LoginScreen = () => {
       <SubText>
         <Text>Didn't have an account? </Text>
         <TouchableOpacity onPress={handleSignUp}>
-          <Text style={styles.text}> SignUp</Text>
+          <Text style={styles.text}>SignUp</Text>
         </TouchableOpacity>
       </SubText>
     </View>
@@ -140,8 +138,7 @@ const styles = StyleSheet.create({
   },
   forgot: {
     color: GLOBAL_STYLES.colors.colorverdeprincipal,
-    alignSelf: 'flex-end',
-    marginLeft: '50%',
+    alignSelf: 'center'
   },
   socialButtonsContainer: {
     flexDirection: 'row',

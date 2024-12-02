@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import Title from '../components/Title';
 import PrimaryButton from '../components/PrimaryButton';
+import { GLOBAL_STYLES } from '../constants/styles';
 
 const ChooseInterestScreen = () => {
   const navigation = useNavigation();
@@ -30,7 +31,7 @@ const ChooseInterestScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: GLOBAL_STYLES.colors.colorblanco,
     justifyContent: 'center',
     paddingHorizontal: 15,
     paddingTop: 50,
@@ -38,17 +39,17 @@ const styles = StyleSheet.create({
   },
   container2: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: GLOBAL_STYLES.colors.colorblanco,
   },
   title:{
     textAlign:'left',
   },
   text:{
-    color: '#000',
+    color: GLOBAL_STYLES.colors.colornegro,
     textAlign: 'center'
   },
   button:{
-    backgroundColor: '#9acd32',
+    backgroundColor: GLOBAL_STYLES.colors.colorverdeprincipal,
     padding: 10,
     paddingHorizontal: 20,
     borderRadius: 10,

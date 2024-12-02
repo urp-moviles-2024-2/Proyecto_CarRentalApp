@@ -6,6 +6,7 @@ import { CarsContext } from '../data/context/CarsContext';
 import CarItem from '../components/Cars/CarItem';
 import { cardsData } from '../data/cardsData';
 import Description from '../components/Description';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -60,12 +61,19 @@ const HomeScreen = () => {
           Let’s find your favourite car here
         </Description>
       </View>
-      <TextInput
-        style={styles.searchInput}
-        placeholder="Search cars"
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-      />
+
+      <View style={styles.header2}>
+        <View style={styles.searchContainer}>
+          <Icon name="search" size={20} color="#888" style={styles.searchIcon} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search"
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+          />
+        </View>
+      </View>
+
       <View>
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Trending Brands</Text>
@@ -112,7 +120,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   successMessageText: {
-    color: '#155724',
+    color: GLOBAL_STYLES.colors.colorverdeprincipal,
     fontWeight: 'bold',
     textAlign: 'center',
   },
@@ -136,10 +144,31 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
   },
+  header2: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+    width: '100%',
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: GLOBAL_STYLES.colors.colorgristransparente,
+    borderRadius: 25,
+    width: '100%',
+    height: 50,
+    borderColor: GLOBAL_STYLES.colors.colorgrisletrasybordes,
+    borderWidth: 0.5
+  },
+  searchIcon: {
+    position: 'absolute',
+    marginLeft: 15,
+  },
   searchInput: {
-    backgroundColor: '#E9E9E9',
-    borderRadius: 10,
-    padding: 10,
+    backgroundColor: 'transparent',
+    color: '#333',
+    paddingLeft: 45,
+    fontSize: 16,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -153,7 +182,7 @@ const styles = StyleSheet.create({
   },
   viewAll: {
     fontSize: 14,
-    color: '#3CB371',
+    color: GLOBAL_STYLES.colors.colorverdeprincipal,
   },
   brandItem: {
     alignItems: 'center',

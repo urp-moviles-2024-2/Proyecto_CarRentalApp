@@ -20,6 +20,8 @@ import MyProfileScreen from './screens/MyProfileScreen';
 import FavoriteScreen from './screens/FavoriteScreen';
 import CarsContextProvider from './data/context/CarsContext';
 
+import { GLOBAL_STYLES } from './constants/styles';
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -40,7 +42,7 @@ function HomeTabs() {
           }
           return <Icon name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: 'tomato',
+        tabBarActiveTintColor: GLOBAL_STYLES.colors.colorverdeprincipal,
         tabBarInactiveTintColor: 'gray',
         headerShown: false,
       })}

@@ -14,6 +14,7 @@ import { cardsData } from '../data/cardsData';
 import ReturnButton from '../components/Buttons/ReturnButton';
 import TitleScreen from '../components/TitleScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { GLOBAL_STYLES } from '../constants/styles';
 
 const SearchAllScreen = () => {
   const navigation = useNavigation();

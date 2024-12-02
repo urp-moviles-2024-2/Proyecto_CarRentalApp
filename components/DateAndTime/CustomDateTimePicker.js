@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { GLOBAL_STYLES } from '../../constants/styles';
 
 const CustomDateTimePicker = ({ mode, onConfirm, buttonText, style }) => {
   const [isPickerVisible, setPickerVisible] = useState(false);
@@ -33,7 +34,7 @@ const CustomDateTimePicker = ({ mode, onConfirm, buttonText, style }) => {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: GLOBAL_STYLES.colors.colorblanco,
     padding: 12,
     borderRadius: 8,
     alignItems: 'center',

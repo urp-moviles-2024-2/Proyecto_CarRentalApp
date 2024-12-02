@@ -7,13 +7,14 @@ import PrimaryButton from '../components/PrimaryButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ReturnButton from '../components/Buttons/ReturnButton';
 import TitleScreen from '../components/TitleScreen';
+import { GLOBAL_STYLES } from '../constants/styles';
 
 const AddressSelector = () => {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [searchText, setSearchText] = useState('');
   const navigation = useNavigation();
-  const route = useRoute(); // Para acceder a los parámetros de navegación
-  const car = route.params?.car; // Obtener el objeto `car`
+  const route = useRoute(); 
+  const car = route.params?.car; 
   const handlePaymentMethodScreen = () => {
     navigation.navigate('PaymentMethodScreen', { car });
   };
@@ -82,19 +83,11 @@ const AddressSelector = () => {
   );
 };
 const styles = StyleSheet.create({
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f0f0f0',
-    borderRadius: 10,
-    padding: 10,
-    marginBottom: 20,
-  },
   container: {
     flex: 1,
     paddingHorizontal: 15,
     paddingTop: 50,
-    backgroundColor: '#fff',
+    backgroundColor: GLOBAL_STYLES.colors.colorblanco ,
     paddingBottom:40
   },
   container2: {
@@ -111,10 +104,12 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#d3d3d3',
+    backgroundColor: GLOBAL_STYLES.colors.colorgristransparente,
     borderRadius: 25,
     width: '100%',
     height: 50,
+    borderColor: GLOBAL_STYLES.colors.colorgrisletrasybordes,
+    borderWidth: 0.5
   },
   searchIcon: {
     position: 'absolute',

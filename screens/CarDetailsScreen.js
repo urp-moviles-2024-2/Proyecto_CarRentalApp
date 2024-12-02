@@ -46,6 +46,7 @@ const CarDetailScreen = () => {
           keyExtractor={(item) => item.id}
           renderItem={renderItem}
           horizontal={true}
+          scrollEnabled={false}
         />
       </View>
       <View style={styles.descriptionContainer}>
@@ -64,7 +65,7 @@ const CarDetailScreen = () => {
           visible={modalVisible}
           onClose={handleCloseModalDate}
           onConfirm={(data) => console.log('Date selected:', data)}
-          car={car} // Aquí pasamos el objeto `car`
+          car={car}
         />
       </View>
     </View>
@@ -89,27 +90,14 @@ const styles = StyleSheet.create({
   fullButtonContainer: {
     width: '100%',
   },
-  iconCircle: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: '#e0ffe0',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  iconText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#4caf50',
-  },
   specsContainer: {
     justifyContent: 'space-between',
     alignItems: 'center',
     marginVertical: 16,
   },
   card: {
-    backgroundColor: '#f9f9f9',
-    padding: 20,
+    backgroundColor:GLOBAL_STYLES.colors.colorgristransparente,
+    padding: 18,
     marginHorizontal: 5,
     borderRadius: 8,
     borderWidth: 1,
@@ -162,7 +150,7 @@ const styles = StyleSheet.create({
   totalPrice: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#4caf50',
+    color: GLOBAL_STYLES.colors.colorverdeprincipal,
   },
 });
 export default CarDetailScreen;

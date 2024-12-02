@@ -84,12 +84,14 @@ const SignUpScreen = () => {
           Facebook
         </SocialButton>
       </View>
-      <SubText>
-        Already have an account?{" "}
-        <TouchableOpacity onPress={handleLoginNavigation}>
-          <Text style={styles.text}>Login</Text>
-        </TouchableOpacity>
-      </SubText>
+      <View>
+        <SubText>
+          Already have an account?
+          <TouchableOpacity onPress={handleLoginNavigation}>
+            <Text style={styles.text}> Login</Text>
+          </TouchableOpacity>
+        </SubText>
+      </View>
     </View>
   );
 };
@@ -102,7 +104,8 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     alignItems: 'center',
     backgroundColor: GLOBAL_STYLES.colors.colorblanco,
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
+    paddingBottom: 20
   },
   fullButtonContainer: {
     width: '100%',
@@ -110,12 +113,12 @@ const styles = StyleSheet.create({
   subtext: {
     fontSize: 30,
     fontWeight: "bold",
-    color: "#000",
+    color: GLOBAL_STYLES.colors.colornegro,
   },
   carz: {
     fontSize: 30,
     fontWeight: "bold",
-    color: "#9acd32",
+    color: GLOBAL_STYLES.colors.colorverdeprincipal,
   },
   logo: {
     marginTop: 20,
@@ -123,9 +126,8 @@ const styles = StyleSheet.create({
     height: 110,
   },
   forgot: {
-    color: "#9acd32",
-    alignSelf: "flex-end",
-    marginLeft: "65%",
+    color: GLOBAL_STYLES.colors.colorverdeprincipal,
+    alignSelf: "center"
   },
   socialButtonsContainer: {
     flexDirection: "row",
@@ -135,6 +137,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   text: {
-    color: "#9acd32",
+    color: GLOBAL_STYLES.colors.colorverdeprincipal,
   },
 });

@@ -5,6 +5,7 @@ import PrimaryButton from '../components/PrimaryButton';
 import ReturnButton from '../components/Buttons/ReturnButton';
 import TitleScreen from '../components/TitleScreen';
 import { useNavigation } from '@react-navigation/native';
+import { GLOBAL_STYLES } from '../constants/styles';
 
 const PaymentMethodScreen = () => {
   const navigation = useNavigation();
@@ -75,7 +76,7 @@ const PaymentMethodScreen = () => {
     <View style={styles.container}>
       <View style={styles.container2}>
         <ReturnButton onPressButton={handleAddress} />
-        <TitleScreen>Address</TitleScreen>
+        <TitleScreen>Payment Method</TitleScreen>
       </View>
 
       <View style={styles.header}>
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 15,
     paddingTop: 50,
-    backgroundColor: '#fff',
+    backgroundColor: GLOBAL_STYLES.colors.colorblanco,
     paddingBottom: 40,
   },
   container2: {
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
   changeText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#68c400',
+    color: GLOBAL_STYLES.colors.colorverdeprincipal,
   },
   savedCardsList: {
     marginBottom: 20,
