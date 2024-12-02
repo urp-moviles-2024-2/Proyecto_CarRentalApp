@@ -62,7 +62,14 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      
+        with:
+          args: |
+            -Dsonar.projectKey=github
+            -Dsonar.projectName=github
+            -Dsonar.projectVersion=1.0
+            -Dsonar.sources=src
+            -Dsonar.language=js
+            -Dsonar.sourceEncoding=UTF-8 
       # 9. Desplegar preview en Expo
       - name: 🚀 Deploy to Expo Preview
         run: eas update --auto --non-interactive
