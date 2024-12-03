@@ -1,24 +1,28 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  TextInput,
-} from 'react-native';
+import React, { useState } from 'react';
+import {View,StyleSheet,FlatList,TextInput,} from 'react-native';
+import { useRoute } from '@react-navigation/native'; //Hook
 import AddressCard from '../components/CardAddress';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import PrimaryButton from '../components/PrimaryButton';
 import Icon from 'react-native-vector-icons/Ionicons';
+import ReturnButton from '../components/Buttons/ReturnButton';
+import TitleScreen from '../components/TitleScreen';
+import { GLOBAL_STYLES } from '../constants/styles';
 
 const AddressSelector = () => {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [searchText, setSearchText] = useState('');
   const navigation = useNavigation();
+  const route = useRoute(); 
+  const car = route.params?.car; 
   const handlePaymentMethodScreen = () => {
-    navigation.navigate('PaymentMethodScreen');
+    navigation.navigate('PaymentMethodScreen', { car });
   };
+
+  const handleCarDetails = () => {
+    navigation.navigate('CarDetailsScreen', { car });
+  };
+
   const addresses = [
     {
       id: '1',
@@ -45,18 +49,27 @@ const AddressSelector = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Address</Text>
+      <View style={styles.container2}>
+        <ReturnButton onPressButton={handleCarDetails} />
+        <TitleScreen>Address</TitleScreen>
+      </View>
 
-      <TextInput
-        style={styles.searchInput}
-        placeholder="Search"
-        value={searchText}
-        onChangeText={setSearchText}
-      />
+      <View style={styles.header}>
+        <View style={styles.searchContainer}>
+          <Icon name="search" size={20} color="#888" style={styles.searchIcon} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search"
+            value={searchText}
+            onChangeText={setSearchText}
+          />
+        </View>
+      </View>
+
       <FlatList
         data={filteredAddresses}
         keyExtractor={item => item.id}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <AddressCard
             title={item.title}
             address={item.address}
@@ -69,42 +82,45 @@ const AddressSelector = () => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
-  header: {fontSize: 24, fontWeight: 'bold', marginBottom: 10, marginTop: 50},
+  container: {
+    flex: 1,
+    paddingHorizontal: 15,
+    paddingTop: 50,
+    backgroundColor: GLOBAL_STYLES.colors.colorblanco ,
+    paddingBottom:40
+  },
+  container2: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+    width: '100%',
+    marginTop: 40
+  },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f0f0f0',
-    borderRadius: 10,
-    padding: 10,
-    marginBottom: 20,
+    backgroundColor: GLOBAL_STYLES.colors.colorgristransparente,
+    borderRadius: 25,
+    width: '100%',
+    height: 50,
+    borderColor: GLOBAL_STYLES.colors.colorgrisletrasybordes,
+    borderWidth: 0.5
   },
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#fff',
+  searchIcon: {
+    position: 'absolute',
+    marginLeft: 15,
   },
   searchInput: {
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    marginBottom: 16,
-    paddingHorizontal: 12,
-  },
-  confirmButton: {
-    backgroundColor: '##c3e54b',
-    paddingVertical: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  confirmButtonText: {
+    backgroundColor: 'transparent',
+    color: '#333',
+    paddingLeft: 45,
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
+  }
 });
 
 export default AddressSelector;

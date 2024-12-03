@@ -3,6 +3,8 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {messages} from '../data/messages';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { GLOBAL_STYLES } from '../constants/styles';
+import TitleScreen from '../components/TitleScreen';
 
 const MessageScreen = () => {
   const navigation = useNavigation();
@@ -32,10 +34,17 @@ const MessageScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Message</Text>
-      <View style={styles.searchContainer}>
-        <Icon name="search-outline" size={20} color="#aaa" />
-        <TextInput placeholder="Search" style={styles.searchInput} />
+      <View style={styles.container2}>
+        <TitleScreen>MessageScreen</TitleScreen>
+      </View>
+      <View style={styles.header}>
+        <View style={styles.searchContainer}>
+          <Icon name="search" size={20} color="#888" style={styles.searchIcon} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search"
+          />
+        </View>
       </View>
       <FlatList
         data={messages}
@@ -49,20 +58,41 @@ const MessageScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    paddingHorizontal: 15,
+    paddingTop: 50,
     backgroundColor: '#fff',
-    padding: 16,
   },
-  header: {fontSize: 24, fontWeight: 'bold', marginBottom: 10, marginTop: 50},
+  container2: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+    width: '100%',
+    marginTop: 20
+  },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f0f0f0',
-    borderRadius: 10,
-    padding: 10,
-    marginBottom: 20,
+    backgroundColor: GLOBAL_STYLES.colors.colorgristransparente,
+    borderRadius: 25,
+    width: '100%',
+    height: 50,
+    borderColor: GLOBAL_STYLES.colors.colorgrisletrasybordes,
+    borderWidth: 0.5
   },
-  searchInput: {marginLeft: 10, fontSize: 16, flex: 1},
+  searchIcon: {
+    position: 'absolute',
+    marginLeft: 15,
+  },
+  searchInput: {
+    color: '#333',
+    paddingLeft: 45,
+    fontSize: 16,
+  },
+
   messageContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -77,15 +107,14 @@ const styles = StyleSheet.create({
   infoContainer: {alignItems: 'flex-end'},
   time: {fontSize: 12, color: '#aaa'},
   unreadBadge: {
-    backgroundColor: '#0f0',
+    backgroundColor: GLOBAL_STYLES.colors.colorverdeprincipal,
     borderRadius: 12,
     padding: 4,
     minWidth: 24,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 5,
-  },
-  unreadText: {color: '#fff', fontWeight: 'bold'},
+  }
 });
 
 export default MessageScreen;

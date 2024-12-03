@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { GLOBAL_STYLES } from "../constants/styles";
 
 const Description = ({children, style}) => {
   return (
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
   text:{
     fontSize: 18,
     fontWeight: 'thin',
-    color: '#d3d3d3',
+    color: GLOBAL_STYLES.colors.colorgrisletrasybordes,
     marginTop:'2%',
     marginBottom:'2%',
   }

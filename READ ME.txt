@@ -15,6 +15,9 @@ docker images
 docker run --name sonarqube-custom -p 9000:9000 sonarqube:10.6-community
 https://hub.docker.com/_/sonarqube
 
+
+npm install @reduxjs/toolkit react-redux
+npm install axios
 ----------------------------------------------------------------------------------------------
 
 npm install @react-navigation/stack

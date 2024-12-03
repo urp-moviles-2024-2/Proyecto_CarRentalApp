@@ -2,7 +2,7 @@ name: ci # Nombre del workflow
 
 on:
   push:
-    branches: [sonar] # Rama en la que se ejecutará este workflow
+    branches: [main] # Rama en la que se ejecutará este workflow
 
 jobs:
   build:

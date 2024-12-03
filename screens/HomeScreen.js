@@ -1,37 +1,55 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, FlatList, Image, TouchableOpacity, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, useContext, useEffect } from 'react';
+import { StyleSheet, Text, View, TextInput, FlatList,Image,TouchableOpacity,} from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { GLOBAL_STYLES } from '../constants/styles';
-import useCars from '../components/Cars/useCars';
+import { CarsContext } from '../data/context/CarsContext';
 import CarItem from '../components/Cars/CarItem';
+import { cardsData } from '../data/cardsData';
+import Description from '../components/Description';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const [searchQuery, setSearchQuery] = useState('');
-  const { cars } = useCars();
-  const highRatedCars = cars.filter(
-    car =>car.starts > 4.5 &&
-      (car.name.toLowerCase().includes(searchQuery.toLowerCase()) || searchQuery === '') //funcion para buscar carros
-  );
-  const brandsHandler = () => {navigation.navigate('SearchAllScreen');};
-  const carsHandler = () => {navigation.navigate('AllCarsScreen');};
-  const searchHandler = () => {navigation.navigate('SearchScreen');};
-  const trendingBrands = [
-    { id: 1, name: 'Tesla', logo: 'https://via.placeholder.com/40' },
-    { id: 2, name: 'Mercedes', logo: 'https://via.placeholder.com/40' },
-    { id: 3, name: 'Ferrari', logo: 'https://via.placeholder.com/40' },
-    { id: 4, name: 'Bugatti', logo: 'https://via.placeholder.com/40' },
-    { id: 5, name: 'BMW', logo: 'https://via.placeholder.com/40' },
-  ];
+  const route = useRoute();
+  const { cars, searchQuery, setSearchQuery } = useContext(CarsContext);
 
+  // Verifica si hay un mensaje de éxito
+  const [successMessage, setSuccessMessage] = useState(null);
+
+  useEffect(() => {
+    if (route.params?.successMessage) {
+      setSuccessMessage(route.params.successMessage);
+      // Limpia el parámetro después de mostrar el mensaje
+      navigation.setParams({ successMessage: null });
+    }
+  }, [route.params?.successMessage]);
+
+  const highRatedCars = cars.filter(
+    (car) =>
+      car.starts > 4.5 &&
+      (car.name.toLowerCase().includes(searchQuery.toLowerCase()) || searchQuery === '')
+  );
+
+  const brandsHandler = () => navigation.navigate('SearchAllScreen');
+  const carsHandler = () => navigation.navigate('AllCarsScreen');
+  const searchHandler = () => navigation.navigate('SearchScreen');
+
+  const renderItem = ({ item }) => (
+    <View style={styles.brandItem}>
+      <Image source={item.image} style={styles.brandLogo} />
+      <Text style={styles.brandName}>{item.name}</Text>
+    </View>
+  );
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
+      {/* Muestra el mensaje de éxito si existe */}
+      {successMessage && (
+        <View style={styles.successMessageContainer}>
+          <Text style={styles.successMessageText}>{successMessage}</Text>
+        </View>
+      )}
       <View style={styles.topBar}>
-        <Image
-          source={{ uri: 'https://via.placeholder.com/20' }}
-          style={styles.locationIcon}
-        />
         <Text style={styles.locationText}>Ahmedabad, INDIA</Text>
         <TouchableOpacity style={styles.dropdownIcon} onPress={searchHandler}>
           <Text>▼</Text>
@@ -39,14 +57,23 @@ const HomeScreen = () => {
       </View>
       <View style={styles.header}>
         <Text style={styles.greeting}>Hello Johnson 👋</Text>
-        <Text style={styles.subtitle}>Let’s find your favourite car here</Text>
+        <Description style={styles.subtitle}>
+          Let’s find your favourite car here
+        </Description>
       </View>
-      <TextInput
-        style={styles.searchInput}
-        placeholder="Search cars"
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-      />
+
+      <View style={styles.header2}>
+        <View style={styles.searchContainer}>
+          <Icon name="search" size={20} color="#888" style={styles.searchIcon} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search"
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+          />
+        </View>
+      </View>
+
       <View>
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Trending Brands</Text>
@@ -55,33 +82,26 @@ const HomeScreen = () => {
           </TouchableOpacity>
         </View>
         <FlatList
-          data={trendingBrands}
+          data={cardsData}
           horizontal
           showsHorizontalScrollIndicator={false}
-          keyExtractor={item => item.id.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.brandItem}>
-              <Image source={{ uri: item.logo }} style={styles.brandLogo} />
-              <Text style={styles.brandName}>{item.name}</Text>
-            </View>
-          )}
+          keyExtractor={(item) => item.id}
+          renderItem={renderItem}
+          scrollEnabled={false}
         />
       </View>
-      <View>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Popular Cars</Text>
-          <TouchableOpacity onPress={carsHandler}>
-            <Text style={styles.viewAll}>View All</Text>
-          </TouchableOpacity>
-        </View>
-        <FlatList
-          data={highRatedCars}
-          keyExtractor={item => item.id.toString()}
-          renderItem={({ item }) => <CarItem car={item} />}
-          scrollEnabled={false} // Evitar desplazamiento interno
-        />
+      <View style={styles.sectionHeader}>
+        <Text style={styles.sectionTitle}>Popular Cars</Text>
+        <TouchableOpacity onPress={carsHandler}>
+          <Text style={styles.viewAll}>View All</Text>
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+      <FlatList
+        data={highRatedCars}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => <CarItem cars={item} />}
+      />
+    </View>
   );
 };
 
@@ -90,17 +110,24 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: GLOBAL_STYLES.colors.colorblanco,
     paddingHorizontal: 20,
+    scrollEnabled: true,
+    paddingTop: 50,
+  },
+  successMessageContainer: {
+    backgroundColor: '#D4EDDA',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  successMessageText: {
+    color: GLOBAL_STYLES.colors.colorverdeprincipal,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   topBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 40,
     marginBottom: '1%',
-  },
-  locationIcon: {
-    width: 20,
-    height: 20,
-    marginRight: 10,
   },
   locationText: {
     fontSize: 16,
@@ -117,16 +144,31 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
   },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
-    marginTop: 5,
+  header2: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+    width: '100%',
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: GLOBAL_STYLES.colors.colorgristransparente,
+    borderRadius: 25,
+    width: '100%',
+    height: 50,
+    borderColor: GLOBAL_STYLES.colors.colorgrisletrasybordes,
+    borderWidth: 0.5
+  },
+  searchIcon: {
+    position: 'absolute',
+    marginLeft: 15,
   },
   searchInput: {
-    backgroundColor: '#E9E9E9',
-    borderRadius: 10,
-    padding: 10,
-    marginVertical: 20,
+    backgroundColor: 'transparent',
+    color: '#333',
+    paddingLeft: 45,
+    fontSize: 16,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -140,7 +182,7 @@ const styles = StyleSheet.create({
   },
   viewAll: {
     fontSize: 14,
-    color: '#3CB371',
+    color: GLOBAL_STYLES.colors.colorverdeprincipal,
   },
   brandItem: {
     alignItems: 'center',

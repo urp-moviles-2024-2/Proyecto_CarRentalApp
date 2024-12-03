@@ -3,14 +3,16 @@ import { StyleSheet, Text, View, Modal, TouchableOpacity, FlatList } from 'react
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
+import { GLOBAL_STYLES } from '../../constants/styles';
 
-const DateTime = ({ visible, onClose, onConfirm }) => {
+const DateTime = ({ visible, onClose, onConfirm, car }) => {
   const navigation = useNavigation();
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState('07:00 AM');
 
-  const times = ['07:00 AM', '09:00 AM', '11:00 AM', '12:00 PM','14:00 PM'];
+  const times = ['07:00 AM', '09:00 AM', '11:00 AM', '12:00 PM', '14:00 PM'];
 
   const handleDateChange = (event, date) => {
     if (date) {
@@ -20,16 +22,17 @@ const DateTime = ({ visible, onClose, onConfirm }) => {
   };
 
   const handleSelectAdressScreen = () => {
-    navigation.navigate('SelectAdressScreen'); 
+    if (car) {
+      navigation.navigate('SelectAdressScreen', { car }); // Pasar `car` a la siguiente pantalla
+    } else {
+      console.error('El objeto car no está definido');
+    }
   };
 
   const handleConfirm = () => {
     onConfirm({ date: selectedDate, time: selectedTime });
+    handleSelectAdressScreen(); // Navegar a la pantalla de selección de dirección
     onClose();
-  };
-  const handleButtonPress = () => {  //Doble funcion de handlers
-    handleConfirm();
-    handleSelectAdressScreen();
   };
 
   return (
@@ -79,7 +82,7 @@ const DateTime = ({ visible, onClose, onConfirm }) => {
             <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
               <Text style={styles.cancelButtonText}>Cancel</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.confirmButton} onPress={handleButtonPress}>
+            <TouchableOpacity style={styles.confirmButton} onPress={handleConfirm}>
               <Text style={styles.confirmButtonText}>Confirm</Text>
             </TouchableOpacity>
           </View>
@@ -108,7 +111,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 16,
-    shadowColor: '#000',
+    shadowColor: GLOBAL_STYLES.colors.colornegro,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
@@ -120,7 +123,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   dateButton: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: GLOBAL_STYLES.colors.colorgristransparente,
     padding: 12,
     borderRadius: 8,
     marginBottom: 20,
@@ -140,13 +143,13 @@ const styles = StyleSheet.create({
     marginLeft: '30%',
   },
   timeButton: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: GLOBAL_STYLES.colors.colorgristransparente,
     padding: 12,
     marginHorizontal: 5,
     borderRadius: 8,
   },
   selectedTimeButton: {
-    backgroundColor: '#9acd32',
+    backgroundColor: GLOBAL_STYLES.colors.colorverdeprincipal,
   },
   timeButtonText: {
     fontSize: 16,
@@ -161,7 +164,7 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     flex: 1,
-    backgroundColor: '#d3d3d3',
+    backgroundColor: GLOBAL_STYLES.colors.colorgristransparente,
     paddingVertical: 12,
     borderRadius: 8,
     alignItems: 'center',
@@ -173,7 +176,7 @@ const styles = StyleSheet.create({
   },
   confirmButton: {
     flex: 1,
-    backgroundColor: '#9acd32',
+    backgroundColor: GLOBAL_STYLES.colors.colorverdeprincipal,
     paddingVertical: 12,
     borderRadius: 8,
     alignItems: 'center',

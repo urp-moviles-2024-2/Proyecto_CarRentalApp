@@ -11,7 +11,9 @@ import React from 'react';
 import PrimaryButton from '../components/PrimaryButton';
 import {useNavigation} from '@react-navigation/native';
 import {optionsData} from '../data/optionProfile';
+import TitleScreen from '../components/TitleScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { GLOBAL_STYLES } from '../constants/styles';
 
 const MyProfileScreen = () => {
   const navigation = useNavigation();
@@ -28,17 +30,21 @@ const MyProfileScreen = () => {
 
   const renderCard = (label, iconName) => (
     <View style={styles.card}>
-      <Icon name={iconName} size={40} color="#9FDE55" />
+      <Icon name={iconName} size={40} color="GLOBAL_STYLES.colors.colorverdeprincipal" />
       <Text style={styles.cardLabel}>{label}</Text>
     </View>
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-        <Text>My Profile</Text>
+    <View style={styles.container}>
+      <View style={styles.container2}>
+        <TitleScreen>My Profile</TitleScreen>
+      </View>
         <Icon name="person-circle-outline" size={100} color="#007AFF" style={styles.profileIcon} />
         <Text style={styles.text}>Wade Warren</Text>
+        <View style={styles.fullButtonContainer}>
         <PrimaryButton>Edit Profile</PrimaryButton>
+      </View>
       
         <View style={styles.cardsContainer}>
           {renderCard("License", "card-outline")}
@@ -53,16 +59,29 @@ const MyProfileScreen = () => {
           showsVerticalScrollIndicator={false}
           scrollEnabled={false}
         />
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    paddingHorizontal: 15,
     alignItems: 'center',
+    paddingTop: 50,
+    backgroundColor: '#fff',
+    paddingBottom:40
   },
+  
+  container2: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+
+  fullButtonContainer: {
+    width: '100%',
+  },
+
   text: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -86,8 +105,8 @@ const styles = StyleSheet.create({
   },
   card: {
     alignItems: 'center',
-    backgroundColor: '#F8F8F8',
-    padding: 20,
+    backgroundColor: '#fff',
+    padding: 15,
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},

@@ -7,19 +7,17 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-import PrimaryButton from '../components/PrimaryButton';
 import {useNavigation} from '@react-navigation/native';
-import {Ionicons} from '@expo/vector-icons';
+import ReturnButton from '../components/Buttons/ReturnButton';
+import TitleScreen from '../components/TitleScreen';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { GLOBAL_STYLES } from '../constants/styles';
 
 const SearchScreen = () => {
   const categories = [
     {id: '1', name: 'Coffee', places: '150 places', color: '#a9d46f'},
     {id: '2', name: 'Cinema', places: '8 places', color: '#f45a5a'},
   ];
-
-  const handlerHome = () => {
-    navigation.navigate('HomeScreen');
-  };
 
   const favorites = [
     {
@@ -41,25 +39,30 @@ const SearchScreen = () => {
       distance: '1.0 KM',
     },
   ];
+  
+  const handlerHome = () => {
+    navigation.navigate('HomeScreen');
+  };
 
   const navigation = useNavigation();
-  const handleSearchScreen = () => {
-    navigation.navigate('SearchAllScreen');
-  };
+  
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Ionicons
-          name="arrow-back"
-          size={24}
-          color="black"
-          onPress={handlerHome}
-        />
-        <Text style={styles.headerText}>All Brands</Text>
+      <View style={styles.container2}>
+        <ReturnButton onPressButton={handlerHome} />
+        <TitleScreen>Search Location</TitleScreen>
       </View>
 
-      <TextInput style={styles.searchInput} placeholder="Search" />
+      <View style={styles.header}>
+        <View style={styles.searchContainer}>
+          <Icon name="search" size={20} color="#888" style={styles.searchIcon} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search"
+          />
+        </View>
+      </View>
 
       {categories.map(category => (
         <TouchableOpacity
@@ -76,14 +79,14 @@ const SearchScreen = () => {
         data={favorites}
         keyExtractor={item => item.id}
         renderItem={({item}) => (
-          <View style={styles.favoriteItem}>
+          <TouchableOpacity style={styles.favoriteItem}>
             <View style={styles.dot} />
             <View style={styles.favoriteText}>
               <Text style={styles.favoriteName}>{item.name}</Text>
               <Text style={styles.favoriteAddress}>{item.address}</Text>
             </View>
             <Text style={styles.favoriteDistance}>{item.distance}</Text>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>
@@ -93,16 +96,40 @@ const SearchScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    paddingHorizontal: 15,
+    paddingTop: 50,
+    backgroundColor: GLOBAL_STYLES.colors.colorblanco
+  },
+  container2: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  header: {
+    flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 20,
+    width: '100%',
+    marginTop: 40
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: GLOBAL_STYLES.colors.colorgristransparente,
+    borderRadius: 25,
+    width: '100%',
+    height: 50,
+    borderColor: GLOBAL_STYLES.colors.colorgrisletrasybordes,
+    borderWidth: 0.5
+  },
+  searchIcon: {
+    position: 'absolute',
+    marginLeft: 15,
   },
   searchInput: {
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    marginBottom: 16,
+    backgroundColor: 'transparent',
+    color: '#333',
+    paddingLeft: 45,
+    fontSize: 16,
   },
   categoryButton: {
     flexDirection: 'row',

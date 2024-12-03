@@ -18,6 +18,9 @@ import PaymentMethodScreen from './screens/PaymentMethodScreen';
 import MessageScreen from './screens/MessageScreen';
 import MyProfileScreen from './screens/MyProfileScreen';
 import FavoriteScreen from './screens/FavoriteScreen';
+import CarsContextProvider from './data/context/CarsContext';
+
+import { GLOBAL_STYLES } from './constants/styles';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -39,7 +42,7 @@ function HomeTabs() {
           }
           return <Icon name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: 'tomato',
+        tabBarActiveTintColor: GLOBAL_STYLES.colors.colorverdeprincipal,
         tabBarInactiveTintColor: 'gray',
         headerShown: false,
       })}
@@ -54,38 +57,40 @@ function HomeTabs() {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Login"
-        screenOptions={{headerShown: false}}
-      >
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Signup" component={SignupScreen} />
-        <Stack.Screen
-          name="ChooseInterestScreen"
-          component={ChooseInterestScreen}
-        />
-        <Stack.Screen
-          name="HomeScreen"
-          component={HomeTabs}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen name="SearchScreen" component={SearchScreen} />
-        <Stack.Screen name="SearchAllScreen" component={SearchAllScreen} />
-        <Stack.Screen name="AllCarsScreen" component={AllCarsScreen} />
-        <Stack.Screen name="CarDetailsScreen" component={CarDetailsScreen} />
-        <Stack.Screen
-          name="SelectAdressScreen"
-          component={SelectAdressScreen}
-        />
-        <Stack.Screen
-          name="PaymentMethodScreen"
-          component={PaymentMethodScreen}
-        />
-        <Stack.Screen name="MessageScreen" component={MessageScreen} />
-        <Stack.Screen name="MyProfileScreen" component={MyProfileScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <CarsContextProvider>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Login"
+          screenOptions={{headerShown: false}}
+        >
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Signup" component={SignupScreen} />
+          <Stack.Screen
+            name="ChooseInterestScreen"
+            component={ChooseInterestScreen}
+          />
+          <Stack.Screen
+            name="HomeScreen"
+            component={HomeTabs}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen name="SearchScreen" component={SearchScreen} />
+          <Stack.Screen name="SearchAllScreen" component={SearchAllScreen} />
+          <Stack.Screen name="AllCarsScreen" component={AllCarsScreen} />
+          <Stack.Screen name="CarDetailsScreen" component={CarDetailsScreen} />
+          <Stack.Screen
+            name="SelectAdressScreen"
+            component={SelectAdressScreen}
+          />
+          <Stack.Screen
+            name="PaymentMethodScreen"
+            component={PaymentMethodScreen}
+          />
+          <Stack.Screen name="MessageScreen" component={MessageScreen} />
+          <Stack.Screen name="MyProfileScreen" component={MyProfileScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </CarsContextProvider>
   );
 }
 

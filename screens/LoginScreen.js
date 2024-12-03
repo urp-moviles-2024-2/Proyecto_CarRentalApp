@@ -15,8 +15,7 @@ import FirebaseLoginForm from '../components/Firebase/FirebaseLoginForm';
 import PrimaryButton from '../components/PrimaryButton';
 import SocialButton from '../components/Buttons/SocialButton';
 import { initializeAuth, inMemoryPersistence } from 'firebase/auth';
-
-
+import { GLOBAL_STYLES } from '../constants/styles';
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -25,7 +24,6 @@ import {
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "../firebase-config";
 import Description from '../components/Description';
-import { GLOBAL_STYLES } from '../constants/styles';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -59,7 +57,7 @@ const LoginScreen = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
       <Image
         source={require('../assets/logo.png')}
         style={styles.logo}
@@ -84,7 +82,9 @@ const LoginScreen = () => {
       <TouchableOpacity>
         <Text style={styles.forgot}>Forgot Password?</Text>
       </TouchableOpacity>
-      <PrimaryButton onPressButton={handleLogin}>Login</PrimaryButton>
+      <View style={styles.fullButtonContainer}>
+        <PrimaryButton onPressButton={handleLogin}>Login</PrimaryButton>
+      </View>
       <Text style={styles.gristext}>Or continue with social account</Text>
       <View style={styles.socialButtonsContainer}>
         <SocialButton
@@ -103,19 +103,23 @@ const LoginScreen = () => {
       <SubText>
         <Text>Didn't have an account? </Text>
         <TouchableOpacity onPress={handleSignUp}>
-          <Text style={styles.text}> SignUp</Text>
+          <Text style={styles.text}>SignUp</Text>
         </TouchableOpacity>
       </SubText>
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    flex: 1,
+    paddingTop: 50,
     alignItems: 'center',
     backgroundColor: GLOBAL_STYLES.colors.colorblanco,
-    padding: 20,
+    paddingHorizontal: 15,
+  },
+  fullButtonContainer: {
+    width: '100%',
   },
   subtext: {
     fontSize: 30,
@@ -134,8 +138,7 @@ const styles = StyleSheet.create({
   },
   forgot: {
     color: GLOBAL_STYLES.colors.colorverdeprincipal,
-    alignSelf: 'flex-end',
-    marginLeft: '50%',
+    alignSelf: 'center'
   },
   socialButtonsContainer: {
     flexDirection: 'row',
