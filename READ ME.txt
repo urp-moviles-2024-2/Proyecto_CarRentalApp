@@ -14,7 +14,7 @@ docker pull sonarqube:10.6-community
 docker images
 docker run --name sonarqube-custom -p 9000:9000 sonarqube:10.6-community
 https://hub.docker.com/_/sonarqube
-
+ENLACE DE  SONAR: https://sonarqube-703311923558.us-central1.run.app  (demora muuucho)
 
 npm install @reduxjs/toolkit react-redux
 npm install axios
