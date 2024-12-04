@@ -30,7 +30,7 @@ const CarItem = ({ cars }) => {
         <TouchableOpacity style={styles.favoriteIcon} onPress={toggleFavorite}>
           <Icon
             name={isFavorite(cars.id) ? 'heart' : 'heart-outline'}
-            size={30}
+            size={24}
             color={isFavorite(cars.id) ? 'red' : 'black'}
           />
         </TouchableOpacity>
@@ -69,8 +69,12 @@ const styles = StyleSheet.create({
   },
   favoriteIcon:{
     position:'absolute',
-    bottom: 175,
-    left:'99%',
+    bottom: 170,
+    left:'98%',
+    backgroundColor:'rgba(250,250,250,0.6)',
+    borderRadius:10,
+    padding:6,
+    elevation:5,
   },
   carImage: {
     width: '100%',

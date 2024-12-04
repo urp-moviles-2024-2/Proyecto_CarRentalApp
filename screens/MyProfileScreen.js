@@ -11,6 +11,8 @@ import { useUser } from '../data/context/UserContext';
 const MyProfileScreen = () => {
   const navigation = useNavigation();
   const {user} =useUser();
+  const handlerLogin = () => navigation.navigate('Login');
+
 
   const renderOption = ({item}) => (
     <TouchableOpacity style={styles.optionContainer}>
@@ -46,13 +48,15 @@ const MyProfileScreen = () => {
           {renderCard("Contract", "clipboard-outline")}
         </View>
     
-        <FlatList
+        <FlatList style={styles.list} 
           data={optionsData}
           keyExtractor={(item) => item.id}
           renderItem={renderOption}
           showsVerticalScrollIndicator={false}
           scrollEnabled={false}
         />
+
+        <PrimaryButton onPressButton={handlerLogin}>Logout</PrimaryButton>
     </View>
   );
 };
@@ -125,9 +129,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 25,
+    paddingVertical: 18,
     paddingHorizontal: 16,
     width: '100%',
+    
   },
   optionContent: {
     flexDirection: 'row',
@@ -137,6 +142,9 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     fontSize: 16,
     color: 'black',
+  },
+  list:{
+    marginBottom:2,
   },
 });
 
