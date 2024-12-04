@@ -1,20 +1,16 @@
-import { StyleSheet,ScrollView,Image,Text,TouchableOpacity,View,Alert,} from 'react-native';
-import React, {useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {StyleSheet,ScrollView,Image,Text, TouchableOpacity,View,Alert,} from 'react-native';
+import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Title from '../components/Title';
 import SubText from '../components/SubText';
 import FirebaseLoginForm from '../components/Firebase/FirebaseLoginForm';
 import PrimaryButton from '../components/PrimaryButton';
 import SocialButton from '../components/Buttons/SocialButton';
-import { initializeAuth, inMemoryPersistence } from 'firebase/auth';
 import { GLOBAL_STYLES } from '../constants/styles';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { initializeApp } from "firebase/app";
-import { firebaseConfig } from "../firebase-config";
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from '../firebase-config';
 import Description from '../components/Description';
 import { useUser } from '../data/context/UserContext';
 import { getUserById } from '../util/http';
@@ -24,27 +20,29 @@ const LoginScreen = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
-  const {setUser} =useUser();
+  const { setUser } = useUser();
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
   const handleLogin = async () => {
     if (!email || !password) {
-      alert("Please fill all fields");
+      alert('Please fill all fields');
       return;
     }
-
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const userId = userCredential.user.uid;
-
-      // Obtener el nombre del usuario
       const userName = await getUserById(userId);
+
+      // Almacena el `userId` en AsyncStorage
+      await AsyncStorage.setItem('userId', userId);
+
+      // Actualiza el contexto
       setUser({ id: userId, name: userName });
 
-      navigation.navigate("ChooseInterestScreen");
+      navigation.navigate('ChooseInterestScreen');
     } catch (error) {
-      alert("Error during login: " + error.message);
+      alert('Error during login: ' + error.message);
     }
   };
 
@@ -65,7 +63,7 @@ const LoginScreen = () => {
         <Text style={styles.carz}>CARZ</Text>
       </SubText>
       <Description>Log in to your account using email or social networks</Description>
-      
+
       <FirebaseLoginForm
         email={email}
         setEmail={setEmail}
@@ -134,7 +132,7 @@ const styles = StyleSheet.create({
   },
   forgot: {
     color: GLOBAL_STYLES.colors.colorverdeprincipal,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   socialButtonsContainer: {
     flexDirection: 'row',

@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import {View,Text,TextInput,TouchableOpacity,StyleSheet, FlatList, Alert,} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {View,Text,TextInput,TouchableOpacity,StyleSheet,FlatList,Alert} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import SavedCard from '../components/CardPayment';
 import PrimaryButton from '../components/PrimaryButton';
 import ReturnButton from '../components/Buttons/ReturnButton';
 import TitleScreen from '../components/TitleScreen';
-import { useNavigation ,useRoute } from '@react-navigation/native';
+import { useNavigation , useRoute} from '@react-navigation/native';
+import { listCards, storeCard, updateCard, deleteCard } from '../util/http';
 import { GLOBAL_STYLES } from '../constants/styles';
 
 const PaymentMethodScreen = () => {
@@ -17,83 +19,135 @@ const PaymentMethodScreen = () => {
     expiryDate: '',
     cvv: '',
   });
-
-  const savedCards = [
-    {
-      id: '1',
-      cardNumber: '2541 0039 8567 9850',
-      cardHolderName: 'Dirghayu Joshi',
-      cardType: 'Mastercard',
-    },
-    {
-      id: '2',
-      cardNumber: '8968 7052 9366 4001',
-      cardHolderName: 'Dirghayu Joshi',
-      cardType: 'Visa',
-    },
-  ];
-
+  const [savedCards, setCards] = useState([]);
+  const [editingCard, setEditingCard] = useState(null); // Estado para edición
+  const [loading, setLoading] = useState(true);
+  const handleAddress = () => {
+    navigation.navigate('SelectAdressScreen', { car });
+  };
+  useEffect(() => {
+    const fetchCards = async () => {
+      try {
+        const userId = await AsyncStorage.getItem('userId');
+        if (!userId) {
+          Alert.alert('Error', 'User ID not found.');
+          return;
+        }
+        const userCards = await listCards(userId);
+        setCards(userCards);
+      } catch (error) {
+        console.error('Error fetching cards:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCards();
+  }, []);
   const handleInputChange = (field, value) => {
     setNewCard({ ...newCard, [field]: value });
   };
+  const handleAddCard = async () => {
+    if (!newCard.cardNumber || !newCard.cardHolderName || !newCard.expiryDate || !newCard.cvv) {
+      Alert.alert('Error', 'Por favor llena todos los campos antes de añadir la tarjeta.');
+      return;
+    }
+    try {
+      const userId = await AsyncStorage.getItem('userId');
+      if (!userId) {
+        Alert.alert('Error', 'User ID not found.');
+        return;
+      }
+      const id = await storeCard({ userId, ...newCard });
+      setCards((prev) => [...prev, { id, ...newCard }]);
+      setNewCard({ cardNumber: '', cardHolderName: '', expiryDate: '', cvv: '' });
+    } catch (error) {
+      console.error('Error adding card:', error.message);
+      Alert.alert('Error', 'No se pudo agregar la tarjeta.');
+    }
+  };
+  const handleEditCard = (card) => {
+    setEditingCard(card);
+    setNewCard({
+      cardNumber: card.cardNumber,
+      cardHolderName: card.cardHolderName,
+      expiryDate: card.expiryDate,
+      cvv: card.cvv,
+    });
+  };
+  const handleSaveEdit = async () => {
+    if (!newCard.cardNumber || !newCard.cardHolderName || !newCard.expiryDate || !newCard.cvv) {
+      Alert.alert('Error', 'Por favor completa todos los campos.');
+      return;
+    }
 
+    try {
+      const userId = await AsyncStorage.getItem('userId');
+      if (!userId || !editingCard) {
+        Alert.alert('Error', 'User ID o tarjeta no encontrados.');
+        return;
+      }
+
+      await updateCard(editingCard.id, userId, newCard);
+      setCards((prev) =>
+        prev.map((card) => (card.id === editingCard.id ? { ...card, ...newCard } : card))
+      );
+
+      setNewCard({ cardNumber: '', cardHolderName: '', expiryDate: '', cvv: '' });
+      setEditingCard(null);
+    } catch (error) {
+      console.error('Error al guardar los cambios:', error);
+      Alert.alert('Error', 'No se pudo guardar la tarjeta.');
+    }
+  };
+  const handleCancelEdit = () => {
+    setEditingCard(null);
+    setNewCard({ cardNumber: '', cardHolderName: '', expiryDate: '', cvv: '' });
+  };
+  const handleDeleteCard = async (cardId) => {
+    try {
+      const userId = await AsyncStorage.getItem('userId');
+      if (!userId) {
+        Alert.alert('Error', 'User ID not found.');
+        return;
+      }
+      await deleteCard(cardId, userId);
+      setCards((prev) => prev.filter((card) => card.id !== cardId));
+    } catch (error) {
+      console.error('Error deleting card:', error);
+      Alert.alert('Error', 'No se pudo eliminar la tarjeta.');
+    }
+  };
   const handlePayNow = () => {
-    // Mostrar confirmación antes del pago
-    Alert.alert(
-      'Confirm Payment',
-      'Are you sure you want to proceed with the payment?',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'Confirm',
-          onPress: () => {
-            // Navegar al HomeScreen con un mensaje de éxito
-            navigation.navigate('HomeScreen', {
-              successMessage: 'Payment completed successfully!',
-            });
-          },
-        },
-      ]
-    );
+    Alert.alert('Pago', 'El pago se ha realizado con éxito.');
+    navigation.navigate('HomeScreen')
   };
 
   const renderSavedCard = ({ item }) => (
     <SavedCard
       cardNumber={item.cardNumber}
       cardHolderName={item.cardHolderName}
-      cardType={item.cardType}
-      onPress={() => console.log(`Selected card: ${item.cardNumber}`)}
+      onPress={() => handleEditCard(item)}
+      onPressDelete={() => handleDeleteCard(item.id)}
     />
   );
-
-  const handleAddress = () => {
-    navigation.navigate('SelectAdressScreen', { car });
-  };
 
   return (
     <View style={styles.container}>
       <View style={styles.container2}>
-        <ReturnButton onPressButton={handleAddress} />
+      <ReturnButton onPressButton={handleAddress} />
         <TitleScreen>Payment Method</TitleScreen>
       </View>
+      {loading ? (
+        <Text>Loading...</Text>
+      ) : (
+        <FlatList
+          data={savedCards}
+          renderItem={renderSavedCard}
+          keyExtractor={(item) => item.id}
+          style={styles.savedCardsList}
+        />
+      )}
 
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.changeButton}
-          onPress={() => console.log('Change button pressed')}
-        >
-          <Text style={styles.changeText}>Change</Text>
-        </TouchableOpacity>
-      </View>
-      <FlatList
-        data={savedCards}
-        renderItem={renderSavedCard}
-        keyExtractor={(item) => item.id}
-        style={styles.savedCardsList}
-      />
       <View style={styles.addCardSection}>
         <TextInput
           style={styles.input}
@@ -119,8 +173,21 @@ const PaymentMethodScreen = () => {
           value={newCard.cvv}
           onChangeText={(value) => handleInputChange('cvv', value)}
         />
-        <PrimaryButton onPressButton={handlePayNow}>Pay Now</PrimaryButton>
+        {editingCard ? (
+          <>
+            <PrimaryButton onPressButton={handleSaveEdit}>Save Changes</PrimaryButton>
+            <PrimaryButton onPressButton={handleCancelEdit}>Cancel Edit</PrimaryButton>
+          </>
+        ) : (
+          <PrimaryButton onPressButton={handleAddCard}>Add Card</PrimaryButton>
+        )}
       </View>
+
+      {savedCards.length > 0 && (
+        <View style={styles.payNowSection}>
+          <PrimaryButton onPressButton={handlePayNow}>Pay Now</PrimaryButton>
+        </View>
+      )}
     </View>
   );
 };
@@ -137,20 +204,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginBottom: 20,
-    marginTop: 20,
-  },
-  changeButton: {
-    backgroundColor: 'transparent',
-  },
-  changeText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: GLOBAL_STYLES.colors.colorverdeprincipal,
-  },
   savedCardsList: {
     marginBottom: 20,
   },
@@ -163,6 +216,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     marginBottom: 15,
+  },
+  payNowSection: {
+    marginTop: 20,
   },
 });
 

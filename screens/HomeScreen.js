@@ -17,7 +17,6 @@ const HomeScreen = () => {
   const { user } = useUser();
   // Verifica si hay un mensaje de éxito
   const [successMessage, setSuccessMessage] = useState(null);
-
   useEffect(() => {
     if (route.params?.successMessage) {
       setSuccessMessage(route.params.successMessage);
@@ -26,6 +25,8 @@ const HomeScreen = () => {
     }
   }, [route.params?.successMessage]);
 
+
+  
   const highRatedCars = cars.filter(
     (car) =>
       car.starts > 4.5 &&

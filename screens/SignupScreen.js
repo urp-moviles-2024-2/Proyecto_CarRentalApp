@@ -61,9 +61,7 @@ const SignUpScreen = () => {
       <Text style={styles.subtext}>to </Text>
       <Text style={styles.carz}>CARZ</Text>
       </SubText>
-      <Description>
-        Log in to your account using email or social networks
-      </Description>
+      <Description>Log in to your account using email or social networks</Description>
       <FirebaseSignUpForm
         onEmailChange={setEmail}
         onPasswordChange={setPassword}
@@ -73,11 +71,9 @@ const SignUpScreen = () => {
       <TouchableOpacity>
         <Text style={styles.forgot}>Forgot Password?</Text>
       </TouchableOpacity>
-
       <View style={styles.fullButtonContainer}>
         <PrimaryButton onPressButton={handleSignUp}>SignUp</PrimaryButton>
       </View>
-
       <Text style={styles.gristext}>Or continue with social account</Text>
       <View style={styles.socialButtonsContainer}>
         <SocialButton onPressButton={handleGoogleSignIn} backgroundColor="#fff" logo={require("../assets/google-logo.png")}>

@@ -1,16 +1,19 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
-const SavedCard = ({cardNumber, cardHolderName, onPress}) => {
+const SavedCard = ({ cardNumber, cardHolderName, onPress, onPressDelete }) => {
   return (
-    <TouchableOpacity style={styles.cardContainer} onPress={onPress}>
-      <View style={styles.textContainer}>
+    <View style={styles.cardContainer}>
+      <TouchableOpacity style={styles.textContainer} onPress={onPress}>
         <Text style={styles.cardNumber}>{cardNumber}</Text>
         <Text style={styles.cardHolder}>{cardHolderName}</Text>
-      </View>
+      </TouchableOpacity>
       <FontAwesome5 name="cc-visa" size={50} color="black" />
-    </TouchableOpacity>
+      <TouchableOpacity onPress={onPressDelete} style={styles.deleteButton}>
+        <FontAwesome5 name="trash" size={20} color="#ff4444" />
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -18,10 +21,10 @@ const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: '#c3e54b',
     borderRadius: 10,
-    padding: 15,
+    padding: 10,
     marginVertical: 10,
+    marginTop:20,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
   },
   cardNumber: {
@@ -35,6 +38,10 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
+  },
+  deleteButton: {
+    marginLeft: 15,
+    padding: 5,
   },
 });
 
