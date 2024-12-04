@@ -1,15 +1,7 @@
-import React from 'react';
+import React , { useContext, useState } from 'react';
 import PrimaryButton from '../components/PrimaryButton';
 import {useNavigation} from '@react-navigation/native';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  FlatList,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet,Text,View,TextInput,FlatList,Image,TouchableOpacity,} from 'react-native';
 import { cardsData } from '../data/cardsData';
 import ReturnButton from '../components/Buttons/ReturnButton';
 import TitleScreen from '../components/TitleScreen';
@@ -21,8 +13,22 @@ const SearchAllScreen = () => {
   const handlerHome = () => {
     navigation.navigate('HomeScreen');
   };
+  const [searchQuery, setSearchQuery] = useState(''); // Estado de búsqueda
+  const [filteredData, setFilteredData] = useState(cardsData); // Datos filtrados
 
-  const renderItem = ({item, index}) => (
+  const handleSearch = (text) => {
+    setSearchQuery(text);
+
+    // Filtrar los datos según el texto de búsqueda
+    const filtered = cardsData.filter((item) =>
+      item.name.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredData(filtered);
+  };
+
+
+
+  const renderItem = ({item}) => (
     <View>
       <TouchableOpacity style={styles.brandItem}>
         <Image source={item.image} style={styles.logo}/>
@@ -46,6 +52,8 @@ const SearchAllScreen = () => {
           <TextInput
             style={styles.searchInput}
             placeholder="Search"
+            value={searchQuery}
+            onChangeText={handleSearch} // Maneja el cambio de texto
           />
         </View>
       </View>
@@ -54,7 +62,7 @@ const SearchAllScreen = () => {
           <Text style={styles.listTitle}>All Brands</Text>
 
           <FlatList
-            data={cardsData}
+            data={filteredData}
             keyExtractor={item => item.id}
             renderItem={renderItem}
           />

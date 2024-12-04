@@ -10,6 +10,7 @@ import FirebaseSignUpForm from "../components/Firebase/FirebaseSignUpForm";
 import SubText from "../components/SubText";
 import Description from "../components/Description";
 import { GLOBAL_STYLES } from "../constants/styles";
+import { storeUser } from "../util/http";
 
 const SignUpScreen = () => {
   const navigation = useNavigation();
@@ -19,25 +20,27 @@ const SignUpScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const auth = getAuth(app);
 
-  const handleSignUp = () => {
-    if (email === "" || password === "" || confirmPassword === "" || name === "") {
-      Alert.alert("Completar campos faltantes!!");
+  const handleSignUp = async () => {
+    if (!name || !email || !password || !confirmPassword) {
+      Alert.alert("Completa todos los campos!");
       return;
     }
     if (password !== confirmPassword) {
-      Alert.alert("Las contraseñas no coinciden!!");
+      Alert.alert("Las contraseñas no coinciden!");
       return;
     }
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        Alert.alert("Felicidades, te registraste con éxito!!");
-        navigation.navigate("Login");
-      })
-      .catch((error) => {
-        Alert.alert("Error en el registro.", error.message);
-      });
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userId = userCredential.user.uid;
+
+      // Crear el documento en la colección de usuarios
+      await storeUser(userId, { name, email, password });
+      Alert.alert("Usuario registrado con éxito!");
+      navigation.navigate("Login");
+    } catch (error) {
+      Alert.alert("Error al registrarse", error.message);
+    }
   };
 
   const handleGoogleSignIn = () => {
@@ -101,7 +104,7 @@ export default SignUpScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 50,
+    paddingTop: 26,
     alignItems: 'center',
     backgroundColor: GLOBAL_STYLES.colors.colorblanco,
     paddingHorizontal: 15,

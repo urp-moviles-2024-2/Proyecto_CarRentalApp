@@ -1,12 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  FlatList,
-  TouchableOpacity,
-  SafeAreaView,
-} from 'react-native';
+import { StyleSheet,  Text, View, Image,FlatList, TouchableOpacity,SafeAreaView,} from 'react-native';
 import React from 'react';
 import PrimaryButton from '../components/PrimaryButton';
 import {useNavigation} from '@react-navigation/native';
@@ -14,9 +6,11 @@ import {optionsData} from '../data/optionProfile';
 import TitleScreen from '../components/TitleScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { GLOBAL_STYLES } from '../constants/styles';
+import { useUser } from '../data/context/UserContext';
 
 const MyProfileScreen = () => {
   const navigation = useNavigation();
+  const {user} =useUser();
 
   const renderOption = ({item}) => (
     <TouchableOpacity style={styles.optionContainer}>
@@ -41,7 +35,7 @@ const MyProfileScreen = () => {
         <TitleScreen>My Profile</TitleScreen>
       </View>
         <Icon name="person-circle-outline" size={100} color="#007AFF" style={styles.profileIcon} />
-        <Text style={styles.text}>Wade Warren</Text>
+        <Text style={styles.text}>{user?.name || "Guest"}</Text>
         <View style={styles.fullButtonContainer}>
         <PrimaryButton>Edit Profile</PrimaryButton>
       </View>

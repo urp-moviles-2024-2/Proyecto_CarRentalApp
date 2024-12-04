@@ -27,11 +27,11 @@ const CarItem = ({ cars }) => {
       </TouchableOpacity>
       <View style={styles.carNameContainer}>
         <Text style={styles.carName}>{cars.name}</Text>
-        <TouchableOpacity onPress={toggleFavorite}>
+        <TouchableOpacity style={styles.favoriteIcon} onPress={toggleFavorite}>
           <Icon
             name={isFavorite(cars.id) ? 'heart' : 'heart-outline'}
-            size={24}
-            color={isFavorite(cars.id) ? 'red' : 'gray'}
+            size={30}
+            color={isFavorite(cars.id) ? 'red' : 'black'}
           />
         </TouchableOpacity>
         <View style={styles.ratingContainer}>
@@ -66,6 +66,11 @@ const styles = StyleSheet.create({
     padding: 10,
     width: '100%',
     alignSelf: 'center',
+  },
+  favoriteIcon:{
+    position:'absolute',
+    bottom: 175,
+    left:'99%',
   },
   carImage: {
     width: '100%',

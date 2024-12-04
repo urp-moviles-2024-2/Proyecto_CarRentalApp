@@ -1,12 +1,4 @@
-import {
-  StyleSheet,
-  ScrollView,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-  Alert,
-} from 'react-native';
+import { StyleSheet,ScrollView,Image,Text,TouchableOpacity,View,Alert,} from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Title from '../components/Title';
@@ -24,32 +16,36 @@ import {
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "../firebase-config";
 import Description from '../components/Description';
+import { useUser } from '../data/context/UserContext';
+import { getUserById } from '../util/http';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
-
+  const {setUser} =useUser();
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  const handleLogin = () => {
-    if (email === '' || password === '') {
-      Alert.alert('Please fill all the fields');
+  const handleLogin = async () => {
+    if (!email || !password) {
+      alert("Please fill all fields");
       return;
     }
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then(userCredential => {
-        const user = userCredential.user;
-        console.log(user);
-        navigation.navigate('ChooseInterestScreen', {email: user.email});
-      })
-      .catch(error => {
-        console.log(error);
-        Alert.alert(error.message);
-      });
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userId = userCredential.user.uid;
+
+      // Obtener el nombre del usuario
+      const userName = await getUserById(userId);
+      setUser({ id: userId, name: userName });
+
+      navigation.navigate("ChooseInterestScreen");
+    } catch (error) {
+      alert("Error during login: " + error.message);
+    }
   };
 
   const handleSignUp = () => {

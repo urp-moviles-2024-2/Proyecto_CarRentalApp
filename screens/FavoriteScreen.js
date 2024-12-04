@@ -45,14 +45,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 15,
-    paddingTop: 20,
-    backgroundColor: '#fff',
+    paddingTop: 50,
+    backgroundColor: GLOBAL_STYLES.colors.colorblanco,
   },
   emptyMessage: {
     fontSize: 16,
     textAlign: 'center',
     marginTop: 50,
-    color: 'gray',
+    color: GLOBAL_STYLES.colorgrisletrasybordes,
   },
 });
 

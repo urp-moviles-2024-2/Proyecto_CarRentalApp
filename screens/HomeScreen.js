@@ -7,12 +7,14 @@ import CarItem from '../components/Cars/CarItem';
 import { cardsData } from '../data/cardsData';
 import Description from '../components/Description';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useUser } from '../data/context/UserContext';
+
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const { cars, searchQuery, setSearchQuery } = useContext(CarsContext);
-
+  const { user } = useUser();
   // Verifica si hay un mensaje de éxito
   const [successMessage, setSuccessMessage] = useState(null);
 
@@ -56,7 +58,7 @@ const HomeScreen = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.header}>
-        <Text style={styles.greeting}>Hello Johnson 👋</Text>
+        <Text style={styles.greeting}>Hello {user?.name || "Guest"} 👋</Text>
         <Description style={styles.subtitle}>
           Let’s find your favourite car here
         </Description>
