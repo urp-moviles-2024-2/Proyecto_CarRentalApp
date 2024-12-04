@@ -1,13 +1,23 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
+import { FavoriteContext } from '../../data/context/FavoriteContext';
 
 const CarItem = ({ cars }) => {
   const navigation = useNavigation();
+  const { addFavorite, deleteFavorite, isFavorite } = useContext(FavoriteContext);
 
   const handleCarDetailsScreen = () => {
     navigation.navigate('CarDetailsScreen', { car: cars });
+  };
+
+  const toggleFavorite = () => {
+    if (isFavorite(cars.id)) {
+      deleteFavorite(cars.id);
+    } else {
+      addFavorite(cars.id);
+    }
   };
 
   return (
@@ -17,6 +27,13 @@ const CarItem = ({ cars }) => {
       </TouchableOpacity>
       <View style={styles.carNameContainer}>
         <Text style={styles.carName}>{cars.name}</Text>
+        <TouchableOpacity onPress={toggleFavorite}>
+          <Icon
+            name={isFavorite(cars.id) ? 'heart' : 'heart-outline'}
+            size={24}
+            color={isFavorite(cars.id) ? 'red' : 'gray'}
+          />
+        </TouchableOpacity>
         <View style={styles.ratingContainer}>
           <Text style={styles.carRating}>{cars.starts}</Text>
           <Icon name="star" size={16} color="#FFD700" style={styles.starIcon} />

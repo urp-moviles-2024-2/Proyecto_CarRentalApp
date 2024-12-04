@@ -4,12 +4,13 @@ import SavedCard from '../components/CardPayment';
 import PrimaryButton from '../components/PrimaryButton';
 import ReturnButton from '../components/Buttons/ReturnButton';
 import TitleScreen from '../components/TitleScreen';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation ,useRoute } from '@react-navigation/native';
 import { GLOBAL_STYLES } from '../constants/styles';
 
 const PaymentMethodScreen = () => {
   const navigation = useNavigation();
-
+  const route = useRoute();
+  const car = route.params.car;
   const [newCard, setNewCard] = useState({
     cardNumber: '',
     cardHolderName: '',
@@ -69,7 +70,7 @@ const PaymentMethodScreen = () => {
   );
 
   const handleAddress = () => {
-    navigation.navigate('SelectAdressScreen');
+    navigation.navigate('SelectAdressScreen', { car });
   };
 
   return (

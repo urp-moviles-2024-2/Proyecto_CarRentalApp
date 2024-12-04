@@ -1,19 +1,42 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import PrimaryButton from '../components/PrimaryButton'
+import { View, Text, FlatList, StyleSheet} from 'react-native'
+import React ,{useContext} from 'react'
 import { useNavigation } from '@react-navigation/native';
 import TitleScreen from '../components/TitleScreen';
+import { FavoriteContext } from '../data/context/FavoriteContext';
 import { GLOBAL_STYLES } from '../constants/styles';
+import CarItem from '../components/Cars/CarItem';
+import { listCars } from '../util/http';
+
 
 
 const FavoriteScreen = () => {
-  const navigation = useNavigation();
+  const { favoriteIds } = useContext(FavoriteContext);
+  const [cars, setCars] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchCars = async () => {
+      try {
+        const allCars = await listCars();
+        const favoriteCars = allCars.filter((car) => favoriteIds.includes(car.id));
+        setCars(favoriteCars);
+      } catch (error) {
+        console.error('Error loading favorite cars:', error);
+      }
+    };
+    fetchCars();
+  }, [favoriteIds]);
 
   return (
     <View style={styles.container}>
-      <View style={styles.container2}>
-        <TitleScreen>My Profile</TitleScreen>
-      </View>
+      {cars.length > 0 ? (
+        <FlatList
+          data={cars}
+          renderItem={({ item }) => <CarItem cars={item} />}
+          keyExtractor={(item) => item.id.toString()}
+        />
+      ) : (
+        <Text style={styles.emptyMessage}>No tienes autos favoritos.</Text>
+      )}
     </View>
   );
 };
@@ -22,14 +45,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 15,
-    alignItems: 'center',
-    paddingTop: 50,
+    paddingTop: 20,
     backgroundColor: '#fff',
-    paddingBottom:40
   },
-  container2: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
+  emptyMessage: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 50,
+    color: 'gray',
   },
 });
 
