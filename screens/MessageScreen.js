@@ -1,5 +1,5 @@
 import {View, Text, Image, FlatList, StyleSheet, TextInput} from 'react-native';
-import React from 'react';
+import React,{useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {messages} from '../data/messages';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -8,7 +8,16 @@ import TitleScreen from '../components/TitleScreen';
 
 const MessageScreen = () => {
   const navigation = useNavigation();
-
+  const [searchQuery, setSearchQuery] = useState(''); // Estado de búsqueda
+  const [filteredData, setFilteredData] = useState(messages); // Datos filtrados
+  const handleSearch = (text) => {
+    setSearchQuery(text);
+    // Filtrar los datos según el texto de búsqueda
+    const filtered = messages.filter((item) =>
+      item.name.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredData(filtered);
+  };
   const renderItem = ({item}) => (
     <View style={styles.messageContainer}>
       <Icon
@@ -43,11 +52,13 @@ const MessageScreen = () => {
           <TextInput
             style={styles.searchInput}
             placeholder="Search"
+            value={searchQuery}
+            onChangeText={handleSearch}
           />
         </View>
       </View>
       <FlatList
-        data={messages}
+        data={filteredData}
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />

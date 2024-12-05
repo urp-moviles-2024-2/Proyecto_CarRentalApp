@@ -1,12 +1,5 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  FlatList,
-  TouchableOpacity,
-} from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, View, TextInput,FlatList,TouchableOpacity} from 'react-native';
+import React,{useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import ReturnButton from '../components/Buttons/ReturnButton';
 import TitleScreen from '../components/TitleScreen';
@@ -40,6 +33,17 @@ const SearchScreen = () => {
       distance: '1.0 KM',
     },
   ];
+  const [searchQuery, setSearchQuery] = useState(''); // Estado de búsqueda
+  const [filteredData, setFilteredData] = useState(favorites); // Datos filtrados
+  const handleSearch = (text) => {
+    setSearchQuery(text);
+
+    // Filtrar los datos según el texto de búsqueda
+    const filtered = favorites.filter((item) =>
+      item.name.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredData(filtered);
+  };
 
   const { setLocation } = useLocation();
   
@@ -68,6 +72,8 @@ const SearchScreen = () => {
           <TextInput
             style={styles.searchInput}
             placeholder="Search"
+            value={searchQuery}
+            onChangeText={handleSearch} // Maneja el cambio de texto
           />
         </View>
       </View>
@@ -84,7 +90,7 @@ const SearchScreen = () => {
 
       <Text style={styles.sectionTitle}>Favorite</Text>
       <FlatList
-        data={favorites}
+        data={filteredData}
         keyExtractor={item => item.id}
         renderItem={({item}) => (
           <TouchableOpacity style={styles.favoriteItem} onPress={() => handleSelectLocation(item.address)}>
