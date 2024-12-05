@@ -12,6 +12,7 @@ import ReturnButton from '../components/Buttons/ReturnButton';
 import TitleScreen from '../components/TitleScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { GLOBAL_STYLES } from '../constants/styles';
+import { useLocation } from '../data/context/LocationContext';
 
 const SearchScreen = () => {
   const categories = [
@@ -39,9 +40,16 @@ const SearchScreen = () => {
       distance: '1.0 KM',
     },
   ];
+
+  const { setLocation } = useLocation();
   
   const handlerHome = () => {
     navigation.navigate('HomeScreen');
+  };
+
+  const handleSelectLocation = (selectedLocation) => {
+    setLocation(selectedLocation);
+    navigation.navigate('HomeScreen'); // Navega de vuelta al Home
   };
 
   const navigation = useNavigation();
@@ -79,7 +87,7 @@ const SearchScreen = () => {
         data={favorites}
         keyExtractor={item => item.id}
         renderItem={({item}) => (
-          <TouchableOpacity style={styles.favoriteItem}>
+          <TouchableOpacity style={styles.favoriteItem} onPress={() => handleSelectLocation(item.address)}>
             <View style={styles.dot} />
             <View style={styles.favoriteText}>
               <Text style={styles.favoriteName}>{item.name}</Text>

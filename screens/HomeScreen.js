@@ -8,7 +8,7 @@ import { cardsData } from '../data/cardsData';
 import Description from '../components/Description';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useUser } from '../data/context/UserContext';
-
+import { useLocation } from '../data/context/LocationContext';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -24,7 +24,7 @@ const HomeScreen = () => {
       navigation.setParams({ successMessage: null });
     }
   }, [route.params?.successMessage]);
-
+  const { location } = useLocation();
 
   
   const highRatedCars = cars.filter(
@@ -46,14 +46,14 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* Muestra el mensaje de éxito si existe */}
+      
       {successMessage && (
         <View style={styles.successMessageContainer}>
           <Text style={styles.successMessageText}>{successMessage}</Text>
         </View>
       )}
       <View style={styles.topBar}>
-        <Text style={styles.locationText}>Ahmedabad, INDIA</Text>
+        <Text style={styles.locationText}>{location}</Text>
         <TouchableOpacity style={styles.dropdownIcon} onPress={searchHandler}>
           <Text>▼</Text>
         </TouchableOpacity>

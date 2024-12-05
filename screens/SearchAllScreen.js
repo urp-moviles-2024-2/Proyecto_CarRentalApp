@@ -92,10 +92,12 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#d3d3d3',
+    backgroundColor: GLOBAL_STYLES.colors.colorgristransparente,
     borderRadius: 25,
     width: '100%',
     height: 50,
+    borderColor: GLOBAL_STYLES.colors.colorgrisletrasybordes,
+    borderWidth: 0.5
   },
   searchIcon: {
     position: 'absolute',
