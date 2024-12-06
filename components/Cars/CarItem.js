@@ -23,7 +23,7 @@ const CarItem = ({ cars }) => {
   return (
     <View style={styles.carContainer}>
       <TouchableOpacity onPress={handleCarDetailsScreen}>
-        <Image source={{ uri: cars.image }} style={styles.carImage} />
+        <Image  testID="car-image" source={{ uri: cars.image }} style={styles.carImage} />
       </TouchableOpacity>
       <View style={styles.carNameContainer}>
         <Text style={styles.carName}>{cars.name}</Text>

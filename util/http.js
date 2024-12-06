@@ -3,7 +3,6 @@ import axios from "axios";
 const BACKEND_URL= "https://loginappcar-default-rtdb.firebaseio.com/";
 
 const DB_COLLECTION= "/cars.json";
-const DB_COLLECTION_CARD="cards.json";
 
 export async function storeCars(cars) {
   const response = await axios.post(BACKEND_URL + DB_COLLECTION, cars);
@@ -39,7 +38,7 @@ export async function listCars() {
   }
 }
 
-//Usuariosssss
+//Usuarios
 export async function storeUser(userId, user) {
   try {
     const response = await axios.put(`${BACKEND_URL}/users/${userId}.json`, user);
