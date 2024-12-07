@@ -10,7 +10,7 @@ const AddressCard = ({title, address, selected, onPress}) => {
     >
       <View style={styles.imageContainer}>
         <Image
-          source={require('../assets/maps.png')} // Imagen de ejemplo
+          source={require('../assets/maps.jpg')} // Imagen de ejemplo
           style={styles.image}
         />
       </View>

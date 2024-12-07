@@ -29,7 +29,7 @@ npm install @react-navigation/bottom-tabs
 ---------------------------------------------
 npm install --global eas-cli
 eas init --id 6f09bf28-05ec-47fd-a9ca-1c6b090dbab5
-
+eas init --id 58903286-6ed4-4ed6-93d6-bcf2350ee832
 ------------------------------------------
 npm install --save-dev @testing-library/react-native @testing-library/jest-native --legacy-peer-deps
 
@@ -59,3 +59,5 @@ nuevo john
 npm install react-native-paper
 
 
+------
+eas update --auto --non-interactive --legacy-peer-deps
