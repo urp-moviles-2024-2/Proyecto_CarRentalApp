@@ -1,4 +1,4 @@
-name: ci # Nombre del workflowwwww
+name: ci # Nombre del workflow
 
 on:
   push:
